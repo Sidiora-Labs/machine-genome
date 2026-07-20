@@ -20,8 +20,9 @@ Choose the shortest path that matches your job:
 
 1. [Threat model](threat-model.md)
 2. [Production operations](registry-operations.md)
-3. [Deployment assets](../deploy/README.md)
-4. [Current implementation status](status.md)
+3. [Public registry policy](registry-policy.md)
+4. [Deployment assets](../deploy/README.md)
+5. [Current implementation status](status.md)
 
 ## Understand project decisions
 

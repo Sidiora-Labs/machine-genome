@@ -14,13 +14,22 @@ Implemented in this working tree:
 
 ## Milestone 1 — conformance release
 
-- freeze test-vector JSON files and expected canonical bytes/hashes;
-- add JSON Schema execution to CI, fuzzing, property tests, and cross-language
-  vectors;
-- specify exact error codes and media types;
-- add historical controller-state and recovery-policy vectors;
-- commission cryptographic and privacy review;
-- publish an implementer report with at least two independent implementations.
+Implemented in this working tree:
+
+- machine-readable RFC 8785 and MGS Gene vectors loaded by the Go suite;
+- JSON Schema, OpenAPI, seeded fuzz/property tests, race tests, CodeQL, and
+  vulnerability scanning in CI;
+- stable HTTP problem codes, media types, release packaging, checksums, and
+  SBOM configuration;
+- public security, governance, contribution, compatibility, and release
+  policies.
+
+Remaining:
+
+- historical controller-state and standardized recovery-policy vectors;
+- independent cryptographic and privacy review;
+- cross-language vectors validated by another implementation;
+- an implementer report with at least two independent implementations.
 
 ## Milestone 2 — local registry and explorer
 
@@ -38,10 +47,13 @@ Implemented in this working tree:
 ## Milestone 3 — public transparency service
 
 - Merkle inclusion/consistency proofs and signed checkpoints (implemented);
+- TLS proxying, per-client limits, hardened systemd, monitoring endpoints,
+  online backup, restore verification, and public deployment (implemented);
 - independent witnesses and gossip;
 - cross-registry discovery and equivocation presentation;
-- rate limiting, staking/fees if required, and content-neutral abuse controls;
-- monitored backup, restore, key ceremony, incident response, and SLO evidence.
+- staking/fees if required and content-neutral abuse controls;
+- independent restore drills, checkpoint key ceremony, incident exercises, and
+  published SLO evidence.
 
 ## Milestone 4 — agent accounts
 

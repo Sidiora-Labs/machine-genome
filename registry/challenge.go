@@ -14,7 +14,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/paxeer-network/machine-genome/mgs"
+	"github.com/paxlabs-inc/machine-genome/mgs"
 	bolt "go.etcd.io/bbolt"
 )
 

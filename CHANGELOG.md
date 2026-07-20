@@ -12,6 +12,7 @@ versioning follows [docs/versioning.md](docs/versioning.md).
   conformance, container, and deployment documentation.
 - Responsive registry explorer with lineage, artifact, controller, and
   independent verification views.
+- Stable Go module identity at `github.com/paxlabs-inc/machine-genome`.
 
 ## [0.1.1] - 2026-07-20
 

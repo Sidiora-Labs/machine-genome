@@ -1,4 +1,4 @@
-module github.com/paxeer-network/machine-genome
+module github.com/paxlabs-inc/machine-genome
 
 go 1.24
 

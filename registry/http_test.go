@@ -13,7 +13,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/paxeer-network/machine-genome/mgs"
+	"github.com/paxlabs-inc/machine-genome/mgs"
 )
 
 func TestHTTPRegistryJourneyAndSecurityBoundaries(t *testing.T) {

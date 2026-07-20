@@ -4,7 +4,7 @@ GO ?= go
 GOFLAGS ?= -buildvcs=false
 BINARY ?= bin/mgs
 VERSION := $(shell sed -n 's/^[[:space:]]*Version[[:space:]]*=[[:space:]]*"\([^"]*\)".*/\1/p' mgs/record.go)
-COMMIT := $(shell git rev-parse --short=12 HEAD 2>/dev/null || echo unknown)
+COMMIT := $(shell test -e .git && git rev-parse --short=12 HEAD 2>/dev/null || echo unknown)
 LDFLAGS := -s -w -X main.buildVersion=$(VERSION) -X main.buildCommit=$(COMMIT)
 DIST_TARGETS := linux/amd64 linux/arm64 darwin/amd64 darwin/arm64 windows/amd64
 
@@ -77,6 +77,8 @@ records: build
 	./scripts/verify-records.sh $(BINARY)
 
 docs:
+	@for script in scripts/*.sh; do sh -n "$$script"; done
+	python3 -c 'import ast, pathlib; ast.parse(pathlib.Path("scripts/check-repository.py").read_text())'
 	python3 ./scripts/check-repository.py
 
 repo-check: schemas api docs fmt-check
@@ -97,6 +99,13 @@ dist: clean
 	  tar -C dist -czf "dist/$$name.tar.gz" "$$name"; \
 	  rm -rf "dist/$$name"; \
 	done
+	tar --sort=name --mtime='@0' --owner=0 --group=0 --numeric-owner \
+	  --exclude='./.git' --exclude='./bin' --exclude='./dist' \
+	  --exclude='./.local' --exclude='./coverage.out' --exclude='./coverage.html' \
+	  --exclude='*.key.json' --exclude='admin.token' \
+	  --exclude='*.db' --exclude='*.backup.db' \
+	  --transform='s,^\.,machine-genome_$(VERSION)_source,' \
+	  -czf "dist/machine-genome_$(VERSION)_source.tar.gz" .
 	cd dist && sha256sum *.tar.gz > checksums.txt
 
 release-check:

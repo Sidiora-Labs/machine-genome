@@ -10,6 +10,7 @@ import sys
 import urllib.parse
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
+EXPECTED_MODULE = "github.com/paxlabs-inc/machine-genome"
 REQUIRED = (
     "README.md",
     "LICENSE",
@@ -21,11 +22,14 @@ REQUIRED = (
     "CHANGELOG.md",
     "SUPPORT.md",
     "CITATION.cff",
+    "Dockerfile",
+    ".goreleaser.yaml",
     "api/openapi.json",
     "docs/README.md",
     "docs/architecture.md",
     "docs/threat-model.md",
     "docs/conformance.md",
+    "docs/registry-policy.md",
     "docs/versioning.md",
 )
 LINK = re.compile(r"!?\[[^\]]*]\(([^)]+)\)")
@@ -50,19 +54,78 @@ def local_target(source: pathlib.Path, raw: str) -> pathlib.Path | None:
     return (source.parent / path).resolve()
 
 
+def values(value: object):
+    if isinstance(value, dict):
+        yield value
+        for child in value.values():
+            yield from values(child)
+    elif isinstance(value, list):
+        for child in value:
+            yield from values(child)
+
+
+def resolve_pointer(document: object, pointer: str) -> None:
+    current = document
+    if not pointer:
+        return
+    if not pointer.startswith("/"):
+        raise ValueError(f"invalid JSON Pointer #{pointer}")
+    for encoded in pointer[1:].split("/"):
+        token = encoded.replace("~1", "/").replace("~0", "~")
+        if isinstance(current, dict):
+            current = current[token]
+        elif isinstance(current, list):
+            current = current[int(token)]
+        else:
+            raise KeyError(token)
+
+
 def main() -> int:
     failures: list[str] = []
     for relative in REQUIRED:
         if not (ROOT / relative).is_file():
             failures.append(f"missing required file: {relative}")
 
+    try:
+        module_line = (ROOT / "go.mod").read_text(encoding="utf-8").splitlines()[0]
+    except (OSError, UnicodeError, IndexError) as error:
+        failures.append(f"go.mod: unable to read module path: {error}")
+    else:
+        if module_line != f"module {EXPECTED_MODULE}":
+            failures.append(
+                f"go.mod: expected module {EXPECTED_MODULE!r}, found {module_line!r}"
+            )
+
+    documents: dict[pathlib.Path, object] = {}
     for path in sorted(ROOT.rglob("*.json")):
         if any(part in {".git", "dist"} for part in path.parts):
             continue
         try:
-            json.loads(path.read_text(encoding="utf-8"))
+            documents[path.resolve()] = json.loads(path.read_text(encoding="utf-8"))
         except (OSError, UnicodeError, json.JSONDecodeError) as error:
             failures.append(f"{path.relative_to(ROOT)}: invalid JSON: {error}")
+
+    for path, document in documents.items():
+        for value in values(document):
+            reference = value.get("$ref")
+            if not isinstance(reference, str):
+                continue
+            file_part, separator, fragment = reference.partition("#")
+            target_path = path if not file_part else (path.parent / file_part).resolve()
+            target = documents.get(target_path)
+            if target is None:
+                failures.append(
+                    f"{path.relative_to(ROOT)}: unresolved JSON reference {reference!r}"
+                )
+                continue
+            if separator:
+                try:
+                    resolve_pointer(target, fragment)
+                except (KeyError, IndexError, ValueError) as error:
+                    failures.append(
+                        f"{path.relative_to(ROOT)}: invalid JSON reference "
+                        f"{reference!r}: {error}"
+                    )
 
     for source in markdown_files():
         if not source.exists():

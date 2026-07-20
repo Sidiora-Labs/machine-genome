@@ -3,6 +3,12 @@ set -eu
 
 version=${1:?release version is required}
 
+top_level=$(git rev-parse --show-toplevel 2>/dev/null || true)
+if [ "$top_level" != "$PWD" ]; then
+    echo "release check must run from the root of the standalone repository" >&2
+    exit 1
+fi
+
 case "$version" in
     *[!0-9.]*|.*|*.|*..*)
         echo "version must be numeric MAJOR.MINOR.PATCH without a v prefix" >&2

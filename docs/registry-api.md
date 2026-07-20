@@ -2,6 +2,10 @@
 
 Status: production profile for the single-node reference registry.
 
+The machine-readable contract is
+[api/openapi.json](../api/openapi.json) (OpenAPI 3.1). This guide explains
+semantics and operational boundaries that client generation cannot capture.
+
 The API returns JSON except for canonical MGS records, the HTML explorer, and
 Prometheus text metrics. Errors use an RFC 9457-style problem object with a
 stable `code`. Request bodies are bounded and unknown JSON members are rejected

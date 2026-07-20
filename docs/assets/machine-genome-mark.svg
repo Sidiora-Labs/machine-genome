@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" role="img" aria-labelledby="title desc">
+  <title id="title">Machine Genome</title>
+  <desc id="desc">A hexagonal machine lineage mark with a connected center.</desc>
+  <circle cx="48" cy="48" r="46" fill="#102824"/>
+  <path d="M24 61.8V34.2L48 20l24 14.2v27.6L48 76 24 61.8Z" fill="none" stroke="#d6fff0" stroke-width="4"/>
+  <circle cx="48" cy="48" r="8" fill="#82e7c0"/>
+  <path d="m31 38 9 5m16 10 9 5m0-20-9 5M40 53l-9 5" fill="none" stroke="#82e7c0" stroke-linecap="round" stroke-width="3"/>
+</svg>

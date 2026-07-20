@@ -8,6 +8,7 @@ registry.db
 *.backup.db
 admin.token
 .env
+.local/
 .DS_Store
 .idea/
 .vscode/

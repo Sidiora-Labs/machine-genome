@@ -86,14 +86,18 @@ Status: resolved in the `0.1.1-implementation-profile` unless marked deferred.
     the hash, inclusion proof, and a transparent tombstone. This is availability
     redaction, not cryptographic history rewriting.
 
-## Deferred before a production registry
+## Deferred from the core profile or still open
 
 - DID method adapters beyond offline `did:key`, with SSRF-safe `did:web`
   resolution and a versioned `did:pax` adapter.
 - Threshold controllers, recovery keys, key revocation, and historical DID
   resolution.
-- Namespace challenge protocol and registrar authorization.
-- Transparency-log API, checkpoints, witnesses, cross-registry reconciliation,
-  anti-spam policy, privacy review, and abuse appeals.
+- Namespace challenge and registrar authorization are outside the cryptographic
+  core; the reference registry now implements an expiring DNS challenge.
+- The reference registry now implements Merkle APIs and signed checkpoints.
+  Independent witnesses, gossip, cross-registry reconciliation, anti-spam
+  governance, privacy review, and abuse appeals remain open.
 - A governance process, IANA-style registries, trademark policy, conformance
-  suite stewardship, and transfer to a neutral standards body.
+  suite stewardship, and transfer to a neutral standards body. This repository
+  now documents interim maintainer governance without claiming neutral
+  stewardship.

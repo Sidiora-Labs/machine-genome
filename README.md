@@ -1,8 +1,12 @@
+<p align="center">
+  <img src="docs/assets/machine-genome-mark.svg" width="88" height="88" alt="Machine Genome mark">
+</p>
+
 # Machine Genome
 
 [![Conformance](https://github.com/paxlabs-inc/machine-genome/actions/workflows/ci.yml/badge.svg)](https://github.com/paxlabs-inc/machine-genome/actions/workflows/ci.yml)
 [![CodeQL](https://github.com/paxlabs-inc/machine-genome/actions/workflows/codeql.yml/badge.svg)](https://github.com/paxlabs-inc/machine-genome/actions/workflows/codeql.yml)
-[![Go Reference](https://pkg.go.dev/badge/github.com/paxeer-network/machine-genome.svg)](https://pkg.go.dev/github.com/paxeer-network/machine-genome)
+[![Go Reference](https://pkg.go.dev/badge/github.com/paxlabs-inc/machine-genome.svg)](https://pkg.go.dev/github.com/paxlabs-inc/machine-genome)
 [![License: Apache-2.0](https://img.shields.io/badge/code-Apache--2.0-blue.svg)](LICENSE)
 [![Protocol: experimental](https://img.shields.io/badge/protocol-experimental-8b5cf6.svg)](docs/versioning.md)
 
@@ -143,6 +147,7 @@ before extending trust or resolver behavior.
 - [Threat model](docs/threat-model.md)
 - [Conformance and test vectors](docs/conformance.md)
 - [Production operations](docs/registry-operations.md)
+- [Public registry policy](docs/registry-policy.md)
 - [Versioning and compatibility](docs/versioning.md)
 - [Governance](GOVERNANCE.md), [security](SECURITY.md), and
   [contributing](CONTRIBUTING.md)

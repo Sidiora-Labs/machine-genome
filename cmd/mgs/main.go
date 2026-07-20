@@ -18,8 +18,8 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/paxeer-network/machine-genome/mgs"
-	"github.com/paxeer-network/machine-genome/registry"
+	"github.com/paxlabs-inc/machine-genome/mgs"
+	"github.com/paxlabs-inc/machine-genome/registry"
 )
 
 var (
