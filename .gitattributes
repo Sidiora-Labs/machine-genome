@@ -1,0 +1,7 @@
+* text=auto eol=lf
+*.go text diff=golang
+*.json text
+*.md text diff=markdown
+*.png binary
+*.db binary
+*.gz binary

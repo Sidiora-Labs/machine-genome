@@ -1,0 +1,35 @@
+{
+  "format": "mgs-registry-genesis-v1",
+  "sourceCommit": "3e4f2a2a4bb1903c05cb884f95c337de301ef771",
+  "modelRevision": "21d1ecfecd7bd70f31be25ca49d7edd21f003659",
+  "treeSize": 5,
+  "rootHash": "a0BsgPFxwmoI6l1IC-Rlb1-dH_YwBP2tQLISfF_k38s",
+  "checkpointSigner": "did:key:z6MkvxNiB8uKLBpqbRSJ8A9jUqoRXvABjMTgL5pEVc6ksDXr",
+  "records": [
+    {
+      "logIndex": 0,
+      "name": "MiMo-V2.5-Pro",
+      "gene": "zQmXc3iHQkihhhT7KHDcM2QMzZDjdLsa8Yv6JVRMqCNgvqY"
+    },
+    {
+      "logIndex": 1,
+      "name": "Matrix Core",
+      "gene": "zQmZc6f5MuV17y9DN28kHNRYofKaR42pDu4LE2UmdVk9H6T"
+    },
+    {
+      "logIndex": 2,
+      "name": "Matrix Neo Agent Class",
+      "gene": "zQmSTfu1AnHz86Fq5ZUicqTKnuMfxGdC6mWN7m5VNhKwR52"
+    },
+    {
+      "logIndex": 3,
+      "name": "Matrix Structural Self-Model Graph",
+      "gene": "zQmfK1WHvTLBTpthsRddZDHcU9SGKRx7vtAAbNkiagunUrE"
+    },
+    {
+      "logIndex": 4,
+      "name": "Neo",
+      "gene": "zQme84RYo7yuJfp1ZVrr269NXbhT7eanVfNNECiCaUSLDyk"
+    }
+  ]
+}

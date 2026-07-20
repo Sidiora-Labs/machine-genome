@@ -1,0 +1,74 @@
+name: conformance
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: conformance-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: Go ${{ matrix.go }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        go: ["1.24.x", "stable"]
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-go@v6
+        with:
+          go-version: ${{ matrix.go }}
+          cache: true
+          cache-dependency-path: go.sum
+      - name: Install repository tools
+        run: sudo apt-get update && sudo apt-get install --yes jq
+      - name: Verify environment
+        run: make bootstrap-check
+      - name: Conformance and repository gate
+        run: make check
+      - name: Race detector
+        if: matrix.go == 'stable'
+        run: make race
+      - name: Reproducible local build
+        run: make build
+      - name: Version metadata
+        run: bin/mgs version --json | jq -e '.version == "0.1.1"'
+
+  vulnerability:
+    name: Go vulnerability database
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-go@v6
+        with:
+          go-version: stable
+          cache: true
+          cache-dependency-path: go.sum
+      - uses: golang/govulncheck-action@v1
+        with:
+          go-version-input: stable
+          go-package: ./...
+
+  container:
+    name: Container image
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v6
+      - uses: docker/setup-buildx-action@v3
+      - uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: false
+          tags: machine-genome:test
+          cache-from: type=gha
+          cache-to: type=gha,mode=max

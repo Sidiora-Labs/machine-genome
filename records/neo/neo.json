@@ -1,0 +1,81 @@
+{
+  "controller": {
+    "did": "did:key:z6MkvVDdHFRGeuxwwAwNGt9hPqreRR3cMXoNazTtTz5kvgwA",
+    "genesisKeyId": "did:key:z6MkvVDdHFRGeuxwwAwNGt9hPqreRR3cMXoNazTtTz5kvgwA#z6MkvVDdHFRGeuxwwAwNGt9hPqreRR3cMXoNazTtTz5kvgwA"
+  },
+  "genesis": {
+    "artifactCommitments": [
+      {
+        "hash": "zQmY9bqXtVsRZwEcWqfWrX7Vo29mjQo59jRJv7KbA6rFKGU",
+        "kind": "runtime-model-configuration",
+        "note": "Raw-byte commitment to the source snapshot whose Neo defaults set main, cheap, and consolidation models to mimo-v2.5-pro.",
+        "present": true,
+        "uri": "https://github.com/paxlabs-inc/matrix-core/blob/3e4f2a2a4bb1903c05cb884f95c337de301ef771/neo/internal/config/config.go"
+      }
+    ],
+    "timestamp": "2026-07-20T11:26:33Z"
+  },
+  "identity": {
+    "description": "Neo, the Matrix default agent instance, bound to the MiMo-V2.5-Pro model parent and the selected Matrix source and structural-self-model snapshot.",
+    "name": "Neo",
+    "namespace": "did:key:z6MkvVDdHFRGeuxwwAwNGt9hPqreRR3cMXoNazTtTz5kvgwA",
+    "subjectType": "agent-instance",
+    "version": "0.65.0+3e4f2a2"
+  },
+  "mgs": "0.1.1",
+  "parentage": [
+    {
+      "authorized": false,
+      "edgeType": "model-instance-of",
+      "parentGene": "zQmXc3iHQkihhhT7KHDcM2QMzZDjdLsa8Yv6JVRMqCNgvqY"
+    },
+    {
+      "authorizationProof": {
+        "created": "2026-07-20T11:26:33Z",
+        "cryptosuite": "eddsa-jcs-2022",
+        "proofPurpose": "assertionMethod",
+        "proofValue": "z5L614Xi6v8G6fAKYcrWhXntva97NDeVhssymavvPMp7LAkBrbf6Si1AxmDNcwcim94Cdu1rK94PLZt6pKRtKuLdT",
+        "type": "DataIntegrityProof",
+        "verificationMethod": "did:key:z6MkvVDdHFRGeuxwwAwNGt9hPqreRR3cMXoNazTtTz5kvgwA#z6MkvVDdHFRGeuxwwAwNGt9hPqreRR3cMXoNazTtTz5kvgwA"
+      },
+      "authorized": true,
+      "edgeType": "instance-of",
+      "parentGene": "zQmSTfu1AnHz86Fq5ZUicqTKnuMfxGdC6mWN7m5VNhKwR52"
+    },
+    {
+      "authorizationProof": {
+        "created": "2026-07-20T11:26:33Z",
+        "cryptosuite": "eddsa-jcs-2022",
+        "proofPurpose": "assertionMethod",
+        "proofValue": "z2WVvYssDefzsfecMR5UBJG5Md2Ux3bdC6GhWVEvaoUzjiYoJzbQ8J95oy3RnsRa6XzZdw5MoKGMCM3roYHz762Rd",
+        "type": "DataIntegrityProof",
+        "verificationMethod": "did:key:z6MkvVDdHFRGeuxwwAwNGt9hPqreRR3cMXoNazTtTz5kvgwA#z6MkvVDdHFRGeuxwwAwNGt9hPqreRR3cMXoNazTtTz5kvgwA"
+      },
+      "authorized": true,
+      "edgeType": "scaffold-fork-of",
+      "parentGene": "zQmZc6f5MuV17y9DN28kHNRYofKaR42pDu4LE2UmdVk9H6T"
+    },
+    {
+      "authorizationProof": {
+        "created": "2026-07-20T11:26:33Z",
+        "cryptosuite": "eddsa-jcs-2022",
+        "proofPurpose": "assertionMethod",
+        "proofValue": "z3RcASMzt3bR1Coz5MPQBLX9RKTZQjoWg5cyL8g1UZ5ShzxqzxeQL1mtmFMMh5N3aAq2ojXMbMtZ4UHpgEhaYDd5f",
+        "type": "DataIntegrityProof",
+        "verificationMethod": "did:key:z6MkvVDdHFRGeuxwwAwNGt9hPqreRR3cMXoNazTtTz5kvgwA#z6MkvVDdHFRGeuxwwAwNGt9hPqreRR3cMXoNazTtTz5kvgwA"
+      },
+      "authorized": true,
+      "edgeType": "prompt-descendant-of",
+      "parentGene": "zQmfK1WHvTLBTpthsRddZDHcU9SGKRx7vtAAbNkiagunUrE"
+    }
+  ],
+  "proof": {
+    "created": "2026-07-20T11:26:33Z",
+    "cryptosuite": "eddsa-jcs-2022",
+    "proofPurpose": "assertionMethod",
+    "proofValue": "z3DXA5P7q4NUbGzythwcdQZQyaDH44kXsgFtvgSMKJQ1ahWW69S2FktXbuoE46R4orGsx2Br2mJcS2RPfJLFC5HoB",
+    "type": "DataIntegrityProof",
+    "verificationMethod": "did:key:z6MkvVDdHFRGeuxwwAwNGt9hPqreRR3cMXoNazTtTz5kvgwA#z6MkvVDdHFRGeuxwwAwNGt9hPqreRR3cMXoNazTtTz5kvgwA"
+  },
+  "recordType": "genesis"
+}

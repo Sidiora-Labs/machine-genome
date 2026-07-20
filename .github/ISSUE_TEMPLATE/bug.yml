@@ -1,0 +1,65 @@
+name: Bug report
+description: Report a reproducible implementation or documentation defect.
+title: "bug: "
+labels: ["bug", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Do not include secrets, private records, or unpatched vulnerabilities.
+        Security reports belong in the private advisory flow.
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      description: Paste `mgs version` output or the commit SHA.
+    validations:
+      required: true
+  - type: dropdown
+    id: component
+    attributes:
+      label: Component
+      options:
+        - Protocol library
+        - Registry storage
+        - HTTP API
+        - Explorer UI
+        - CLI
+        - Deployment
+        - Documentation
+        - CI or release tooling
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Minimal reproduction
+      description: Use newly generated synthetic records and redact all secrets.
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: OS, architecture, Go version, proxy/container details.
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Safety check
+      options:
+        - label: I removed keys, tokens, personal data, and private evidence.
+          required: true
+        - label: This is not an undisclosed security vulnerability.
+          required: true

@@ -1,0 +1,40 @@
+[Unit]
+Description=Machine Genome Registry
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=machine-genome
+Group=machine-genome
+UMask=0077
+StateDirectory=machine-genome
+StateDirectoryMode=0700
+LoadCredential=checkpoint-key:/etc/machine-genome/checkpoint.key.json
+LoadCredential=admin-token:/etc/machine-genome/admin.token
+ExecStart=/usr/local/bin/mgs registry-serve --data-dir=/var/lib/machine-genome --checkpoint-key=%d/checkpoint-key --admin-token-file=%d/admin-token --listen=127.0.0.1:8080 --public-base-url=https://machinegenome.org --rate-per-minute=12000
+Restart=on-failure
+RestartSec=3
+TimeoutStopSec=15
+NoNewPrivileges=yes
+PrivateTmp=yes
+PrivateDevices=yes
+ProtectSystem=strict
+ProtectHome=yes
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectKernelLogs=yes
+ProtectControlGroups=yes
+ProtectClock=yes
+ProtectHostname=yes
+ProtectProc=invisible
+ProcSubset=pid
+LockPersonality=yes
+RestrictRealtime=yes
+RestrictSUIDSGID=yes
+RestrictNamespaces=yes
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
+SystemCallArchitectures=native
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,131 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:mgs:schema:0.1.1:genesis",
+  "title": "Machine Genome Genesis Record",
+  "type": "object",
+  "required": ["mgs", "recordType", "identity", "parentage", "controller", "genesis"],
+  "properties": {
+    "mgs": { "const": "0.1.1" },
+    "recordType": { "const": "genesis" },
+    "identity": {
+      "type": "object",
+      "required": ["name", "namespace", "subjectType", "version"],
+      "properties": {
+        "name": { "type": "string", "minLength": 1 },
+        "namespace": { "type": "string", "minLength": 1 },
+        "subjectType": {
+          "enum": ["model", "agent", "agent-class", "agent-instance", "harness", "dataset"]
+        },
+        "version": { "type": "string", "minLength": 1 },
+        "description": { "type": "string" },
+        "did": { "$ref": "#/$defs/did" }
+      },
+      "additionalProperties": false
+    },
+    "parentage": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/edge" }
+    },
+    "controller": {
+      "type": "object",
+      "required": ["did", "genesisKeyId"],
+      "properties": {
+        "did": { "$ref": "#/$defs/did" },
+        "genesisKeyId": { "$ref": "#/$defs/didUrl" }
+      },
+      "additionalProperties": false
+    },
+    "genesis": {
+      "type": "object",
+      "required": ["timestamp", "artifactCommitments"],
+      "properties": {
+        "timestamp": { "$ref": "#/$defs/timestamp" },
+        "registrar": { "$ref": "#/$defs/did" },
+        "artifactCommitments": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["kind", "hash", "present"],
+            "properties": {
+              "kind": { "type": "string", "minLength": 1 },
+              "hash": { "$ref": "#/$defs/digest" },
+              "present": { "type": "boolean" },
+              "uri": { "type": "string", "format": "uri" },
+              "note": { "type": "string" }
+            },
+            "additionalProperties": false
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "proof": { "$ref": "#/$defs/proof" }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "did": {
+      "type": "string",
+      "pattern": "^did:[a-z0-9]+:[^#?]+$"
+    },
+    "didUrl": {
+      "type": "string",
+      "pattern": "^did:[a-z0-9]+:[^#?]+#[^#]+$"
+    },
+    "timestamp": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"
+    },
+    "digest": {
+      "type": "string",
+      "pattern": "^z[1-9A-HJ-NP-Za-km-z]+$"
+    },
+    "proof": {
+      "type": "object",
+      "required": ["type", "cryptosuite", "created", "verificationMethod", "proofPurpose", "proofValue"],
+      "properties": {
+        "type": { "const": "DataIntegrityProof" },
+        "cryptosuite": { "const": "eddsa-jcs-2022" },
+        "created": { "$ref": "#/$defs/timestamp" },
+        "verificationMethod": { "$ref": "#/$defs/didUrl" },
+        "proofPurpose": { "const": "assertionMethod" },
+        "proofValue": { "type": "string", "pattern": "^z[1-9A-HJ-NP-Za-km-z]+$" }
+      },
+      "additionalProperties": false
+    },
+    "edge": {
+      "type": "object",
+      "required": ["edgeType", "authorized"],
+      "properties": {
+        "edgeType": {
+          "enum": [
+            "fine-tune-of", "distilled-from", "merge-of", "quantization-of",
+            "model-instance-of", "scaffold-fork-of", "instance-of",
+            "prompt-descendant-of", "ensemble-of", "trained-on", "successor-of"
+          ]
+        },
+        "parentGene": { "$ref": "#/$defs/digest" },
+        "authorized": { "type": "boolean" },
+        "authorizationProof": { "$ref": "#/$defs/proof" },
+        "unresolved": { "type": "boolean" },
+        "externalRef": { "type": "string", "minLength": 1 }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "unresolved": { "const": true } }, "required": ["unresolved"] },
+          "then": {
+            "properties": { "authorized": { "const": false } },
+            "required": ["externalRef"],
+            "not": { "anyOf": [{ "required": ["parentGene"] }, { "required": ["authorizationProof"] }] }
+          },
+          "else": { "required": ["parentGene"] }
+        },
+        {
+          "if": { "properties": { "authorized": { "const": true } } },
+          "then": { "required": ["authorizationProof"] },
+          "else": { "not": { "required": ["authorizationProof"] } }
+        }
+      ],
+      "additionalProperties": false
+    }
+  }
+}

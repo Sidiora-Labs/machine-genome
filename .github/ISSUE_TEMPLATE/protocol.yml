@@ -1,0 +1,45 @@
+name: Protocol proposal
+description: Propose a change to MGS wire format, semantics, or trust behavior.
+title: "proposal: "
+labels: ["protocol", "proposal"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem and non-goals
+      description: State the interoperability problem and what this proposal will not solve.
+    validations:
+      required: true
+  - type: textarea
+    id: design
+    attributes:
+      label: Exact design
+      description: Define fields, canonical bytes, algorithms, and failure behavior.
+    validations:
+      required: true
+  - type: textarea
+    id: security
+    attributes:
+      label: Security and privacy analysis
+    validations:
+      required: true
+  - type: textarea
+    id: compatibility
+    attributes:
+      label: Compatibility and versioning
+      description: Explain older-reader behavior, downgrade risk, and migration.
+    validations:
+      required: true
+  - type: textarea
+    id: vectors
+    attributes:
+      label: Deterministic vectors
+      description: Provide or outline exact positive and negative vectors.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+    validations:
+      required: true

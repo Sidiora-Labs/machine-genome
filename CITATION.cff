@@ -1,0 +1,17 @@
+cff-version: 1.2.0
+message: "If you use Machine Genome in research, cite this software and the implementation profile."
+title: "Machine Genome"
+type: software
+version: 0.1.1
+date-released: 2026-07-20
+authors:
+  - name: "Machine Genome contributors"
+license: Apache-2.0
+repository-code: "https://github.com/paxlabs-inc/machine-genome"
+url: "https://machinegenome.org"
+keywords:
+  - provenance
+  - machine identity
+  - agents
+  - transparency log
+  - data integrity
