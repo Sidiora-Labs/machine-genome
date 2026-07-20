@@ -1,0 +1,739 @@
+{
+  "openapi": "3.1.0",
+  "jsonSchemaDialect": "https://json-schema.org/draft/2020-12/schema",
+  "info": {
+    "title": "Machine Genome Registry API",
+    "version": "1.0.0",
+    "summary": "Verified admission and transparency API for Machine Genome records",
+    "description": "The reference single-node API for MGS 0.1.1. A successful registry response establishes admission and transparency state; it does not certify the truth of provenance claims.",
+    "license": {
+      "name": "Apache-2.0",
+      "identifier": "Apache-2.0"
+    }
+  },
+  "externalDocs": {
+    "description": "Registry API guide",
+    "url": "https://github.com/paxlabs-inc/machine-genome/blob/main/docs/registry-api.md"
+  },
+  "servers": [
+    {
+      "url": "https://machinegenome.org",
+      "description": "Public reference registry"
+    },
+    {
+      "url": "http://127.0.0.1:8080",
+      "description": "Local development"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Records",
+      "description": "Verified record admission and retrieval"
+    },
+    {
+      "name": "Genes",
+      "description": "Resolved identity and evidence views"
+    },
+    {
+      "name": "Transparency",
+      "description": "Signed checkpoints and Merkle proofs"
+    },
+    {
+      "name": "Namespaces",
+      "description": "DNS namespace controller challenges"
+    },
+    {
+      "name": "Operations",
+      "description": "Health and metrics"
+    },
+    {
+      "name": "Administration",
+      "description": "Bearer-authenticated operator controls"
+    }
+  ],
+  "paths": {
+    "/healthz/live": {
+      "get": {
+        "operationId": "getLiveness",
+        "tags": ["Operations"],
+        "summary": "Process liveness",
+        "responses": {
+          "200": {
+            "description": "Process is live",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["status"],
+                  "properties": {
+                    "status": {"const": "live"}
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/healthz/ready": {
+      "get": {
+        "operationId": "getReadiness",
+        "tags": ["Operations"],
+        "summary": "Storage readiness and counts",
+        "responses": {
+          "200": {
+            "description": "Registry storage is ready",
+            "content": {
+              "application/json": {
+                "schema": {"$ref": "#/components/schemas/Readiness"}
+              }
+            }
+          },
+          "503": {"$ref": "#/components/responses/Problem"}
+        }
+      }
+    },
+    "/metrics": {
+      "get": {
+        "operationId": "getMetrics",
+        "tags": ["Operations"],
+        "summary": "Prometheus metrics",
+        "responses": {
+          "200": {
+            "description": "Low-cardinality registry metrics",
+            "content": {
+              "text/plain": {
+                "schema": {"type": "string"}
+              }
+            }
+          },
+          "503": {"$ref": "#/components/responses/Problem"}
+        }
+      }
+    },
+    "/v1/records": {
+      "post": {
+        "operationId": "submitRecord",
+        "tags": ["Records"],
+        "summary": "Verify and admit one MGS record",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/mgs+json": {
+              "schema": {
+                "oneOf": [
+                  {"$ref": "../schema/genesis.schema.json"},
+                  {"$ref": "../schema/amendment.schema.json"},
+                  {"$ref": "../schema/attestation.schema.json"}
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "New record admitted",
+            "headers": {
+              "Location": {
+                "description": "Canonical record URL",
+                "schema": {"type": "string", "format": "uri"}
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {"$ref": "#/components/schemas/Submission"}
+              }
+            }
+          },
+          "200": {
+            "description": "Byte-identical record was already present",
+            "content": {
+              "application/json": {
+                "schema": {"$ref": "#/components/schemas/Submission"}
+              }
+            }
+          },
+          "400": {"$ref": "#/components/responses/Problem"},
+          "409": {
+            "description": "Identity collision, chain conflict, or retained equivocation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {"$ref": "#/components/schemas/Problem"},
+                    {"$ref": "#/components/schemas/Submission"}
+                  ]
+                }
+              }
+            }
+          },
+          "413": {"$ref": "#/components/responses/Problem"},
+          "415": {"$ref": "#/components/responses/Problem"},
+          "429": {"$ref": "#/components/responses/Problem"}
+        }
+      }
+    },
+    "/v1/records/{digest}": {
+      "parameters": [
+        {"$ref": "#/components/parameters/Digest"}
+      ],
+      "get": {
+        "operationId": "getRecord",
+        "tags": ["Records"],
+        "summary": "Return canonical record bytes",
+        "responses": {
+          "200": {
+            "description": "Canonical secured MGS record",
+            "content": {
+              "application/mgs+json": {
+                "schema": {"type": "object"}
+              }
+            }
+          },
+          "400": {"$ref": "#/components/responses/Problem"},
+          "404": {"$ref": "#/components/responses/Problem"},
+          "410": {
+            "description": "Payload availability was tombstoned",
+            "content": {
+              "application/json": {
+                "schema": {"$ref": "#/components/schemas/Tombstone"}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/genes/{gene}": {
+      "parameters": [
+        {"$ref": "#/components/parameters/Gene"}
+      ],
+      "get": {
+        "operationId": "getGene",
+        "tags": ["Genes"],
+        "summary": "Resolve one Gene and its evidence indexes",
+        "responses": {
+          "200": {
+            "description": "Resolved Gene view",
+            "content": {
+              "application/json": {
+                "schema": {"$ref": "#/components/schemas/GeneView"}
+              }
+            }
+          },
+          "400": {"$ref": "#/components/responses/Problem"},
+          "404": {"$ref": "#/components/responses/Problem"}
+        }
+      }
+    },
+    "/v1/search": {
+      "get": {
+        "operationId": "searchGenes",
+        "tags": ["Genes"],
+        "summary": "Search registered genesis metadata",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "schema": {"type": "string"},
+            "description": "Case-insensitive substring across Gene, name, namespace, type, and controller"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {"type": "integer", "minimum": 1, "maximum": 100, "default": 25}
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Search results ordered by inclusion time",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["items"],
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {"$ref": "#/components/schemas/RecordMetadata"}
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/namespace-challenges": {
+      "post": {
+        "operationId": "createNamespaceChallenge",
+        "tags": ["Namespaces"],
+        "summary": "Create a DNS namespace controller challenge",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["namespace", "controllerDid"],
+                "properties": {
+                  "namespace": {"type": "string", "format": "hostname"},
+                  "controllerDid": {"type": "string", "pattern": "^did:"}
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Single-use challenge created",
+            "content": {
+              "application/json": {
+                "schema": {"$ref": "#/components/schemas/NamespaceChallenge"}
+              }
+            }
+          },
+          "400": {"$ref": "#/components/responses/Problem"},
+          "503": {"$ref": "#/components/responses/Problem"}
+        }
+      }
+    },
+    "/v1/namespace-challenges/{id}/verify": {
+      "post": {
+        "operationId": "verifyNamespaceChallenge",
+        "tags": ["Namespaces"],
+        "summary": "Verify DNS TXT evidence and consume a challenge",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {"type": "string"}
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["token"],
+                "properties": {
+                  "token": {"type": "string", "minLength": 1}
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Controller grant issued",
+            "content": {
+              "application/json": {
+                "schema": {"$ref": "#/components/schemas/NamespaceGrant"}
+              }
+            }
+          },
+          "400": {"$ref": "#/components/responses/Problem"},
+          "404": {"$ref": "#/components/responses/Problem"},
+          "503": {"$ref": "#/components/responses/Problem"}
+        }
+      }
+    },
+    "/v1/log/checkpoint": {
+      "get": {
+        "operationId": "getCheckpoint",
+        "tags": ["Transparency"],
+        "summary": "Return the current signed Merkle checkpoint",
+        "responses": {
+          "200": {
+            "description": "Signed checkpoint",
+            "content": {
+              "application/json": {
+                "schema": {"$ref": "#/components/schemas/Checkpoint"}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/log/inclusion/{index}": {
+      "get": {
+        "operationId": "getInclusionProof",
+        "tags": ["Transparency"],
+        "summary": "Return one Merkle inclusion proof",
+        "parameters": [
+          {
+            "name": "index",
+            "in": "path",
+            "required": true,
+            "schema": {"type": "integer", "minimum": 0}
+          },
+          {
+            "name": "treeSize",
+            "in": "query",
+            "schema": {"type": "integer", "minimum": 1},
+            "description": "Historical tree size; current size when omitted"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Merkle inclusion proof",
+            "content": {
+              "application/json": {
+                "schema": {"$ref": "#/components/schemas/InclusionProof"}
+              }
+            }
+          },
+          "400": {"$ref": "#/components/responses/Problem"}
+        }
+      }
+    },
+    "/v1/log/consistency": {
+      "get": {
+        "operationId": "getConsistencyProof",
+        "tags": ["Transparency"],
+        "summary": "Return a Merkle consistency proof",
+        "parameters": [
+          {
+            "name": "firstSize",
+            "in": "query",
+            "required": true,
+            "schema": {"type": "integer", "minimum": 1}
+          },
+          {
+            "name": "secondSize",
+            "in": "query",
+            "required": true,
+            "schema": {"type": "integer", "minimum": 1}
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Merkle consistency proof",
+            "content": {
+              "application/json": {
+                "schema": {"$ref": "#/components/schemas/ConsistencyProof"}
+              }
+            }
+          },
+          "400": {"$ref": "#/components/responses/Problem"}
+        }
+      }
+    },
+    "/v1/admin/tombstones/{digest}": {
+      "post": {
+        "operationId": "createTombstone",
+        "tags": ["Administration"],
+        "summary": "Stop serving a payload while retaining its commitment",
+        "security": [{"bearerAuth": []}],
+        "parameters": [
+          {"$ref": "#/components/parameters/Digest"}
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["reason"],
+                "properties": {
+                  "reason": {"type": "string", "minLength": 1},
+                  "reference": {"type": "string"}
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Tombstone recorded",
+            "content": {
+              "application/json": {
+                "schema": {"$ref": "#/components/schemas/Tombstone"}
+              }
+            }
+          },
+          "400": {"$ref": "#/components/responses/Problem"},
+          "401": {"$ref": "#/components/responses/Problem"},
+          "404": {"$ref": "#/components/responses/Problem"}
+        }
+      }
+    },
+    "/v1/admin/audit": {
+      "get": {
+        "operationId": "getAuditEvents",
+        "tags": ["Administration"],
+        "summary": "Return recent administrative audit events",
+        "security": [{"bearerAuth": []}],
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {"type": "integer", "minimum": 1, "maximum": 1000, "default": 100}
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Newest-first audit events",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["events"],
+                  "properties": {
+                    "events": {
+                      "type": "array",
+                      "items": {"$ref": "#/components/schemas/AuditEvent"}
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {"$ref": "#/components/responses/Problem"}
+        }
+      }
+    },
+    "/v1/admin/backups": {
+      "post": {
+        "operationId": "createBackup",
+        "tags": ["Administration"],
+        "summary": "Create a transactionally consistent online backup",
+        "security": [{"bearerAuth": []}],
+        "responses": {
+          "201": {
+            "description": "Private backup created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["file", "created"],
+                  "properties": {
+                    "file": {"type": "string"},
+                    "created": {"const": true}
+                  }
+                }
+              }
+            }
+          },
+          "401": {"$ref": "#/components/responses/Problem"},
+          "503": {"$ref": "#/components/responses/Problem"}
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "opaque administrator token"
+      }
+    },
+    "parameters": {
+      "Digest": {
+        "name": "digest",
+        "in": "path",
+        "required": true,
+        "schema": {"$ref": "#/components/schemas/Digest"}
+      },
+      "Gene": {
+        "name": "gene",
+        "in": "path",
+        "required": true,
+        "schema": {"$ref": "#/components/schemas/Digest"}
+      }
+    },
+    "responses": {
+      "Problem": {
+        "description": "Structured request or service failure",
+        "content": {
+          "application/json": {
+            "schema": {"$ref": "#/components/schemas/Problem"}
+          }
+        }
+      }
+    },
+    "schemas": {
+      "Digest": {
+        "type": "string",
+        "pattern": "^z[1-9A-HJ-NP-Za-km-z]+$",
+        "description": "base58btc SHA-256 multihash"
+      },
+      "Timestamp": {
+        "type": "string",
+        "format": "date-time",
+        "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"
+      },
+      "Problem": {
+        "type": "object",
+        "required": ["type", "title", "status", "code", "detail"],
+        "properties": {
+          "type": {"type": "string", "format": "uri"},
+          "title": {"type": "string"},
+          "status": {"type": "integer", "minimum": 400, "maximum": 599},
+          "code": {"type": "string"},
+          "detail": {"type": "string"}
+        }
+      },
+      "Readiness": {
+        "type": "object",
+        "required": ["status", "objects", "genes", "treeSize"],
+        "properties": {
+          "status": {"const": "ready"},
+          "objects": {"type": "integer", "minimum": 0},
+          "genes": {"type": "integer", "minimum": 0},
+          "treeSize": {"type": "integer", "minimum": 0}
+        }
+      },
+      "RecordMetadata": {
+        "type": "object",
+        "required": ["digest", "recordType", "authorTime", "inclusionTime", "logIndex"],
+        "properties": {
+          "digest": {"$ref": "#/components/schemas/Digest"},
+          "recordType": {"enum": ["genesis", "amendment", "attestation"]},
+          "gene": {"$ref": "#/components/schemas/Digest"},
+          "subjectGene": {"$ref": "#/components/schemas/Digest"},
+          "sequence": {"type": "integer", "minimum": 0},
+          "identityName": {"type": "string"},
+          "namespace": {"type": "string"},
+          "subjectType": {"type": "string"},
+          "controllerDid": {"type": "string"},
+          "authorTime": {"$ref": "#/components/schemas/Timestamp"},
+          "inclusionTime": {"$ref": "#/components/schemas/Timestamp"},
+          "logIndex": {"type": "integer", "minimum": 0}
+        }
+      },
+      "Submission": {
+        "type": "object",
+        "required": ["metadata", "created"],
+        "properties": {
+          "metadata": {"$ref": "#/components/schemas/RecordMetadata"},
+          "created": {"type": "boolean"},
+          "conflict": {"type": "boolean"},
+          "conflictId": {"type": "string"}
+        }
+      },
+      "GeneView": {
+        "type": "object",
+        "required": ["genesis", "amendments", "attestations", "children", "equivocations", "tombstoned"],
+        "properties": {
+          "genesis": {"$ref": "#/components/schemas/RecordMetadata"},
+          "amendments": {
+            "type": "array",
+            "items": {"$ref": "#/components/schemas/RecordMetadata"}
+          },
+          "attestations": {
+            "type": "array",
+            "items": {"$ref": "#/components/schemas/RecordMetadata"}
+          },
+          "children": {
+            "type": "array",
+            "items": {"$ref": "#/components/schemas/Digest"}
+          },
+          "equivocations": {
+            "type": "array",
+            "items": {"type": "string"}
+          },
+          "tombstoned": {"type": "boolean"}
+        }
+      },
+      "NamespaceChallenge": {
+        "type": "object",
+        "required": ["id", "namespace", "controllerDid", "method", "recordName", "recordValue", "expiresAt"],
+        "properties": {
+          "id": {"type": "string"},
+          "namespace": {"type": "string"},
+          "controllerDid": {"type": "string"},
+          "method": {"const": "dns-01"},
+          "recordName": {"type": "string"},
+          "recordValue": {"type": "string"},
+          "expiresAt": {"$ref": "#/components/schemas/Timestamp"},
+          "verifiedAt": {"$ref": "#/components/schemas/Timestamp"}
+        }
+      },
+      "NamespaceGrant": {
+        "type": "object",
+        "required": ["namespace", "controllerDid", "verifiedAt", "expiresAt", "challengeId"],
+        "properties": {
+          "namespace": {"type": "string"},
+          "controllerDid": {"type": "string"},
+          "verifiedAt": {"$ref": "#/components/schemas/Timestamp"},
+          "expiresAt": {"$ref": "#/components/schemas/Timestamp"},
+          "challengeId": {"type": "string"}
+        }
+      },
+      "Checkpoint": {
+        "type": "object",
+        "required": ["format", "treeSize", "rootHash", "timestamp", "registryDid", "verificationMethod", "signatureAlgorithm", "signature"],
+        "properties": {
+          "format": {"const": "mgs-checkpoint-v1"},
+          "treeSize": {"type": "integer", "minimum": 0},
+          "rootHash": {"type": "string", "contentEncoding": "base64url"},
+          "timestamp": {"$ref": "#/components/schemas/Timestamp"},
+          "registryDid": {"type": "string"},
+          "verificationMethod": {"type": "string"},
+          "signatureAlgorithm": {"const": "Ed25519-JCS"},
+          "signature": {"type": "string", "contentEncoding": "base64url"}
+        }
+      },
+      "InclusionProof": {
+        "type": "object",
+        "required": ["logIndex", "treeSize", "leaf", "leafHash", "rootHash", "auditPath"],
+        "properties": {
+          "logIndex": {"type": "integer", "minimum": 0},
+          "treeSize": {"type": "integer", "minimum": 1},
+          "leaf": {"$ref": "#/components/schemas/Digest"},
+          "leafHash": {"type": "string", "contentEncoding": "base64url"},
+          "rootHash": {"type": "string", "contentEncoding": "base64url"},
+          "auditPath": {
+            "type": "array",
+            "items": {"type": "string", "contentEncoding": "base64url"}
+          }
+        }
+      },
+      "ConsistencyProof": {
+        "type": "object",
+        "required": ["firstSize", "secondSize", "firstRoot", "secondRoot", "path"],
+        "properties": {
+          "firstSize": {"type": "integer", "minimum": 1},
+          "secondSize": {"type": "integer", "minimum": 1},
+          "firstRoot": {"type": "string", "contentEncoding": "base64url"},
+          "secondRoot": {"type": "string", "contentEncoding": "base64url"},
+          "path": {
+            "type": "array",
+            "items": {"type": "string", "contentEncoding": "base64url"}
+          }
+        }
+      },
+      "Tombstone": {
+        "type": "object",
+        "required": ["digest", "reason", "createdAt"],
+        "properties": {
+          "digest": {"$ref": "#/components/schemas/Digest"},
+          "reason": {"type": "string"},
+          "reference": {"type": "string"},
+          "createdAt": {"$ref": "#/components/schemas/Timestamp"}
+        }
+      },
+      "AuditEvent": {
+        "type": "object",
+        "required": ["index", "time", "action", "actor", "hash"],
+        "properties": {
+          "index": {"type": "integer", "minimum": 0},
+          "time": {"$ref": "#/components/schemas/Timestamp"},
+          "action": {"type": "string"},
+          "actor": {"type": "string"},
+          "object": {"type": "string"},
+          "details": {"type": "object"},
+          "previous": {"type": "string"},
+          "hash": {"$ref": "#/components/schemas/Digest"}
+        }
+      }
+    }
+  }
+}

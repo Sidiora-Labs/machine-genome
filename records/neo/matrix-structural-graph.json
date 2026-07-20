@@ -1,0 +1,50 @@
+{
+  "controller": {
+    "did": "did:key:z6MkvVDdHFRGeuxwwAwNGt9hPqreRR3cMXoNazTtTz5kvgwA",
+    "genesisKeyId": "did:key:z6MkvVDdHFRGeuxwwAwNGt9hPqreRR3cMXoNazTtTz5kvgwA#z6MkvVDdHFRGeuxwwAwNGt9hPqreRR3cMXoNazTtTz5kvgwA"
+  },
+  "genesis": {
+    "artifactCommitments": [
+      {
+        "hash": "zQmRZ14RsSDxYAZRSpmqehS7AhKVQgSwm4WDRTR9eYAMBXE",
+        "kind": "git-tree-archive",
+        "note": "Commitment to deterministic git archive --format=tar COMMIT:graph output.",
+        "present": true,
+        "uri": "https://github.com/paxlabs-inc/matrix-core/tree/3e4f2a2a4bb1903c05cb884f95c337de301ef771/graph"
+      },
+      {
+        "hash": "zQmYdD5iGRJZZUS9SW5WTe4q7fjNdLJxj9Sbop63gALbmUy",
+        "kind": "codegraph-manifest",
+        "note": "Raw-byte commitment; embedded graph Merkle is b3:20e53aba2ea11552396417e53b3e04e87dd1bbb7bef3aa554a45bb92cf89e7f2.",
+        "present": true,
+        "uri": "https://github.com/paxlabs-inc/matrix-core/blob/3e4f2a2a4bb1903c05cb884f95c337de301ef771/graph/manifest.kvx"
+      },
+      {
+        "hash": "zQmWZU9caXvDk83xRS7U8qj7gRBLemQMnSWG2jddsEce4N1",
+        "kind": "neo-structural-self-model",
+        "note": "Raw-byte commitment to the generated scoped self-model summary.",
+        "present": true,
+        "uri": "https://github.com/paxlabs-inc/matrix-core/blob/3e4f2a2a4bb1903c05cb884f95c337de301ef771/graph/self-model/self-model.json"
+      }
+    ],
+    "timestamp": "2026-07-20T11:26:32Z"
+  },
+  "identity": {
+    "description": "Generated Matrix code graph and scoped structural self-model used as provenance evidence for Neo.",
+    "name": "Matrix Structural Self-Model Graph",
+    "namespace": "did:key:z6MkvVDdHFRGeuxwwAwNGt9hPqreRR3cMXoNazTtTz5kvgwA",
+    "subjectType": "dataset",
+    "version": "3e4f2a2"
+  },
+  "mgs": "0.1.1",
+  "parentage": [],
+  "proof": {
+    "created": "2026-07-20T11:26:32Z",
+    "cryptosuite": "eddsa-jcs-2022",
+    "proofPurpose": "assertionMethod",
+    "proofValue": "z4fi4aFhqfgpzZZLHqyYMBRZUD3nmcor6UY45PRfEE9sjEH8kghhe6guV1Va8Aze8f1qLnRkMeCEsr3DssTtv2WPe",
+    "type": "DataIntegrityProof",
+    "verificationMethod": "did:key:z6MkvVDdHFRGeuxwwAwNGt9hPqreRR3cMXoNazTtTz5kvgwA#z6MkvVDdHFRGeuxwwAwNGt9hPqreRR3cMXoNazTtTz5kvgwA"
+  },
+  "recordType": "genesis"
+}

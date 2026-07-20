@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Private security report
+    url: https://github.com/paxlabs-inc/machine-genome/security/advisories/new
+    about: Report vulnerabilities without disclosing them publicly.
+  - name: Support guidance
+    url: https://github.com/paxlabs-inc/machine-genome/blob/main/SUPPORT.md
+    about: Choose the right support and reporting path.

@@ -1,0 +1,11 @@
+.git
+.github
+bin
+dist
+coverage.out
+coverage.html
+*.key.json
+admin.token
+*.db
+*.backup.db
+.env

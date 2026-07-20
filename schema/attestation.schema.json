@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:mgs:schema:0.1.1:attestation",
+  "title": "Machine Genome Third-Party Attestation",
+  "type": "object",
+  "required": [
+    "mgs", "recordType", "subjectGene", "attestationType", "timestamp",
+    "issuer", "evidenceProfile", "body"
+  ],
+  "properties": {
+    "mgs": { "const": "0.1.1" },
+    "recordType": { "const": "attestation" },
+    "subjectGene": { "$ref": "#/$defs/digest" },
+    "attestationType": { "type": "string", "minLength": 1 },
+    "timestamp": { "$ref": "#/$defs/timestamp" },
+    "issuer": { "$ref": "#/$defs/did" },
+    "evidenceProfile": {
+      "type": "object",
+      "required": ["authorship", "review", "reproducibility", "runtimeBinding"],
+      "properties": {
+        "authorship": { "enum": ["self", "operator", "third-party"] },
+        "review": { "enum": ["none", "independent"] },
+        "reproducibility": { "enum": ["unavailable", "partial", "reproducible"] },
+        "runtimeBinding": { "enum": ["none", "hardware"] }
+      },
+      "additionalProperties": false
+    },
+    "body": { "type": "object" },
+    "proof": { "$ref": "#/$defs/proof" }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "did": { "type": "string", "pattern": "^did:[a-z0-9]+:[^#?]+$" },
+    "didUrl": { "type": "string", "pattern": "^did:[a-z0-9]+:[^#?]+#[^#]+$" },
+    "timestamp": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"
+    },
+    "digest": { "type": "string", "pattern": "^z[1-9A-HJ-NP-Za-km-z]+$" },
+    "proof": {
+      "type": "object",
+      "required": ["type", "cryptosuite", "created", "verificationMethod", "proofPurpose", "proofValue"],
+      "properties": {
+        "type": { "const": "DataIntegrityProof" },
+        "cryptosuite": { "const": "eddsa-jcs-2022" },
+        "created": { "$ref": "#/$defs/timestamp" },
+        "verificationMethod": { "$ref": "#/$defs/didUrl" },
+        "proofPurpose": { "const": "assertionMethod" },
+        "proofValue": { "type": "string", "pattern": "^z[1-9A-HJ-NP-Za-km-z]+$" }
+      },
+      "additionalProperties": false
+    }
+  }
+}

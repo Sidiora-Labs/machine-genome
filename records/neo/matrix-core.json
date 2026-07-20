@@ -1,0 +1,36 @@
+{
+  "controller": {
+    "did": "did:key:z6MkvVDdHFRGeuxwwAwNGt9hPqreRR3cMXoNazTtTz5kvgwA",
+    "genesisKeyId": "did:key:z6MkvVDdHFRGeuxwwAwNGt9hPqreRR3cMXoNazTtTz5kvgwA#z6MkvVDdHFRGeuxwwAwNGt9hPqreRR3cMXoNazTtTz5kvgwA"
+  },
+  "genesis": {
+    "artifactCommitments": [
+      {
+        "hash": "zQmYDJKbfeVv7NaxhTs9SAmBSc7BbK3BoY1V9iDs9C9DGXm",
+        "kind": "release-history",
+        "note": "Raw-byte commitment to CHANGELOG.md; identifies 0.65.0 as launch readiness.",
+        "present": true,
+        "uri": "https://github.com/paxlabs-inc/matrix-core/blob/3e4f2a2a4bb1903c05cb884f95c337de301ef771/CHANGELOG.md"
+      }
+    ],
+    "timestamp": "2026-07-20T11:26:32Z"
+  },
+  "identity": {
+    "description": "Matrix Core launch-readiness harness snapshot, provenance-anchored to the supplied reference repository without modifying it.",
+    "name": "Matrix Core",
+    "namespace": "did:key:z6MkvVDdHFRGeuxwwAwNGt9hPqreRR3cMXoNazTtTz5kvgwA",
+    "subjectType": "harness",
+    "version": "0.65.0+3e4f2a2"
+  },
+  "mgs": "0.1.1",
+  "parentage": [],
+  "proof": {
+    "created": "2026-07-20T11:26:32Z",
+    "cryptosuite": "eddsa-jcs-2022",
+    "proofPurpose": "assertionMethod",
+    "proofValue": "z5bqDSYFQk3Fjq6y4moPCXTqtjh4PVxFLJL225pyDELV7xGQbLA2xosnQf3LnVViJLLZC5rZztNMijF7gspAsZeBA",
+    "type": "DataIntegrityProof",
+    "verificationMethod": "did:key:z6MkvVDdHFRGeuxwwAwNGt9hPqreRR3cMXoNazTtTz5kvgwA#z6MkvVDdHFRGeuxwwAwNGt9hPqreRR3cMXoNazTtTz5kvgwA"
+  },
+  "recordType": "genesis"
+}

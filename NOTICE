@@ -1,0 +1,17 @@
+Machine Genome
+Copyright 2026 Machine Genome contributors
+
+The Machine Genome `0.1.1-implementation-profile` was derived from the
+"Machine Genome Specification 0.1.0-draft", edited by PaxLabs Inc. / Paxeer
+Network Foundation and supplied under Creative Commons Attribution 4.0.
+The source text SHA-256 recorded by this project is:
+
+8cf30a8a982505e6dbeca29c3ba198ebb609dcc6b291d832526e23c8155ea0c2
+
+The reference implementation includes behavior derived from the standards
+listed in docs/references.md. Standards names and third-party product names are
+used for identification only. No vendor endorsement is implied.
+
+Signed records under records/ are provenance evidence. Their inclusion does not
+grant rights in external source code, model weights, datasets, trademarks, or
+other referenced artifacts.

@@ -1,0 +1,43 @@
+{
+  "controller": {
+    "did": "did:key:z6MkvVDdHFRGeuxwwAwNGt9hPqreRR3cMXoNazTtTz5kvgwA",
+    "genesisKeyId": "did:key:z6MkvVDdHFRGeuxwwAwNGt9hPqreRR3cMXoNazTtTz5kvgwA#z6MkvVDdHFRGeuxwwAwNGt9hPqreRR3cMXoNazTtTz5kvgwA"
+  },
+  "genesis": {
+    "artifactCommitments": [
+      {
+        "hash": "zQmP6Un2m4xjSP36Tf67iXtwHyhvnQnZyebKqNDuq7Ljgfd",
+        "kind": "git-tree-archive",
+        "note": "Commitment to deterministic git archive --format=tar COMMIT:neo output.",
+        "present": true,
+        "uri": "https://github.com/paxlabs-inc/matrix-core/tree/3e4f2a2a4bb1903c05cb884f95c337de301ef771/neo"
+      },
+      {
+        "hash": "zQmQKNtPFSosaVmqyDHHYpSjfXZuDYi4UJh6w6euYY2s3gb",
+        "kind": "frozen-identity-spec",
+        "note": "Raw-byte commitment to Neo's frozen identity and architecture specification.",
+        "present": true,
+        "uri": "https://github.com/paxlabs-inc/matrix-core/blob/3e4f2a2a4bb1903c05cb884f95c337de301ef771/neo/neo.frozen.kvx"
+      }
+    ],
+    "timestamp": "2026-07-20T11:26:32Z"
+  },
+  "identity": {
+    "description": "The Matrix Neo default-agent implementation class at the source snapshot selected for the initial registry.",
+    "name": "Matrix Neo Agent Class",
+    "namespace": "did:key:z6MkvVDdHFRGeuxwwAwNGt9hPqreRR3cMXoNazTtTz5kvgwA",
+    "subjectType": "agent-class",
+    "version": "1.2.0+3e4f2a2"
+  },
+  "mgs": "0.1.1",
+  "parentage": [],
+  "proof": {
+    "created": "2026-07-20T11:26:32Z",
+    "cryptosuite": "eddsa-jcs-2022",
+    "proofPurpose": "assertionMethod",
+    "proofValue": "z3h9jQu6n51mz3Qs9rTQASFZiaeiDL55PTCgxUS9ScdBkHp5XC8mrhLowgU1Q859bM4mwdLMbMnVfzNe4Ad7Yvdst",
+    "type": "DataIntegrityProof",
+    "verificationMethod": "did:key:z6MkvVDdHFRGeuxwwAwNGt9hPqreRR3cMXoNazTtTz5kvgwA#z6MkvVDdHFRGeuxwwAwNGt9hPqreRR3cMXoNazTtTz5kvgwA"
+  },
+  "recordType": "genesis"
+}

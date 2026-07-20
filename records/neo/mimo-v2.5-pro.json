@@ -1,0 +1,43 @@
+{
+  "controller": {
+    "did": "did:key:z6MkvVDdHFRGeuxwwAwNGt9hPqreRR3cMXoNazTtTz5kvgwA",
+    "genesisKeyId": "did:key:z6MkvVDdHFRGeuxwwAwNGt9hPqreRR3cMXoNazTtTz5kvgwA#z6MkvVDdHFRGeuxwwAwNGt9hPqreRR3cMXoNazTtTz5kvgwA"
+  },
+  "genesis": {
+    "artifactCommitments": [
+      {
+        "hash": "zQmTxieqJrpAHZVuEzzzwNKze4XYovzQyDw4ghTgk9iuC1L",
+        "kind": "official-model-card",
+        "note": "Raw-byte MGS SHA-256 multihash at the pinned official XiaomiMiMo revision.",
+        "present": true,
+        "uri": "https://huggingface.co/XiaomiMiMo/MiMo-V2.5-Pro/resolve/21d1ecfecd7bd70f31be25ca49d7edd21f003659/README.md"
+      },
+      {
+        "hash": "zQmWpmoRJJzcycm8CAFPrRY6UPNxEHDVk5CAfLxnfb4rjpq",
+        "kind": "official-model-config",
+        "note": "Raw-byte MGS SHA-256 multihash at the pinned official XiaomiMiMo revision.",
+        "present": true,
+        "uri": "https://huggingface.co/XiaomiMiMo/MiMo-V2.5-Pro/resolve/21d1ecfecd7bd70f31be25ca49d7edd21f003659/config.json"
+      }
+    ],
+    "timestamp": "2026-07-20T11:26:32Z"
+  },
+  "identity": {
+    "description": "Third-party provenance record for XiaomiMiMo/MiMo-V2.5-Pro. Signed by the initial registry provenance controller from official public artifacts; not a Xiaomi endorsement.",
+    "name": "MiMo-V2.5-Pro",
+    "namespace": "did:key:z6MkvVDdHFRGeuxwwAwNGt9hPqreRR3cMXoNazTtTz5kvgwA",
+    "subjectType": "model",
+    "version": "2.5-Pro@21d1ecfecd7bd70f31be25ca49d7edd21f003659"
+  },
+  "mgs": "0.1.1",
+  "parentage": [],
+  "proof": {
+    "created": "2026-07-20T11:26:32Z",
+    "cryptosuite": "eddsa-jcs-2022",
+    "proofPurpose": "assertionMethod",
+    "proofValue": "z4mw8sq4kyfe9stSDzMGKq2nTQkmGyiH5Te4PUJtAjdUUhtEnNtZHsenBKvL5shFneUpxgVn2GzFEbCQDa95VUm9N",
+    "type": "DataIntegrityProof",
+    "verificationMethod": "did:key:z6MkvVDdHFRGeuxwwAwNGt9hPqreRR3cMXoNazTtTz5kvgwA#z6MkvVDdHFRGeuxwwAwNGt9hPqreRR3cMXoNazTtTz5kvgwA"
+  },
+  "recordType": "genesis"
+}

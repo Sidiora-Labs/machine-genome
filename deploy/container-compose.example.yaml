@@ -1,0 +1,37 @@
+services:
+  registry:
+    build:
+      context: ..
+      args:
+        VERSION: "0.1.1"
+        COMMIT: "local"
+    image: machine-genome:0.1.1
+    restart: unless-stopped
+    read_only: true
+    user: "65532:65532"
+    command:
+      - registry-serve
+      - --data-dir=/data
+      - --checkpoint-key=/run/secrets/checkpoint_key
+      - --admin-token-file=/run/secrets/admin_token
+      - --listen=0.0.0.0:8080
+      - --public-base-url=https://machinegenome.org
+      - --allow-insecure-public
+    ports:
+      - "127.0.0.1:8080:8080"
+    volumes:
+      - ../.local/registry-data:/data
+    secrets:
+      - checkpoint_key
+      - admin_token
+    tmpfs:
+      - /tmp:mode=1777,size=16m
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+secrets:
+  checkpoint_key:
+    file: ${CHECKPOINT_KEY_FILE:?set CHECKPOINT_KEY_FILE}
+  admin_token:
+    file: ${ADMIN_TOKEN_FILE:?set ADMIN_TOKEN_FILE}

@@ -1,0 +1,13 @@
+/bin/mgs
+/dist/
+*.key.json
+controller-key.json
+coverage.out
+coverage.html
+registry.db
+*.backup.db
+admin.token
+.env
+.DS_Store
+.idea/
+.vscode/

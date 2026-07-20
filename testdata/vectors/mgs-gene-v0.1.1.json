@@ -1,0 +1,13 @@
+{
+  "profile": "0.1.1",
+  "description": "Deterministic secured root genesis and Gene",
+  "seedHex": "0707070707070707070707070707070707070707070707070707070707070707",
+  "created": "2026-07-20T14:00:00Z",
+  "identity": {
+    "name": "golden-agent",
+    "namespace": "example.test",
+    "subjectType": "agent",
+    "version": "1.0.0"
+  },
+  "expectedGene": "zQmWpTX9a3nLqFkeJ3Ryswg6vF8A88ba794p2XoCzwqTLP2"
+}
