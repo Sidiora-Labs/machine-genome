@@ -91,7 +91,7 @@ single-node ACID transactions; it is not a distributed consensus system.
 
 1. Reject input outside the size and canonical JSON constraints.
 2. Validate the secured genesis structure.
-3. verify the controller's Data Integrity proof.
+3. Verify the controller's Data Integrity proof.
 4. Recompute the Gene.
 5. Resolve every local parent and verify authorized edges.
 6. Enforce DID or DNS namespace control.
