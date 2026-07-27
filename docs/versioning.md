@@ -47,7 +47,7 @@ release note and migration guidance.
 ## Database schema
 
 The database records an internal schema version. A future incompatible change
-must ship an explicit, backup-first migration and refuse to open unsupported
+must ship an explicit, backup-first migration and refuse to open an unsupported
 newer state. Silent destructive migration is prohibited.
 
 ## Deprecation
