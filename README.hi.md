@@ -10,6 +10,10 @@
 [![License: Apache-2.0](https://img.shields.io/badge/code-Apache--2.0-blue.svg)](LICENSE)
 [![Protocol: experimental](https://img.shields.io/badge/protocol-experimental-8b5cf6.svg)](docs/versioning.md)
 
+**अन्य भाषाएँ:** [English](README.md) · [Русский](README.ru.md) · [Português](README.pt.md) · [简体中文](README.zh-CN.md) · [日本語](README.ja.md) · [Deutsch](README.de.md) · [Français](README.fr.md) · [Español](README.es.md)
+
+---
+
 Machine Genome मॉडल, एजेंट, हार्नेस, डेटासेट और उन्हें जोड़ने वाली कलाकृतियों के लिए एक खुला पहचान और उत्पत्ति प्रोटोकॉल है। प्रत्येक अपरिवर्तनीय, हस्ताक्षरित जेनेसिस रिकॉर्ड को एक सामग्री-संबोधित **जीन (Gene)** प्राप्त होता है। जीन एक सत्यापन योग्य वंशावली ग्राफ बनाते हैं; बाद के संशोधन और तृतीय-पक्ष प्रमाणन इतिहास को फिर से लिखे बिना साक्ष्य जोड़ते हैं।
 
 **लाइव रजिस्ट्री:** [machinegenome.org](https://machinegenome.org) ·

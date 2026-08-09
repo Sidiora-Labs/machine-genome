@@ -10,6 +10,10 @@
 [![License: Apache-2.0](https://img.shields.io/badge/code-Apache--2.0-blue.svg)](LICENSE)
 [![Protocol: experimental](https://img.shields.io/badge/protocol-experimental-8b5cf6.svg)](docs/versioning.md)
 
+**Другие языки:** [English](README.md) · [Português](README.pt.md) · [简体中文](README.zh-CN.md) · [日本語](README.ja.md) · [हिन्दी](README.hi.md) · [Deutsch](README.de.md) · [Français](README.fr.md) · [Español](README.es.md)
+
+---
+
 Machine Genome — открытый протокол идентификации и провенанса для моделей,
 агентов, харнесов, наборов данных и артефактов, которые их связывают. Каждая
 неизменяемая подписанная запись генезиса получает контент-адресуемый **Ген**. Гены

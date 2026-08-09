@@ -10,6 +10,10 @@
 [![License: Apache-2.0](https://img.shields.io/badge/code-Apache--2.0-blue.svg)](LICENSE)
 [![Protocol: experimental](https://img.shields.io/badge/protocol-experimental-8b5cf6.svg)](docs/versioning.md)
 
+**他の言語:** [English](README.md) · [Русский](README.ru.md) · [Português](README.pt.md) · [简体中文](README.zh-CN.md) · [हिन्दी](README.hi.md) · [Deutsch](README.de.md) · [Français](README.fr.md) · [Español](README.es.md)
+
+---
+
 Machine Genome は、モデル、エージェント、ハーネス、データセット、およびそれらを接続するアーティファクトのためのオープンなアイデンティティとプロベナンス（出所証明）プロトコルです。改変不可能で署名された各ジェネシスレコードは、コンテンツアドレス指定された**遺伝子（Gene）**を受け取ります。遺伝子は検証可能な系譜グラフを形成し、その後の修正や第三者のアテステーションは、履歴を上書きせずに証拠を追加します。
 
 **ライブレジストリ：** [machinegenome.org](https://machinegenome.org) ·

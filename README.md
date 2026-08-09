@@ -10,6 +10,10 @@
 [![License: Apache-2.0](https://img.shields.io/badge/code-Apache--2.0-blue.svg)](LICENSE)
 [![Protocol: experimental](https://img.shields.io/badge/protocol-experimental-8b5cf6.svg)](docs/versioning.md)
 
+**Other languages:** [Русский](README.ru.md) · [Português](README.pt.md) · [简体中文](README.zh-CN.md) · [日本語](README.ja.md) · [हिन्दी](README.hi.md) · [Deutsch](README.de.md) · [Français](README.fr.md) · [Español](README.es.md)
+
+---
+
 Machine Genome is an open identity and provenance protocol for models, agents,
 harnesses, datasets, and the artifacts that connect them. Every immutable,
 signed genesis record receives a content-addressed **Gene**. Genes form a

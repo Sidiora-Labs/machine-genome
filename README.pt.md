@@ -10,6 +10,10 @@
 [![License: Apache-2.0](https://img.shields.io/badge/code-Apache--2.0-blue.svg)](LICENSE)
 [![Protocol: experimental](https://img.shields.io/badge/protocol-experimental-8b5cf6.svg)](docs/versioning.md)
 
+**Outros idiomas:** [English](README.md) · [Русский](README.ru.md) · [简体中文](README.zh-CN.md) · [日本語](README.ja.md) · [हिन्दी](README.hi.md) · [Deutsch](README.de.md) · [Français](README.fr.md) · [Español](README.es.md)
+
+---
+
 Machine Genome é um protocolo aberto de identidade e procedência para modelos,
 agentes, harnesses, conjuntos de dados e artefatos que os conectam. Cada registro
 de gênese imutável e assinado recebe um **Gene** com endereçamento por conteúdo.
