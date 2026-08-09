@@ -25,14 +25,49 @@ mgs init-genesis \
   --name NAME \
   --namespace DNS_OR_DID \
   --subject-type agent \
+  --given-name Cody \
+  --created-date 2026-08-09 \
+  [--claims claims.json] \
   --version 1.0.0 \
   [--description TEXT] \
   [--timestamp RFC3339] \
   --out genesis.unsigned.json
 ```
 
-The generated record has empty parentage and artifact commitments. Add those
-fields before signing when needed.
+The generated 0.2.0 record has empty parentage and artifact commitments. Add
+those fields before signing when needed. `--given-name` defaults to `--name`
+for agents, and `--created-date` defaults to the genesis date. A claims file may
+provide signed discovery metadata:
+
+```json
+{
+  "capabilities": [
+    {"id": "software.go", "name": "Go engineering", "category": "software", "level": "expert"}
+  ],
+  "trainingData": [
+    {"stage": "runtime-learning", "name": "Approved runbooks", "disclosure": "summary"}
+  ]
+}
+```
+
+Model genesis uses the same file with a `model` object containing `provider`,
+`modelId`, optional `family`, and `foundation`.
+
+### `mgs seed-foundations`
+
+Convert a model catalog into signed, third-party foundation-model observations:
+
+```sh
+mgs seed-foundations \
+  --catalog records/foundation/models.json \
+  --key observer.key.json \
+  --timestamp 2026-08-09T18:00:00Z \
+  --out-dir foundation-seed
+```
+
+The output directory must not already exist. It contains one secured genesis
+per catalog entry and a manifest of exact Genes. The observer signs under its
+own DID namespace; this does not imply vendor endorsement.
 
 ### `mgs authorize-edge`
 

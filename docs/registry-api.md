@@ -29,6 +29,18 @@ on control endpoints.
 | `GET` | `/v1/log/consistency?firstSize=A&secondSize=B` | Return a consistency proof |
 | `GET` | `/` and `/genes/{gene}` | Plain-language explorer |
 
+MGS 0.2.0 genesis metadata adds `agentId`, the complete claimed `agentName`,
+given/family components, creation date, initial capability IDs, and foundation
+model provider/family/context fields. Search includes those values so another
+agent can discover a candidate by Agent ID, claimed name, model coordinate, or
+capability. Retrieve the canonical record before trusting or acting on a claim.
+The explorer presents a server-selected 24-record page, ordered newest first.
+Its directory can be filtered by Agent ID or name, subject type, foundation
+classification, provider, and exact capability ID. Page links retain the
+active filters. Detail pages group identity, capability, training-data, and
+lineage coordinates in an accessible identity-genome summary; all values remain
+controller-authored claims unless independently evidenced.
+
 Record submission uses `Content-Type: application/mgs+json` and is limited to
 1 MiB. A new record returns `201`; byte-identical resubmission returns `200`.
 Invalid proof, lineage, chain, subject, or namespace state returns a structured

@@ -1,0 +1,4635 @@
+{
+  "models": {
+    "o4-mini": {
+      "providers": [
+        "openai"
+      ],
+      "model_family": "o4",
+      "api_params": {
+        "max_tokens": true,
+        "temperature": false,
+        "top_p": false,
+        "stream": true
+      },
+      "features": {
+        "vision": true,
+        "tools": true,
+        "json_mode": true,
+        "system_prompt": false,
+        "reasoning": true
+      },
+      "token_costs": {
+        "input_cost": 1.1,
+        "cache_input_cost": 0.55,
+        "output_cost": 4.4,
+        "context_window": 200000,
+        "training_cutoff": "2024-10"
+      }
+    },
+    "o3": {
+      "providers": [
+        "openai"
+      ],
+      "model_family": "o3",
+      "api_params": {
+        "max_tokens": true,
+        "temperature": false,
+        "top_p": false,
+        "stream": true
+      },
+      "features": {
+        "vision": true,
+        "tools": true,
+        "json_mode": true,
+        "system_prompt": false,
+        "reasoning": true
+      },
+      "token_costs": {
+        "input_cost": 2.0,
+        "cache_input_cost": 0.5,
+        "output_cost": 8.0,
+        "context_window": 200000,
+        "training_cutoff": "2024-06"
+      }
+    },
+    "o3-mini": {
+      "providers": [
+        "openai"
+      ],
+      "model_family": "o3",
+      "api_params": {
+        "max_tokens": true,
+        "temperature": false,
+        "top_p": false,
+        "stream": true
+      },
+      "features": {
+        "vision": false,
+        "tools": true,
+        "json_mode": true,
+        "system_prompt": true,
+        "reasoning": true
+      },
+      "token_costs": {
+        "input_cost": 1.1,
+        "cache_input_cost": 0.55,
+        "output_cost": 4.4,
+        "context_window": 200000,
+        "training_cutoff": "2024-06"
+      }
+    },
+    "o1": {
+      "providers": [
+        "openai"
+      ],
+      "model_family": "o1",
+      "api_params": {
+        "max_tokens": true,
+        "temperature": false,
+        "top_p": false,
+        "stream": true
+      },
+      "features": {
+        "vision": true,
+        "tools": true,
+        "json_mode": true,
+        "system_prompt": false,
+        "reasoning": true
+      },
+      "token_costs": {
+        "input_cost": 10,
+        "cache_input_cost": 5.0,
+        "output_cost": 40,
+        "context_window": 200000,
+        "training_cutoff": "2023-10"
+      }
+    },
+    "gpt-4o": {
+      "providers": [
+        "openai",
+        "github"
+      ],
+      "model_family": "gpt-4",
+      "api_params": {
+        "max_tokens": true,
+        "temperature": true,
+        "top_p": true,
+        "stream": true
+      },
+      "features": {
+        "vision": true,
+        "tools": true,
+        "json_mode": true,
+        "system_prompt": true,
+        "reasoning": false
+      },
+      "token_costs": {
+        "input_cost": 2.5,
+        "cache_input_cost": 1.25,
+        "output_cost": 10,
+        "context_window": 128000,
+        "training_cutoff": "2023-10"
+      }
+    },
+    "gpt-4o-mini": {
+      "providers": [
+        "openai",
+        "github"
+      ],
+      "model_family": "gpt-4",
+      "api_params": {
+        "max_tokens": true,
+        "temperature": true,
+        "top_p": true,
+        "stream": true
+      },
+      "features": {
+        "vision": true,
+        "tools": true,
+        "json_mode": true,
+        "system_prompt": true,
+        "reasoning": false
+      },
+      "token_costs": {
+        "input_cost": 0.15,
+        "cache_input_cost": 0.075,
+        "output_cost": 0.6,
+        "context_window": 128000,
+        "training_cutoff": "2023-10"
+      }
+    },
+    "gpt-4-turbo": {
+      "providers": [
+        "openai"
+      ],
+      "model_family": "gpt-4",
+      "api_params": {
+        "max_tokens": true,
+        "temperature": true,
+        "top_p": true,
+        "stream": true
+      },
+      "features": {
+        "vision": true,
+        "tools": true,
+        "json_mode": true,
+        "system_prompt": true,
+        "reasoning": false
+      },
+      "token_costs": {
+        "input_cost": 10,
+        "cache_input_cost": 5,
+        "output_cost": 30,
+        "context_window": 128000,
+        "training_cutoff": "2024-07"
+      }
+    },
+    "gpt-4.1": {
+      "providers": [
+        "openai"
+      ],
+      "model_family": "gpt-4.1",
+      "api_params": {
+        "max_tokens": true,
+        "temperature": true,
+        "top_p": true,
+        "stream": true
+      },
+      "features": {
+        "vision": true,
+        "tools": true,
+        "json_mode": true,
+        "system_prompt": true,
+        "reasoning": false
+      },
+      "token_costs": {
+        "input_cost": 2.0,
+        "cache_input_cost": 0.5,
+        "output_cost": 8.0,
+        "context_window": 1000000,
+        "training_cutoff": "2025-04"
+      }
+    },
+    "gpt-4.1-mini": {
+      "providers": [
+        "openai"
+      ],
+      "model_family": "gpt-4.1",
+      "api_params": {
+        "max_tokens": true,
+        "temperature": true,
+        "top_p": true,
+        "stream": true
+      },
+      "features": {
+        "vision": true,
+        "tools": true,
+        "json_mode": true,
+        "system_prompt": true,
+        "reasoning": false
+      },
+      "token_costs": {
+        "input_cost": 0.4,
+        "cache_input_cost": 0.1,
+        "output_cost": 1.6,
+        "context_window": 1000000,
+        "training_cutoff": "2025-04"
+      }
+    },
+    "gpt-4.1-nano": {
+      "providers": [
+        "openai"
+      ],
+      "model_family": "gpt-4.1",
+      "api_params": {
+        "max_tokens": true,
+        "temperature": true,
+        "top_p": true,
+        "stream": true
+      },
+      "features": {
+        "vision": true,
+        "tools": true,
+        "json_mode": true,
+        "system_prompt": true,
+        "reasoning": false
+      },
+      "token_costs": {
+        "input_cost": 0.1,
+        "cache_input_cost": 0.025,
+        "output_cost": 0.4,
+        "context_window": 1000000,
+        "training_cutoff": "2025-04"
+      }
+    },
+    "gpt-5": {
+      "providers": [
+        "openai"
+      ],
+      "model_family": "gpt-5",
+      "api_params": {
+        "max_tokens": true,
+        "temperature": false,
+        "top_p": false,
+        "stream": true
+      },
+      "features": {
+        "vision": true,
+        "tools": true,
+        "json_mode": true,
+        "system_prompt": true,
+        "reasoning": false
+      },
+      "token_costs": {
+        "input_cost": 1.25,
+        "cache_input_cost": 0.125,
+        "output_cost": 10.0,
+        "context_window": 400000,
+        "training_cutoff": "2024-09"
+      }
+    },
+    "gpt-5-mini": {
+      "providers": [
+        "openai"
+      ],
+      "model_family": "gpt-5",
+      "api_params": {
+        "max_tokens": true,
+        "temperature": false,
+        "top_p": false,
+        "stream": true
+      },
+      "features": {
+        "vision": true,
+        "tools": true,
+        "json_mode": true,
+        "system_prompt": true,
+        "reasoning": false
+      },
+      "token_costs": {
+        "input_cost": 0.25,
+        "cache_input_cost": 0.025,
+        "output_cost": 2.0,
+        "context_window": 400000,
+        "training_cutoff": "2024-05"
+      }
+    },
+    "gpt-5-nano": {
+      "providers": [
+        "openai"
+      ],
+      "model_family": "gpt-5",
+      "api_params": {
+        "max_tokens": true,
+        "temperature": false,
+        "top_p": false,
+        "stream": true
+      },
+      "features": {
+        "vision": true,
+        "tools": true,
+        "json_mode": true,
+        "system_prompt": true,
+        "reasoning": false
+      },
+      "token_costs": {
+        "input_cost": 0.05,
+        "cache_input_cost": 0.005,
+        "output_cost": 0.4,
+        "context_window": 400000,
+        "training_cutoff": "2024-05"
+      }
+    },
+    "gpt-oss-120b": {
+      "providers": [
+        "openai"
+      ],
+      "model_family": "gpt-oss",
+      "api_params": {
+        "max_tokens": true,
+        "temperature": true,
+        "top_p": true,
+        "stream": true
+      },
+      "features": {
+        "vision": false,
+        "tools": true,
+        "json_mode": true,
+        "system_prompt": true,
+        "reasoning": false
+      },
+      "token_costs": {
+        "input_cost": 0.0,
+        "output_cost": 0.0,
+        "context_window": 128000,
+        "training_cutoff": "2024-07"
+      }
+    },
+    "gpt-oss-20b": {
+      "providers": [
+        "openai"
+      ],
+      "model_family": "gpt-oss",
+      "api_params": {
+        "max_tokens": true,
+        "temperature": true,
+        "top_p": true,
+        "stream": true
+      },
+      "features": {
+        "vision": false,
+        "tools": true,
+        "json_mode": true,
+        "system_prompt": true,
+        "reasoning": false
+      },
+      "token_costs": {
+        "input_cost": 0.0,
+        "output_cost": 0.0,
+        "context_window": 32000,
+        "training_cutoff": "2024-07"
+      }
+    },
+    "deepseek-r1": {
+      "providers": [
+        "deepseek"
+      ],
+      "model_family": "deepseek",
+      "api_params": {
+        "max_tokens": true,
+        "temperature": true,
+        "top_p": true,
+        "stream": true
+      },
+      "features": {
+        "vision": false,
+        "tools": true,
+        "json_mode": true,
+        "system_prompt": true,
+        "reasoning": true
+      },
+      "token_costs": {
+        "input_cost": 0.55,
+        "cache_input_cost": 0.14,
+        "output_cost": 2.19,
+        "context_window": 128000,
+        "training_cutoff": "2024-07"
+      }
+    },
+    "deepseek-r1-0528": {
+      "providers": [
+        "deepseek"
+      ],
+      "model_family": "deepseek",
+      "api_params": {
+        "max_tokens": true,
+        "temperature": true,
+        "top_p": true,
+        "stream": true
+      },
+      "features": {
+        "vision": false,
+        "tools": true,
+        "json_mode": true,
+        "system_prompt": true,
+        "reasoning": true
+      },
+      "token_costs": {
+        "input_cost": 0.55,
+        "cache_input_cost": 0.14,
+        "output_cost": 2.19,
+        "context_window": 128000,
+        "training_cutoff": "2024-12"
+      }
+    },
+    "phi-4": {
+      "providers": [
+        "github"
+      ],
+      "model_family": "phi-4",
+      "api_params": {
+        "max_tokens": true,
+        "temperature": true,
+        "top_p": true,
+        "stream": true
+      },
+      "features": {
+        "vision": false,
+        "tools": false,
+        "json_mode": true,
+        "system_prompt": true,
+        "reasoning": false
+      },
+      "token_costs": {
+        "input_cost": 0.0,
+        "cache_input_cost": 0.0,
+        "output_cost": 0,
+        "context_window": 16000,
+        "training_cutoff": "2024-06"
+      }
+    },
+    "phi-4-reasoning": {
+      "providers": [
+        "microsoft",
+        "github"
+      ],
+      "model_family": "phi-4",
+      "api_params": {
+        "max_tokens": true,
+        "temperature": true,
+        "top_p": true,
+        "stream": true
+      },
+      "features": {
+        "vision": false,
+        "tools": true,
+        "json_mode": true,
+        "system_prompt": true,
+        "reasoning": true
+      },
+      "token_costs": {
+        "input_cost": 0.0,
+        "cache_input_cost": 0.0,
+        "output_cost": 0,
+        "context_window": 32000,
+        "training_cutoff": "2024-06"
+      }
+    },
+    "phi-4-multimodal-instruct": {
+      "providers": [
+        "github"
+      ],
+      "model_family": "phi-4",
+      "api_params": {
+        "max_tokens": true,
+        "temperature": true,
+        "top_p": true,
+        "stream": true
+      },
+      "features": {
+        "vision": true,
+        "tools": true,
+        "json_mode": true,
+        "system_prompt": true,
+        "reasoning": false
+      },
+      "token_costs": {
+        "input_cost": 0.0,
+        "cache_input_cost": 0.0,
+        "output_cost": 0,
+        "context_window": 128000,
+        "training_cutoff": "2024-06"
+      }
+    },
+    "mistral-nemo": {
+      "providers": [
+        "ollama"
+      ],
+      "model_family": "mistral",
+      "api_params": {
+        "max_tokens": true,
+        "temperature": true,
+        "top_p": true,
+        "stream": true
+      },
+      "features": {
+        "vision": false,
+        "tools": true,
+        "json_mode": true,
+        "system_prompt": true,
+        "reasoning": false
+      },
+      "token_costs": {
+        "input_cost": 0.15,
+        "cache_input_cost": 0.075,
+        "output_cost": 0.15,
+        "context_window": 131000,
+        "training_cutoff": "2024-07"
+      }
+    },
+    "llama-3.3": {
+      "providers": [
+        "github",
+        "ollama"
+      ],
+      "model_family": "llama-3",
+      "api_params": {
+        "max_tokens": true,
+        "temperature": true,
+        "top_p": true,
+        "stream": true
+      },
+      "features": {
+        "vision": true,
+        "tools": true,
+        "json_mode": true,
+        "system_prompt": true,
+        "reasoning": false
+      },
+      "token_costs": {
+        "input_cost": 0.0,
+        "output_cost": 0.0,
+        "context_window": 128000,
+        "training_cutoff": "2024-03"
+      }
+    },
+    "qwen2.5-coder": {
+      "providers": [
+        "ollama"
+      ],
+      "model_family": "qwen2.5",
+      "api_params": {
+        "max_tokens": true,
+        "temperature": true,
+        "top_p": true,
+        "stream": true
+      },
+      "features": {
+        "vision": true,
+        "tools": true,
+        "json_mode": true,
+        "system_prompt": true,
+        "reasoning": false
+      },
+      "token_costs": {
+        "input_cost": 0.0,
+        "output_cost": 0.0,
+        "context_window": 128000,
+        "training_cutoff": "2024-03"
+      }
+    },
+    "mistral-large-2": {
+      "providers": [
+        "mistral"
+      ],
+      "model_family": "mistral",
+      "api_params": {
+        "max_tokens": true,
+        "temperature": true,
+        "top_p": true,
+        "stream": true
+      },
+      "features": {
+        "vision": true,
+        "tools": true,
+        "json_mode": true,
+        "system_prompt": true,
+        "reasoning": false
+      },
+      "token_costs": {
+        "input_cost": 2.5,
+        "output_cost": 7.5,
+        "context_window": 128000,
+        "training_cutoff": "2024-07"
+      }
+    },
+    "pixtral-large": {
+      "providers": [
+        "mistral"
+      ],
+      "model_family": "pixtral",
+      "api_params": {
+        "max_tokens": true,
+        "temperature": true,
+        "top_p": true,
+        "stream": true
+      },
+      "features": {
+        "vision": true,
+        "tools": true,
+        "json_mode": true,
+        "system_prompt": true,
+        "reasoning": false
+      },
+      "token_costs": {
+        "input_cost": 2.0,
+        "output_cost": 6.0,
+        "context_window": 128000,
+        "training_cutoff": "2024-11"
+      }
+    },
+    "mistral-medium-3": {
+      "providers": [
+        "mistral"
+      ],
+      "model_family": "mistral",
+      "api_params": {
+        "max_tokens": true,
+        "temperature": true,
+        "top_p": true,
+        "stream": true
+      },
+      "features": {
+        "vision": true,
+        "tools": true,
+        "json_mode": true,
+        "system_prompt": true,
+        "reasoning": false
+      },
+      "token_costs": {
+        "input_cost": 0.4,
+        "output_cost": 2.0,
+        "context_window": 128000,
+        "training_cutoff": "2025-02"
+      }
+    },
+    "mistral-medium-3-5": {
+      "providers": [
+        "mistral"
+      ],
+      "model_family": "mistral",
+      "api_params": {
+        "max_tokens": true,
+        "temperature": true,
+        "top_p": true,
+        "stream": true
+      },
+      "features": {
+        "vision": true,
+        "tools": true,
+        "json_mode": true,
+        "system_prompt": true,
+        "reasoning": false
+      },
+      "token_costs": {
+        "input_cost": 1.5,
+        "output_cost": 7.5,
+        "context_window": 256000,
+        "training_cutoff": "2026-04"
+      }
+    },
+    "codestral-latest": {
+      "providers": [
+        "mistral"
+      ],
+      "model_family": "codestral",
+      "api_params": {
+        "max_tokens": true,
+        "temperature": true,
+        "top_p": true,
+        "stream": true
+      },
+      "features": {
+        "vision": false,
+        "tools": true,
+        "json_mode": true,
+        "system_prompt": true,
+        "reasoning": false
+      },
+      "token_costs": {
+        "input_cost": 0.2,
+        "output_cost": 0.6,
+        "context_window": 256000,
+        "training_cutoff": "2025-01"
+      }
+    },
+    "mistral-small-v3.1": {
+      "providers": [
+        "mistral"
+      ],
+      "model_family": "mistral",
+      "api_params": {
+        "max_tokens": true,
+        "temperature": true,
+        "top_p": true,
+        "stream": true
+      },
+      "features": {
+        "vision": true,
+        "tools": true,
+        "json_mode": true,
+        "system_prompt": true,
+        "reasoning": false
+      },
+      "token_costs": {
+        "input_cost": 0.2,
+        "output_cost": 0.6,
+        "context_window": 128000,
+        "training_cutoff": "2025-03"
+      }
+    },
+    "llama-3.1-70b": {
+      "providers": [
+        "meta"
+      ],
+      "model_family": "llama-3.1",
+      "api_params": {
+        "max_tokens": true,
+        "temperature": true,
+        "top_p": true,
+        "stream": true
+      },
+      "features": {
+        "vision": true,
+        "tools": true,
+        "json_mode": true,
+        "system_prompt": true,
+        "reasoning": false
+      },
+      "token_costs": {
+        "input_cost": 0.0,
+        "output_cost": 0.0,
+        "context_window": 128000,
+        "training_cutoff": "2024-06"
+      }
+    },
+    "gemini-3-pro": {
+      "providers": [
+        "google"
+      ],
+      "model_family": "gemini-3",
+      "api_params": {
+        "max_tokens": true,
+        "temperature": true,
+        "top_p": true,
+        "stream": true
+      },
+      "features": {
+        "vision": true,
+        "tools": true,
+        "json_mode": true,
+        "system_prompt": true,
+        "reasoning": false
+      },
+      "token_costs": {
+        "input_cost": 2.0,
+        "cache_input_cost": 0.5,
+        "output_cost": 12.0,
+        "cache_output_cost": 3.0,
+        "context_window": 1000000,
+        "training_cutoff": "2025-11"
+      }
+    },
+    "gemini-3.1-pro": {
+      "providers": [
+        "google"
+      ],
+      "model_family": "gemini-3.1",
+      "api_params": {
+        "max_tokens": true,
+        "temperature": true,
+        "top_p": true,
+        "stream": true
+      },
+      "features": {
+        "vision": true,
+        "tools": true,
+        "json_mode": true,
+        "system_prompt": true,
+        "reasoning": true
+      },
+      "token_costs": {
+        "input_cost": 2.0,
+        "cache_input_cost": 0.2,
+        "output_cost": 12.0,
+        "context_window": 2000000,
+        "training_cutoff": "2026-02"
+      },
+      "pricing_dimensions": [
+        {
+          "name": "prompt_input_tokens_upto_200k",
+          "modality": "text",
+          "direction": "input",
+          "unit": "per_1m_tokens",
+          "price_usd": 2.0
+        },
+        {
+          "name": "prompt_cache_input_tokens_upto_200k",
+          "modality": "text",
+          "direction": "cache_input",
+          "unit": "per_1m_tokens",
+          "price_usd": 0.2
+        },
+        {
+          "name": "prompt_output_tokens_upto_200k",
+          "modality": "text",
+          "direction": "output",
+          "unit": "per_1m_tokens",
+          "price_usd": 12.0
+        },
+        {
+          "name": "prompt_input_tokens_over_200k",
+          "modality": "text",
+          "direction": "input",
+          "unit": "per_1m_tokens",
+          "price_usd": 4.0
+        },
+        {
+          "name": "prompt_cache_input_tokens_over_200k",
+          "modality": "text",
+          "direction": "cache_input",
+          "unit": "per_1m_tokens",
+          "price_usd": 0.4
+        },
+        {
+          "name": "prompt_output_tokens_over_200k",
+          "modality": "text",
+          "direction": "output",
+          "unit": "per_1m_tokens",
+          "price_usd": 18.0
+        }
+      ]
+    },
+    "gemini-3.1-pro-preview": {
+      "providers": [
+        "google"
+      ],
+      "model_family": "gemini-3.1",
+      "api_params": {
+        "max_tokens": true,
+        "temperature": true,
+        "top_p": true,
+        "stream": true
+      },
+      "features": {
+        "vision": true,
+        "tools": true,
+        "json_mode": true,
+        "system_prompt": true,
+        "reasoning": true
+      },
+      "token_costs": {
+        "input_cost": 2.0,
+        "cache_input_cost": 0.2,
+        "output_cost": 12.0,
+        "context_window": 2000000,
+        "training_cutoff": "2026-02"
+      },
+      "pricing_dimensions": [
+        {
+          "name": "prompt_input_tokens_upto_200k",
+          "modality": "text",
+          "direction": "input",
+          "unit": "per_1m_tokens",
+          "price_usd": 2.0
+        },
+        {
+          "name": "prompt_cache_input_tokens_upto_200k",
+          "modality": "text",
+          "direction": "cache_input",
+          "unit": "per_1m_tokens",
+          "price_usd": 0.2
+        },
+        {
+          "name": "prompt_output_tokens_upto_200k",
+          "modality": "text",
+          "direction": "output",
+          "unit": "per_1m_tokens",
+          "price_usd": 12.0
+        },
+        {
+          "name": "prompt_input_tokens_over_200k",
+          "modality": "text",
+          "direction": "input",
+          "unit": "per_1m_tokens",
+          "price_usd": 4.0
+        },
+        {
+          "name": "prompt_cache_input_tokens_over_200k",
+          "modality": "text",
+          "direction": "cache_input",
+          "unit": "per_1m_tokens",
+          "price_usd": 0.4
+        },
+        {
+          "name": "prompt_output_tokens_over_200k",
+          "modality": "text",
+          "direction": "output",
+          "unit": "per_1m_tokens",
+          "price_usd": 18.0
+        }
+      ]
+    },
+    "gemini-3.1-pro-preview-customtools": {
+      "providers": [
+        "google"
+      ],
+      "model_family": "gemini-3.1",
+      "api_params": {
+        "max_tokens": true,
+        "temperature": true,
+        "top_p": true,
+        "stream": true
+      },
+      "features": {
+        "vision": true,
+        "tools": true,
+        "json_mode": true,
+        "system_prompt": true,
+        "reasoning": true
+      },
+      "token_costs": {
+        "input_cost": 2.0,
+        "cache_input_cost": 0.2,
+        "output_cost": 12.0,
+        "context_window": 2000000,
+        "training_cutoff": "2026-02"
+      },
+      "pricing_dimensions": [
+        {
+          "name": "prompt_input_tokens_upto_200k",
+          "modality": "text",
+          "direction": "input",
+          "unit": "per_1m_tokens",
+          "price_usd": 2.0
+        },
+        {
+          "name": "prompt_cache_input_tokens_upto_200k",
+          "modality": "text",
+          "direction": "cache_input",
+          "unit": "per_1m_tokens",
+          "price_usd": 0.2
+        },
+        {
+          "name": "prompt_output_tokens_upto_200k",
+          "modality": "text",
+          "direction": "output",
+          "unit": "per_1m_tokens",
+          "price_usd": 12.0
+        },
+        {
+          "name": "prompt_input_tokens_over_200k",
+          "modality": "text",
+          "direction": "input",
+          "unit": "per_1m_tokens",
+          "price_usd": 4.0
+        },
+        {
+          "name": "prompt_cache_input_tokens_over_200k",
+          "modality": "text",
+          "direction": "cache_input",
+          "unit": "per_1m_tokens",
+          "price_usd": 0.4
+        },
+        {
+          "name": "prompt_output_tokens_over_200k",
+          "modality": "text",
+          "direction": "output",
+          "unit": "per_1m_tokens",
+          "price_usd": 18.0
+        }
+      ]
+    },
+    "gemini-3.5-flash": {
+      "providers": [
+        "google"
+      ],
+      "model_family": "gemini-3.5",
+      "api_params": {
+        "max_tokens": true,
+        "temperature": true,
+        "top_p": true,
+        "stream": true
+      },
+      "features": {
+        "vision": true,
+        "tools": true,
+        "json_mode": true,
+        "system_prompt": true,
+        "reasoning": true
+      },
+      "token_costs": {
+        "input_cost": 0.75,
+        "cache_input_cost": 0.075,
+        "output_cost": 4.5,
+        "context_window": 1048576,
+        "training_cutoff": "2026-05"
+      }
+    },
+    "gemini-2.5-pro": {
+      "providers": [
+        "google"
+      ],
+      "model_family": "gemini-2.5",
+      "api_params": {
+        "max_tokens": true,
+        "temperature": true,
+        "top_p": true,
+        "stream": true
+      },
+      "features": {
+        "vision": true,
+        "tools": true,
+        "json_mode": true,
+        "system_prompt": true,
+        "reasoning": false
+      },
+      "token_costs": {
+        "input_cost": 1.25,
+        "cache_input_cost": 0.31,
+        "output_cost": 10.0,
+        "cache_output_cost": 2.5,
+        "context_window": 1000000,
+        "training_cutoff": "2025-01"
+      }
+    },
+    "gemini-2.5-flash": {
+      "providers": [
+        "google"
+      ],
+      "model_family": "gemini-2.5",
+      "api_params": {
+        "max_tokens": true,
+        "temperature": true,
+        "top_p": true,
+        "stream": true
+      },
+      "features": {
+        "vision": true,
+        "tools": true,
+        "json_mode": true,
+        "system_prompt": true,
+        "reasoning": false
+      },
+      "token_costs": {
+        "input_cost": 0.3,
+        "cache_input_cost": 0.075,
+        "output_cost": 2.5,
+        "cache_output_cost": 0.625,
+        "context_window": 1000000,
+        "training_cutoff": "2025-01"
+      }
+    },
+    "gemma-2-27b": {
+      "providers": [
+        "google"
+      ],
+      "model_family": "gemma-2",
+      "api_params": {
+        "max_tokens": true,
+        "temperature": true,
+        "top_p": true,
+        "stream": true
+      },
+      "features": {
+        "vision": true,
+        "tools": true,
+        "json_mode": true,
+        "system_prompt": true,
+        "reasoning": false
+      },
+      "token_costs": {
+        "input_cost": 0.0,
+        "output_cost": 0.0,
+        "context_window": 8192,
+        "training_cutoff": "2024-06"
+      }
+    },
+    "qwen-2.5-max": {
+      "providers": [
+        "alibaba"
+      ],
+      "model_family": "qwen-2.5",
+      "api_params": {
+        "max_tokens": true,
+        "temperature": true,
+        "top_p": true,
+        "stream": true
+      },
+      "features": {
+        "vision": true,
+        "tools": true,
+        "json_mode": true,
+        "system_prompt": true,
+        "reasoning": false
+      },
+      "token_costs": {
+        "input_cost": 0.0,
+        "output_cost": 0.0,
+        "context_window": 128000,
+        "training_cutoff": "2023-12"
+      }
+    },
+    "mistral-saba-latest": {
+      "providers": [
+        "mistral"
+      ],
+      "model_family": "mistral-saba",
+      "api_params": {
+        "max_tokens": true,
+        "temperature": true,
+        "top_p": true,
+        "stream": true
+      },
+      "features": {
+        "vision": false,
+        "tools": true,
+        "json_mode": true,
+        "system_prompt": true,
+        "reasoning": false
+      },
+      "token_costs": {
+        "input_cost": 0.1,
+        "output_cost": 0.3,
+        "context_window": 128000,
+        "training_cutoff": "2025-09"
+      }
+    },
+    "ministral-3b-latest": {
+      "providers": [
+        "mistral"
+      ],
+      "model_family": "ministral-3b",
+      "api_params": {
+        "max_tokens": true,
+        "temperature": true,
+        "top_p": true,
+        "stream": true
+      },
+      "features": {
+        "vision": false,
+        "tools": true,
+        "json_mode": true,
+        "system_prompt": true,
+        "reasoning": false
+      },
+      "token_costs": {
+        "input_cost": 0.1,
+        "output_cost": 0.1,
+        "context_window": 256000,
+        "training_cutoff": "2025-12"
+      }
+    },
+    "ministral-8b-latest": {
+      "providers": [
+        "mistral"
+      ],
+      "model_family": "ministral-8b",
+      "api_params": {
+        "max_tokens": true,
+        "temperature": true,
+        "top_p": true,
+        "stream": true
+      },
+      "features": {
+        "vision": false,
+        "tools": true,
+        "json_mode": true,
+        "system_prompt": true,
+        "reasoning": false
+      },
+      "token_costs": {
+        "input_cost": 0.15,
+        "output_cost": 0.15,
+        "context_window": 256000,
+        "training_cutoff": "2025-12"
+      }
+    },
+    "ministral-14b-latest": {
+      "providers": [
+        "mistral"
+      ],
+      "model_family": "ministral-14b",
+      "api_params": {
+        "max_tokens": true,
+        "temperature": true,
+        "top_p": true,
+        "stream": true
+      },
+      "features": {
+        "vision": false,
+        "tools": true,
+        "json_mode": true,
+        "system_prompt": true,
+        "reasoning": false
+      },
+      "token_costs": {
+        "input_cost": 0.2,
+        "output_cost": 0.2,
+        "context_window": 256000,
+        "training_cutoff": "2025-12"
+      }
+    },
+    "mistral-moderation-latest": {
+      "providers": [
+        "mistral"
+      ],
+      "model_family": "mistral-moderation",
+      "api_params": {
+        "max_tokens": true,
+        "temperature": false,
+        "top_p": false,
+        "stream": false
+      },
+      "features": {
+        "vision": false,
+        "tools": false,
+        "json_mode": true,
+        "system_prompt": false,
+        "reasoning": false
+      },
+      "token_costs": {
+        "input_cost": 0.0,
+        "output_cost": 0.0,
+        "context_window": 8000,
+        "training_cutoff": "2024-11"
+      }
+    },
+    "mistral-ocr-latest": {
+      "providers": [
+        "mistral"
+      ],
+      "model_family": "mistral-ocr",
+      "api_params": {
+        "max_tokens": true,
+        "temperature": false,
+        "top_p": false,
+        "stream": false
+      },
+      "features": {
+        "vision": true,
+        "tools": false,
+        "json_mode": true,
+        "system_prompt": false,
+        "reasoning": false
+      },
+      "token_costs": {
+        "input_cost": 0.0,
+        "output_cost": 0.0,
+        "context_window": 8000,
+        "training_cutoff": "2025-03"
+      }
+    },
+    "llama-4": {
+      "providers": [
+        "meta",
+        "ollama"
+      ],
+      "model_family": "llama-4",
+      "api_params": {
+        "max_tokens": true,
+        "temperature": true,
+        "top_p": true,
+        "stream": true
+      },
+      "features": {
+        "vision": true,
+        "tools": true,
+        "json_mode": true,
+        "system_prompt": true,
+        "reasoning": false
+      },
+      "token_costs": {
+        "input_cost": 0.0,
+        "output_cost": 0.0,
+        "context_window": 128000,
+        "training_cutoff": "2025-03"
+      }
+    },
+    "gemma3": {
+      "providers": [
+        "google",
+        "ollama"
+      ],
+      "model_family": "gemma3",
+      "api_params": {
+        "max_tokens": true,
+        "temperature": true,
+        "top_p": true,
+        "stream": true
+      },
+      "features": {
+        "vision": true,
+        "tools": true,
+        "json_mode": true,
+        "system_prompt": true,
+        "reasoning": false
+      },
+      "token_costs": {
+        "input_cost": 0.0,
+        "output_cost": 0.0,
+        "context_window": 128000,
+        "training_cutoff": null
+      }
+    },
+    "qwen3": {
+      "providers": [
+        "alibaba",
+        "ollama"
+      ],
+      "model_family": "qwen3",
+      "api_params": {
+        "max_tokens": true,
+        "temperature": true,
+        "top_p": true,
+        "stream": true
+      },
+      "features": {
+        "vision": true,
+        "tools": true,
+        "json_mode": true,
+        "system_prompt": true,
+        "reasoning": false
+      },
+      "token_costs": {
+        "input_cost": 0.0,
+        "output_cost": 0.0,
+        "context_window": 256000,
+        "training_cutoff": "2024-06"
+      }
+    },
+    "devstral": {
+      "providers": [
+        "ollama"
+      ],
+      "model_family": "devstral",
+      "api_params": {
+        "max_tokens": true,
+        "temperature": true,
+        "top_p": true,
+        "stream": true
+      },
+      "features": {
+        "vision": false,
+        "tools": true,
+        "json_mode": true,
+        "system_prompt": true,
+        "reasoning": false
+      },
+      "token_costs": {
+        "input_cost": 0.0,
+        "output_cost": 0.0,
+        "context_window": 128000,
+        "training_cutoff": null
+      }
+    },
+    "devstral-2": {
+      "providers": [
+        "mistral"
+      ],
+      "model_family": "devstral",
+      "api_params": {
+        "max_tokens": true,
+        "temperature": true,
+        "top_p": true,
+        "stream": true
+      },
+      "features": {
+        "vision": false,
+        "tools": true,
+        "json_mode": true,
+        "system_prompt": true,
+        "reasoning": false
+      },
+      "token_costs": {
+        "input_cost": 0.4,
+        "output_cost": 2.0,
+        "context_window": 256000,
+        "training_cutoff": "2025-12"
+      }
+    },
+    "qwen2.5vl": {
+      "providers": [
+        "ollama"
+      ],
+      "model_family": "qwen2.5vl",
+      "api_params": {
+        "max_tokens": true,
+        "temperature": true,
+        "top_p": true,
+        "stream": true
+      },
+      "features": {
+        "vision": true,
+        "tools": true,
+        "json_mode": true,
+        "system_prompt": true,
+        "reasoning": false
+      },
+      "token_costs": {
+        "input_cost": 0.0,
+        "output_cost": 0.0,
+        "context_window": 128000,
+        "training_cutoff": null
+      }
+    },
+    "grok-4-fast-reasoning": {
+      "providers": [
+        "xai"
+      ],
+      "model_family": "grok-4-fast",
+      "api_params": {
+        "max_tokens": true,
+        "temperature": true,
+        "top_p": true,
+        "stream": true
+      },
+      "features": {
+        "vision": true,
+        "tools": true,
+        "json_mode": true,
+        "system_prompt": true,
+        "reasoning": true
+      },
+      "token_costs": {
+        "input_cost": 0.2,
+        "output_cost": 0.5,
+        "context_window": 2000000,
+        "training_cutoff": "2024-11"
+      }
+    },
+    "grok-4-fast-non-reasoning": {
+      "providers": [
+        "xai"
+      ],
+      "model_family": "grok-4-fast",
+      "api_params": {
+        "max_tokens": true,
+        "temperature": true,
+        "top_p": true,
+        "stream": true
+      },
+      "features": {
+        "vision": true,
+        "tools": true,
+        "json_mode": true,
+        "system_prompt": true,
+        "reasoning": false
+      },
+      "token_costs": {
+        "input_cost": 0.2,
+        "output_cost": 0.5,
+        "context_window": 2000000,
+        "training_cutoff": "2024-11"
+      }
+    },
+    "grok-code-fast-1": {
+      "providers": [
+        "xai"
+      ],
+      "model_family": "grok-code-fast",
+      "api_params": {
+        "max_tokens": true,
+        "temperature": true,
+        "top_p": true,
+        "stream": true
+      },
+      "features": {
+        "vision": false,
+        "tools": true,
+        "json_mode": true,
+        "system_prompt": true,
+        "reasoning": false
+      },
+      "token_costs": {
+        "input_cost": 0.2,
+        "output_cost": 1.5,
+        "context_window": 256000,
+        "training_cutoff": "2024-11"
+      }
+    },
+    "grok-4": {
+      "providers": [
+        "xai"
+      ],
+      "model_family": "grok",
+      "api_params": {
+        "max_tokens": true,
+        "temperature": true,
+        "top_p": true,
+        "stream": true
+      },
+      "features": {
+        "vision": true,
+        "tools": true,
+        "json_mode": true,
+        "system_prompt": true,
+        "reasoning": false
+      },
+      "token_costs": {
+        "input_cost": 3.0,
+        "output_cost": 15.0,
+        "context_window": 256000,
+        "training_cutoff": "2024-11"
+      }
+    },
+    "grok-3": {
+      "providers": [
+        "xai"
+      ],
+      "model_family": "grok",
+      "api_params": {
+        "max_tokens": true,
+        "temperature": true,
+        "top_p": true,
+        "stream": true
+      },
+      "features": {
+        "vision": true,
+        "tools": true,
+        "json_mode": true,
+        "system_prompt": true,
+        "reasoning": false
+      },
+      "token_costs": {
+        "input_cost": 3.0,
+        "output_cost": 15.0,
+        "context_window": 128000,
+        "training_cutoff": "2024-11"
+      }
+    },
+    "grok-3-mini": {
+      "providers": [
+        "xai"
+      ],
+      "model_family": "grok",
+      "api_params": {
+        "max_tokens": true,
+        "temperature": true,
+        "top_p": true,
+        "stream": true
+      },
+      "features": {
+        "vision": false,
+        "tools": true,
+        "json_mode": true,
+        "system_prompt": true,
+        "reasoning": false
+      },
+      "token_costs": {
+        "input_cost": 0.3,
+        "output_cost": 0.5,
+        "context_window": 132000,
+        "training_cutoff": "2024-11"
+      }
+    },
+    "grok-2-image-1212": {
+      "providers": [
+        "xai"
+      ],
+      "model_family": "grok-2-image",
+      "api_params": {
+        "max_tokens": true,
+        "temperature": true,
+        "top_p": true,
+        "stream": true
+      },
+      "features": {
+        "vision": false,
+        "tools": false,
+        "json_mode": false,
+        "system_prompt": true,
+        "reasoning": false
+      },
+      "token_costs": {
+        "input_cost": 0.0,
+        "output_cost": 0.07,
+        "context_window": 131072,
+        "training_cutoff": "2024-11"
+      },
+      "modalities": {
+        "input": [
+          "text"
+        ],
+        "output": [
+          "image"
+        ]
+      },
+      "pricing_dimensions": [
+        {
+          "name": "image_output",
+          "modality": "image",
+          "direction": "output",
+          "unit": "per_image",
+          "price_usd": 0.07,
+          "notes": "Legacy registry mapping from provider-specific image pricing"
+        }
+      ]
+    },
+    "grok-2": {
+      "providers": [
+        "xai"
+      ],
+      "model_family": "grok",
+      "api_params": {
+        "max_tokens": true,
+        "temperature": true,
+        "top_p": true,
+        "stream": true
+      },
+      "features": {
+        "vision": true,
+        "tools": true,
+        "json_mode": true,
+        "system_prompt": true,
+        "reasoning": false
+      },
+      "token_costs": {
+        "input_cost": 2.0,
+        "output_cost": 10.0,
+        "context_window": 128000,
+        "training_cutoff": "2023-09"
+      }
+    },
+    "grok-1": {
+      "providers": [
+        "xai"
+      ],
+      "model_family": "grok",
+      "api_params": {
+        "max_tokens": true,
+        "temperature": true,
+        "top_p": true,
+        "stream": true
+      },
+      "features": {
+        "vision": false,
+        "tools": false,
+        "json_mode": false,
+        "system_prompt": true,
+        "reasoning": false
+      },
+      "token_costs": {
+        "input_cost": 1.0,
+        "output_cost": 3.0,
+        "context_window": 8192,
+        "training_cutoff": "2023-12"
+      }
+    },
+    "nova-pro": {
+      "providers": [
+        "amazon"
+      ],
+      "model_family": "nova",
+      "api_params": {
+        "max_tokens": true,
+        "temperature": true,
+        "top_p": true,
+        "stream": true
+      },
+      "features": {
+        "vision": true,
+        "tools": true,
+        "json_mode": true,
+        "system_prompt": true,
+        "reasoning": false
+      },
+      "token_costs": {
+        "input_cost": 0.08,
+        "output_cost": 0.32,
+        "context_window": 300000,
+        "training_cutoff": "2024-06"
+      }
+    },
+    "nova-lite": {
+      "providers": [
+        "amazon"
+      ],
+      "model_family": "nova",
+      "api_params": {
+        "max_tokens": true,
+        "temperature": true,
+        "top_p": true,
+        "stream": true
+      },
+      "features": {
+        "vision": true,
+        "tools": true,
+        "json_mode": true,
+        "system_prompt": true,
+        "reasoning": false
+      },
+      "token_costs": {
+        "input_cost": 0.06,
+        "output_cost": 0.24,
+        "context_window": 300000,
+        "training_cutoff": "2024-06"
+      }
+    },
+    "nova-micro": {
+      "providers": [
+        "amazon"
+      ],
+      "model_family": "nova",
+      "api_params": {
+        "max_tokens": true,
+        "temperature": true,
+        "top_p": true,
+        "stream": true
+      },
+      "features": {
+        "vision": false,
+        "tools": true,
+        "json_mode": true,
+        "system_prompt": true,
+        "reasoning": false
+      },
+      "token_costs": {
+        "input_cost": 0.035,
+        "output_cost": 0.14,
+        "context_window": 128000,
+        "training_cutoff": "2024-06"
+      }
+    },
+    "qwq": {
+      "providers": [
+        "ollama"
+      ],
+      "model_family": "qwen",
+      "api_params": {
+        "max_tokens": true,
+        "temperature": true,
+        "top_p": true,
+        "stream": true
+      },
+      "features": {
+        "vision": false,
+        "tools": true,
+        "json_mode": true,
+        "system_prompt": true,
+        "reasoning": true
+      },
+      "token_costs": {
+        "input_cost": 0.0,
+        "output_cost": 0.0,
+        "context_window": 131072,
+        "training_cutoff": "2024-12"
+      }
+    },
+    "gemma3n": {
+      "providers": [
+        "ollama"
+      ],
+      "model_family": "gemma3",
+      "api_params": {
+        "max_tokens": true,
+        "temperature": true,
+        "top_p": true,
+        "stream": true
+      },
+      "features": {
+        "vision": true,
+        "tools": true,
+        "json_mode": true,
+        "system_prompt": true,
+        "reasoning": false
+      },
+      "token_costs": {
+        "input_cost": 0.0,
+        "output_cost": 0.0,
+        "context_window": 32768,
+        "training_cutoff": "2024-12"
+      }
+    },
+    "magistral": {
+      "providers": [
+        "ollama"
+      ],
+      "model_family": "magistral",
+      "api_params": {
+        "max_tokens": true,
+        "temperature": true,
+        "top_p": true,
+        "stream": true
+      },
+      "features": {
+        "vision": false,
+        "tools": true,
+        "json_mode": true,
+        "system_prompt": true,
+        "reasoning": false
+      },
+      "token_costs": {
+        "input_cost": 0.0,
+        "output_cost": 0.0,
+        "context_window": 128000,
+        "training_cutoff": "2024-12"
+      }
+    },
+    "magistral-small": {
+      "providers": [
+        "mistral"
+      ],
+      "model_family": "magistral",
+      "api_params": {
+        "max_tokens": true,
+        "temperature": true,
+        "top_p": true,
+        "stream": true
+      },
+      "features": {
+        "vision": true,
+        "tools": true,
+        "json_mode": true,
+        "system_prompt": true,
+        "reasoning": false
+      },
+      "token_costs": {
+        "input_cost": 0.5,
+        "output_cost": 1.5,
+        "context_window": 128000,
+        "training_cutoff": "2025-06"
+      }
+    },
+    "magistral-medium": {
+      "providers": [
+        "mistral"
+      ],
+      "model_family": "mistral",
+      "api_params": {
+        "max_tokens": true,
+        "temperature": true,
+        "top_p": true,
+        "stream": true
+      },
+      "features": {
+        "vision": true,
+        "tools": true,
+        "json_mode": true,
+        "system_prompt": true,
+        "reasoning": true
+      },
+      "token_costs": {
+        "input_cost": 2.0,
+        "output_cost": 5.0,
+        "context_window": 131000,
+        "training_cutoff": "2025-06"
+      }
+    },
+    "gemini-2.5-flash-lite": {
+      "providers": [
+        "google"
+      ],
+      "model_family": "gemini-2.5",
+      "api_params": {
+        "max_tokens": true,
+        "temperature": true,
+        "top_p": true,
+        "stream": true
+      },
+      "features": {
+        "vision": true,
+        "tools": true,
+        "json_mode": true,
+        "system_prompt": true,
+        "reasoning": false
+      },
+      "token_costs": {
+        "input_cost": 0.1,
+        "cache_input_cost": 0.025,
+        "output_cost": 0.4,
+        "cache_output_cost": 0.1,
+        "context_window": 1000000,
+        "training_cutoff": "2025-05"
+      }
+    },
+    "gemini-2.5-flash-image": {
+      "providers": [
+        "google"
+      ],
+      "model_family": "gemini-2.5",
+      "api_params": {
+        "max_tokens": true,
+        "temperature": true,
+        "top_p": true,
+        "stream": true
+      },
+      "features": {
+        "vision": true,
+        "tools": false,
+        "json_mode": true,
+        "system_prompt": true,
+        "reasoning": false
+      },
+      "token_costs": {
+        "input_cost": 0.0,
+        "output_cost": 30.0,
+        "context_window": 128000,
+        "training_cutoff": "2025-08"
+      },
+      "modalities": {
+        "input": [
+          "text",
+          "image"
+        ],
+        "output": [
+          "image"
+        ]
+      },
+      "pricing_dimensions": [
+        {
+          "name": "image_output",
+          "modality": "image",
+          "direction": "output",
+          "unit": "per_image",
+          "price_usd": 30.0,
+          "notes": "Legacy registry mapping from provider-specific image pricing"
+        }
+      ]
+    },
+    "gpt-5.1": {
+      "providers": [
+        "openai"
+      ],
+      "model_family": "gpt-5.1",
+      "api_params": {
+        "max_tokens": true,
+        "temperature": true,
+        "top_p": true,
+        "stream": true
+      },
+      "features": {
+        "vision": true,
+        "tools": true,
+        "json_mode": true,
+        "system_prompt": true,
+        "reasoning": false
+      },
+      "token_costs": {
+        "input_cost": 1.25,
+        "cache_input_cost": 0.125,
+        "output_cost": 10.0,
+        "context_window": 272000,
+        "training_cutoff": "2025-09"
+      }
+    },
+    "gpt-5.2": {
+      "providers": [
+        "openai"
+      ],
+      "model_family": "gpt-5.2",
+      "api_params": {
+        "max_tokens": true,
+        "temperature": true,
+        "top_p": true,
+        "stream": true
+      },
+      "features": {
+        "vision": true,
+        "tools": true,
+        "json_mode": true,
+        "system_prompt": true,
+        "reasoning": false
+      },
+      "token_costs": {
+        "input_cost": 1.75,
+        "cache_input_cost": 0.175,
+        "output_cost": 14.0,
+        "context_window": 400000,
+        "training_cutoff": "2025-08"
+      }
+    },
+    "gpt-5.2-pro": {
+      "providers": [
+        "openai"
+      ],
+      "model_family": "gpt-5.2",
+      "api_params": {
+        "max_tokens": true,
+        "temperature": false,
+        "top_p": false,
+        "stream": true
+      },
+      "features": {
+        "vision": true,
+        "tools": true,
+        "json_mode": true,
+        "system_prompt": true,
+        "reasoning": false
+      },
+      "token_costs": {
+        "input_cost": 21.0,
+        "output_cost": 168.0,
+        "context_window": 400000,
+        "training_cutoff": "2025-08"
+      }
+    },
+    "gpt-5.4": {
+      "providers": [
+        "openai"
+      ],
+      "model_family": "gpt-5.4",
+      "api_params": {
+        "max_tokens": true,
+        "temperature": true,
+        "top_p": true,
+        "stream": true
+      },
+      "features": {
+        "vision": true,
+        "tools": true,
+        "json_mode": true,
+        "system_prompt": true,
+        "reasoning": true
+      },
+      "token_costs": {
+        "input_cost": 2.5,
+        "cache_input_cost": 0.25,
+        "output_cost": 15.0,
+        "context_window": 400000,
+        "training_cutoff": "2026-01"
+      }
+    },
+    "gpt-5.4-mini": {
+      "providers": [
+        "openai"
+      ],
+      "model_family": "gpt-5.4",
+      "api_params": {
+        "max_tokens": true,
+        "temperature": true,
+        "top_p": true,
+        "stream": true
+      },
+      "features": {
+        "vision": true,
+        "tools": true,
+        "json_mode": true,
+        "system_prompt": true,
+        "reasoning": true
+      },
+      "token_costs": {
+        "input_cost": 0.75,
+        "cache_input_cost": 0.075,
+        "output_cost": 4.5,
+        "context_window": 400000,
+        "training_cutoff": "2026-01"
+      }
+    },
+    "gpt-5.4-pro": {
+      "providers": [
+        "openai"
+      ],
+      "model_family": "gpt-5.4",
+      "api_params": {
+        "max_tokens": true,
+        "temperature": false,
+        "top_p": false,
+        "stream": true
+      },
+      "features": {
+        "vision": true,
+        "tools": true,
+        "json_mode": true,
+        "system_prompt": true,
+        "reasoning": true
+      },
+      "token_costs": {
+        "input_cost": 30.0,
+        "output_cost": 180.0,
+        "context_window": 400000,
+        "training_cutoff": "2026-01"
+      }
+    },
+    "gpt-5.5": {
+      "providers": [
+        "openai"
+      ],
+      "model_family": "gpt-5.5",
+      "api_params": {
+        "max_tokens": true,
+        "temperature": true,
+        "top_p": true,
+        "stream": true
+      },
+      "features": {
+        "vision": true,
+        "tools": true,
+        "json_mode": true,
+        "system_prompt": true,
+        "reasoning": true
+      },
+      "token_costs": {
+        "input_cost": 5.0,
+        "cache_input_cost": 0.5,
+        "output_cost": 30.0,
+        "context_window": 1050000,
+        "training_cutoff": "2025-12"
+      }
+    },
+    "gpt-5.5-pro": {
+      "providers": [
+        "openai"
+      ],
+      "model_family": "gpt-5.5",
+      "api_params": {
+        "max_tokens": true,
+        "temperature": false,
+        "top_p": false,
+        "stream": true
+      },
+      "features": {
+        "vision": true,
+        "tools": true,
+        "json_mode": true,
+        "system_prompt": true,
+        "reasoning": true
+      },
+      "token_costs": {
+        "input_cost": 30.0,
+        "output_cost": 180.0,
+        "context_window": 1050000,
+        "training_cutoff": "2025-12"
+      }
+    },
+    "claude-opus-4-5": {
+      "providers": [
+        "anthropic"
+      ],
+      "model_family": "claude-4.5",
+      "api_params": {
+        "max_tokens": true,
+        "temperature": true,
+        "top_p": true,
+        "stream": true
+      },
+      "features": {
+        "vision": true,
+        "tools": true,
+        "json_mode": true,
+        "system_prompt": true,
+        "reasoning": false
+      },
+      "token_costs": {
+        "input_cost": 5.0,
+        "cache_input_cost": 0.5,
+        "output_cost": 25.0,
+        "cache_output_cost": 6.25,
+        "context_window": 200000,
+        "training_cutoff": "2025-09"
+      }
+    },
+    "mistral-large-3": {
+      "providers": [
+        "mistral"
+      ],
+      "model_family": "mistral",
+      "api_params": {
+        "max_tokens": true,
+        "temperature": true,
+        "top_p": true,
+        "stream": true
+      },
+      "features": {
+        "vision": true,
+        "tools": true,
+        "json_mode": true,
+        "system_prompt": true,
+        "reasoning": false
+      },
+      "token_costs": {
+        "input_cost": 0.5,
+        "output_cost": 1.5,
+        "context_window": 128000,
+        "training_cutoff": "2024-11"
+      }
+    },
+    "deepseek-v3.2": {
+      "providers": [
+        "deepseek"
+      ],
+      "model_family": "deepseek",
+      "api_params": {
+        "max_tokens": true,
+        "temperature": true,
+        "top_p": true,
+        "stream": true
+      },
+      "features": {
+        "vision": false,
+        "tools": true,
+        "json_mode": true,
+        "system_prompt": true,
+        "reasoning": true
+      },
+      "token_costs": {
+        "input_cost": 0.28,
+        "cache_input_cost": 0.028,
+        "output_cost": 0.42,
+        "context_window": 128000,
+        "training_cutoff": "2025-10"
+      }
+    },
+    "grok-4-1-fast-reasoning": {
+      "providers": [
+        "xai"
+      ],
+      "model_family": "grok-4-1",
+      "api_params": {
+        "max_tokens": true,
+        "temperature": true,
+        "top_p": true,
+        "stream": true
+      },
+      "features": {
+        "vision": true,
+        "tools": true,
+        "json_mode": true,
+        "system_prompt": true,
+        "reasoning": true
+      },
+      "token_costs": {
+        "input_cost": 3.0,
+        "output_cost": 15.0,
+        "context_window": 256000,
+        "training_cutoff": "2025-09"
+      }
+    },
+    "grok-4-1-fast-non-reasoning": {
+      "providers": [
+        "xai"
+      ],
+      "model_family": "grok-4-1",
+      "api_params": {
+        "max_tokens": true,
+        "temperature": true,
+        "top_p": true,
+        "stream": true
+      },
+      "features": {
+        "vision": true,
+        "tools": true,
+        "json_mode": true,
+        "system_prompt": true,
+        "reasoning": false
+      },
+      "token_costs": {
+        "input_cost": 0.2,
+        "output_cost": 0.5,
+        "context_window": 2000000,
+        "training_cutoff": "2025-09"
+      }
+    },
+    "grok-4.3": {
+      "providers": [
+        "xai"
+      ],
+      "model_family": "grok-4.3",
+      "api_params": {
+        "max_tokens": true,
+        "temperature": true,
+        "top_p": true,
+        "stream": true
+      },
+      "features": {
+        "vision": true,
+        "tools": true,
+        "json_mode": true,
+        "system_prompt": true,
+        "reasoning": true
+      },
+      "token_costs": {
+        "input_cost": 1.25,
+        "cache_input_cost": 0.2,
+        "output_cost": 2.5,
+        "context_window": 1000000,
+        "training_cutoff": "2026-05"
+      }
+    },
+    "grok-4.3-latest": {
+      "providers": [
+        "xai"
+      ],
+      "model_family": "grok-4.3",
+      "api_params": {
+        "max_tokens": true,
+        "temperature": true,
+        "top_p": true,
+        "stream": true
+      },
+      "features": {
+        "vision": true,
+        "tools": true,
+        "json_mode": true,
+        "system_prompt": true,
+        "reasoning": true
+      },
+      "token_costs": {
+        "input_cost": 1.25,
+        "cache_input_cost": 0.2,
+        "output_cost": 2.5,
+        "context_window": 1000000,
+        "training_cutoff": "2026-05"
+      }
+    },
+    "grok-build-0.1": {
+      "providers": [
+        "xai"
+      ],
+      "model_family": "grok-build",
+      "api_params": {
+        "max_tokens": true,
+        "temperature": true,
+        "top_p": true,
+        "stream": true
+      },
+      "features": {
+        "vision": false,
+        "tools": true,
+        "json_mode": true,
+        "system_prompt": true,
+        "reasoning": false
+      },
+      "token_costs": {
+        "input_cost": 0.75,
+        "cache_input_cost": 0.075,
+        "output_cost": 2.0,
+        "context_window": 256000,
+        "training_cutoff": "2026-05"
+      }
+    },
+    "gpt-5-chat-latest": {
+      "providers": [
+        "openai"
+      ],
+      "model_family": "gpt-5",
+      "api_params": {
+        "max_tokens": true,
+        "temperature": true,
+        "top_p": true,
+        "stream": true
+      },
+      "features": {
+        "vision": true,
+        "tools": true,
+        "json_mode": true,
+        "system_prompt": true,
+        "reasoning": false
+      },
+      "token_costs": {
+        "input_cost": 1.25,
+        "cache_input_cost": 0.125,
+        "output_cost": 10.0,
+        "context_window": 400000,
+        "training_cutoff": "2024-09"
+      }
+    },
+    "gpt-5-pro": {
+      "providers": [
+        "openai"
+      ],
+      "model_family": "gpt-5",
+      "api_params": {
+        "max_tokens": true,
+        "temperature": false,
+        "top_p": false,
+        "stream": true
+      },
+      "features": {
+        "vision": true,
+        "tools": true,
+        "json_mode": true,
+        "system_prompt": true,
+        "reasoning": false
+      },
+      "token_costs": {
+        "input_cost": 15.0,
+        "cache_input_cost": 1.5,
+        "output_cost": 120.0,
+        "context_window": 400000,
+        "training_cutoff": "2025-01"
+      }
+    },
+    "gpt-5-codex": {
+      "providers": [
+        "openai"
+      ],
+      "model_family": "gpt-5-codex",
+      "api_params": {
+        "max_tokens": true,
+        "temperature": false,
+        "top_p": false,
+        "stream": true
+      },
+      "features": {
+        "vision": true,
+        "tools": true,
+        "json_mode": true,
+        "system_prompt": true,
+        "reasoning": false
+      },
+      "token_costs": {
+        "input_cost": 1.25,
+        "cache_input_cost": 0.125,
+        "output_cost": 10.0,
+        "context_window": 272000,
+        "training_cutoff": "2025-09"
+      }
+    },
+    "gpt-5.1-codex-mini": {
+      "providers": [
+        "openai"
+      ],
+      "model_family": "gpt-5-codex",
+      "api_params": {
+        "max_tokens": true,
+        "temperature": false,
+        "top_p": false,
+        "stream": true
+      },
+      "features": {
+        "vision": true,
+        "tools": true,
+        "json_mode": true,
+        "system_prompt": true,
+        "reasoning": false
+      },
+      "token_costs": {
+        "input_cost": 0.25,
+        "cache_input_cost": 0.025,
+        "output_cost": 2.0,
+        "context_window": 400000,
+        "training_cutoff": "2024-09"
+      }
+    },
+    "gpt-image-1": {
+      "providers": [
+        "openai"
+      ],
+      "model_family": "gpt-image",
+      "api_params": {
+        "max_tokens": false,
+        "temperature": false,
+        "top_p": false,
+        "stream": false
+      },
+      "features": {
+        "vision": true,
+        "tools": false,
+        "json_mode": false,
+        "system_prompt": false,
+        "reasoning": false
+      },
+      "modalities": {
+        "input": [
+          "text",
+          "image"
+        ],
+        "output": [
+          "image"
+        ]
+      },
+      "pricing_dimensions": [
+        {
+          "name": "text_input_tokens",
+          "modality": "text",
+          "direction": "input",
+          "unit": "per_1m_tokens",
+          "price_usd": 5.0
+        },
+        {
+          "name": "image_input_tokens",
+          "modality": "image",
+          "direction": "input",
+          "unit": "per_1m_tokens",
+          "price_usd": 10.0
+        },
+        {
+          "name": "image_input_tokens_cached",
+          "modality": "image",
+          "direction": "cache_input",
+          "unit": "per_1m_tokens",
+          "price_usd": 2.5
+        },
+        {
+          "name": "image_output_tokens",
+          "modality": "image",
+          "direction": "output",
+          "unit": "per_1m_tokens",
+          "price_usd": 40.0
+        }
+      ],
+      "token_costs": {
+        "input_cost": 5.0,
+        "cache_input_cost": 1.25,
+        "output_cost": 40.0,
+        "context_window": null,
+        "training_cutoff": null
+      }
+    },
+    "gpt-image-1-mini": {
+      "providers": [
+        "openai"
+      ],
+      "model_family": "gpt-image",
+      "api_params": {
+        "max_tokens": false,
+        "temperature": false,
+        "top_p": false,
+        "stream": false
+      },
+      "features": {
+        "vision": true,
+        "tools": false,
+        "json_mode": false,
+        "system_prompt": false,
+        "reasoning": false
+      },
+      "modalities": {
+        "input": [
+          "text",
+          "image"
+        ],
+        "output": [
+          "image"
+        ]
+      },
+      "pricing_dimensions": [
+        {
+          "name": "text_input_tokens",
+          "modality": "text",
+          "direction": "input",
+          "unit": "per_1m_tokens",
+          "price_usd": 2.0
+        },
+        {
+          "name": "text_input_tokens_cached",
+          "modality": "text",
+          "direction": "cache_input",
+          "unit": "per_1m_tokens",
+          "price_usd": 0.2
+        },
+        {
+          "name": "image_input_tokens",
+          "modality": "image",
+          "direction": "input",
+          "unit": "per_1m_tokens",
+          "price_usd": 2.5
+        },
+        {
+          "name": "image_input_tokens_cached",
+          "modality": "image",
+          "direction": "cache_input",
+          "unit": "per_1m_tokens",
+          "price_usd": 0.25
+        },
+        {
+          "name": "image_output_tokens",
+          "modality": "image",
+          "direction": "output",
+          "unit": "per_1m_tokens",
+          "price_usd": 8.0
+        }
+      ],
+      "token_costs": {
+        "input_cost": 2.0,
+        "cache_input_cost": 0.2,
+        "output_cost": 8.0,
+        "context_window": null,
+        "training_cutoff": null
+      }
+    },
+    "gpt-4o-transcribe": {
+      "providers": [
+        "openai"
+      ],
+      "model_family": "gpt-4o-transcribe",
+      "api_params": {
+        "max_tokens": false,
+        "temperature": true,
+        "top_p": false,
+        "stream": false
+      },
+      "features": {
+        "vision": false,
+        "tools": false,
+        "json_mode": false,
+        "system_prompt": false,
+        "reasoning": false
+      },
+      "modalities": {
+        "input": [
+          "audio"
+        ],
+        "output": [
+          "text"
+        ]
+      },
+      "pricing_dimensions": [
+        {
+          "name": "text_input_tokens",
+          "modality": "text",
+          "direction": "input",
+          "unit": "per_1m_tokens",
+          "price_usd": 2.5,
+          "notes": "Transcription text token pricing"
+        },
+        {
+          "name": "text_output_tokens",
+          "modality": "text",
+          "direction": "output",
+          "unit": "per_1m_tokens",
+          "price_usd": 10.0,
+          "notes": "Transcription text token pricing"
+        },
+        {
+          "name": "audio_input_tokens",
+          "modality": "audio",
+          "direction": "input",
+          "unit": "per_1m_tokens",
+          "price_usd": 6.0,
+          "notes": "Transcription audio token pricing"
+        }
+      ],
+      "token_costs": {
+        "input_cost": 2.5,
+        "output_cost": 10.0,
+        "context_window": 16000,
+        "training_cutoff": "2024-06"
+      }
+    },
+    "gpt-4o-mini-transcribe": {
+      "providers": [
+        "openai"
+      ],
+      "model_family": "gpt-4o-transcribe",
+      "api_params": {
+        "max_tokens": false,
+        "temperature": true,
+        "top_p": false,
+        "stream": false
+      },
+      "features": {
+        "vision": false,
+        "tools": false,
+        "json_mode": false,
+        "system_prompt": false,
+        "reasoning": false
+      },
+      "modalities": {
+        "input": [
+          "audio"
+        ],
+        "output": [
+          "text"
+        ]
+      },
+      "pricing_dimensions": [
+        {
+          "name": "text_input_tokens",
+          "modality": "text",
+          "direction": "input",
+          "unit": "per_1m_tokens",
+          "price_usd": 1.25,
+          "notes": "Transcription text token pricing"
+        },
+        {
+          "name": "text_output_tokens",
+          "modality": "text",
+          "direction": "output",
+          "unit": "per_1m_tokens",
+          "price_usd": 5.0,
+          "notes": "Transcription text token pricing"
+        },
+        {
+          "name": "audio_input_tokens",
+          "modality": "audio",
+          "direction": "input",
+          "unit": "per_1m_tokens",
+          "price_usd": 3.0,
+          "notes": "Transcription audio token pricing"
+        }
+      ],
+      "token_costs": {
+        "input_cost": 1.25,
+        "output_cost": 5.0,
+        "context_window": 16000,
+        "training_cutoff": "2024-06"
+      }
+    },
+    "gpt-4o-mini-tts": {
+      "providers": [
+        "openai"
+      ],
+      "model_family": "gpt-4o-tts",
+      "api_params": {
+        "max_tokens": false,
+        "temperature": false,
+        "top_p": false,
+        "stream": false
+      },
+      "features": {
+        "vision": false,
+        "tools": false,
+        "json_mode": false,
+        "system_prompt": false,
+        "reasoning": false
+      },
+      "modalities": {
+        "input": [
+          "text"
+        ],
+        "output": [
+          "audio"
+        ]
+      },
+      "pricing_dimensions": [
+        {
+          "name": "text_input_tokens",
+          "modality": "text",
+          "direction": "input",
+          "unit": "per_1m_tokens",
+          "price_usd": 0.6,
+          "notes": "TTS text token pricing"
+        },
+        {
+          "name": "audio_output_tokens",
+          "modality": "audio",
+          "direction": "output",
+          "unit": "per_1m_tokens",
+          "price_usd": 12.0,
+          "notes": "Generated audio token pricing"
+        }
+      ],
+      "token_costs": {
+        "input_cost": 0.6,
+        "output_cost": 12.0,
+        "context_window": null,
+        "training_cutoff": null
+      }
+    },
+    "claude-opus-4-1": {
+      "providers": [
+        "anthropic"
+      ],
+      "model_family": "claude-4.1",
+      "api_params": {
+        "max_tokens": true,
+        "temperature": true,
+        "top_p": true,
+        "stream": true
+      },
+      "features": {
+        "vision": true,
+        "tools": true,
+        "json_mode": true,
+        "system_prompt": true,
+        "reasoning": false
+      },
+      "token_costs": {
+        "input_cost": 15.0,
+        "cache_input_cost": 1.5,
+        "output_cost": 75.0,
+        "cache_output_cost": 18.75,
+        "context_window": 200000,
+        "training_cutoff": "2024-08"
+      }
+    },
+    "claude-opus-4-1-20250805": {
+      "providers": [
+        "anthropic"
+      ],
+      "model_family": "claude-4.1",
+      "api_params": {
+        "max_tokens": true,
+        "temperature": true,
+        "top_p": true,
+        "stream": true
+      },
+      "features": {
+        "vision": true,
+        "tools": true,
+        "json_mode": true,
+        "system_prompt": true,
+        "reasoning": false
+      },
+      "token_costs": {
+        "input_cost": 15.0,
+        "cache_input_cost": 1.5,
+        "output_cost": 75.0,
+        "cache_output_cost": 18.75,
+        "context_window": 200000,
+        "training_cutoff": "2024-08"
+      }
+    },
+    "claude-opus-4-5-20251101": {
+      "providers": [
+        "anthropic"
+      ],
+      "model_family": "claude-4.5",
+      "api_params": {
+        "max_tokens": true,
+        "temperature": true,
+        "top_p": true,
+        "stream": true
+      },
+      "features": {
+        "vision": true,
+        "tools": true,
+        "json_mode": true,
+        "system_prompt": true,
+        "reasoning": false
+      },
+      "token_costs": {
+        "input_cost": 5.0,
+        "cache_input_cost": 0.5,
+        "output_cost": 25.0,
+        "cache_output_cost": 6.25,
+        "context_window": 200000,
+        "training_cutoff": "2025-09"
+      }
+    },
+    "claude-sonnet-4-5": {
+      "providers": [
+        "anthropic"
+      ],
+      "model_family": "claude-4.5",
+      "api_params": {
+        "max_tokens": true,
+        "temperature": true,
+        "top_p": true,
+        "stream": true
+      },
+      "features": {
+        "vision": true,
+        "tools": true,
+        "json_mode": true,
+        "system_prompt": true,
+        "reasoning": false
+      },
+      "token_costs": {
+        "input_cost": 3.0,
+        "cache_input_cost": 0.3,
+        "output_cost": 15.0,
+        "cache_output_cost": 3.75,
+        "context_window": 200000,
+        "training_cutoff": "2025-07"
+      }
+    },
+    "claude-sonnet-4-5-20250929": {
+      "providers": [
+        "anthropic"
+      ],
+      "model_family": "claude-4.5",
+      "api_params": {
+        "max_tokens": true,
+        "temperature": true,
+        "top_p": true,
+        "stream": true
+      },
+      "features": {
+        "vision": true,
+        "tools": true,
+        "json_mode": true,
+        "system_prompt": true,
+        "reasoning": false
+      },
+      "token_costs": {
+        "input_cost": 3.0,
+        "cache_input_cost": 0.3,
+        "output_cost": 15.0,
+        "cache_output_cost": 3.75,
+        "context_window": 200000,
+        "training_cutoff": "2025-07"
+      }
+    },
+    "claude-haiku-4-5": {
+      "providers": [
+        "anthropic"
+      ],
+      "model_family": "claude-4.5",
+      "api_params": {
+        "max_tokens": true,
+        "temperature": true,
+        "top_p": true,
+        "stream": true
+      },
+      "features": {
+        "vision": true,
+        "tools": true,
+        "json_mode": true,
+        "system_prompt": true,
+        "reasoning": false
+      },
+      "token_costs": {
+        "input_cost": 1.0,
+        "cache_input_cost": 0.1,
+        "output_cost": 5.0,
+        "cache_output_cost": 1.25,
+        "context_window": 200000,
+        "training_cutoff": "2025-07"
+      }
+    },
+    "claude-haiku-4-5-20251001": {
+      "providers": [
+        "anthropic"
+      ],
+      "model_family": "claude-4.5",
+      "api_params": {
+        "max_tokens": true,
+        "temperature": true,
+        "top_p": true,
+        "stream": true
+      },
+      "features": {
+        "vision": true,
+        "tools": true,
+        "json_mode": true,
+        "system_prompt": true,
+        "reasoning": false
+      },
+      "token_costs": {
+        "input_cost": 1.0,
+        "cache_input_cost": 0.1,
+        "output_cost": 5.0,
+        "cache_output_cost": 1.25,
+        "context_window": 200000,
+        "training_cutoff": "2025-07"
+      }
+    },
+    "claude-sonnet-4-20250514": {
+      "providers": [
+        "anthropic"
+      ],
+      "model_family": "claude-4",
+      "api_params": {
+        "stream": true
+      },
+      "features": {
+        "vision": true,
+        "tools": true,
+        "json_mode": true,
+        "system_prompt": true,
+        "reasoning": false
+      },
+      "token_costs": {
+        "input_cost": 3.0,
+        "cache_input_cost": 0.3,
+        "output_cost": 15.0,
+        "cache_output_cost": 3.75,
+        "context_window": 200000,
+        "training_cutoff": "2025-03"
+      }
+    },
+    "claude-3-7-sonnet-20250219": {
+      "providers": [
+        "anthropic"
+      ],
+      "model_family": "claude-3.7",
+      "api_params": {
+        "stream": true
+      },
+      "features": {
+        "vision": true,
+        "tools": true,
+        "json_mode": true,
+        "system_prompt": true,
+        "reasoning": true
+      },
+      "token_costs": {
+        "input_cost": 3.0,
+        "cache_input_cost": 0.3,
+        "output_cost": 15.0,
+        "cache_output_cost": 3.75,
+        "context_window": 200000,
+        "training_cutoff": "2024-02"
+      }
+    },
+    "claude-3-5-haiku-20241022": {
+      "providers": [
+        "anthropic"
+      ],
+      "model_family": "claude-3.5",
+      "api_params": {
+        "stream": true
+      },
+      "features": {
+        "vision": true,
+        "tools": true,
+        "json_mode": true,
+        "system_prompt": true,
+        "reasoning": false
+      },
+      "token_costs": {
+        "input_cost": 0.8,
+        "cache_input_cost": 0.08,
+        "output_cost": 4.0,
+        "cache_output_cost": 1.0,
+        "context_window": 200000,
+        "training_cutoff": "2025-02"
+      }
+    },
+    "claude-opus-4-6": {
+      "providers": [
+        "anthropic"
+      ],
+      "model_family": "claude-4.6",
+      "api_params": {
+        "max_tokens": true,
+        "temperature": true,
+        "top_p": true,
+        "stream": true
+      },
+      "features": {
+        "vision": true,
+        "tools": true,
+        "json_mode": true,
+        "system_prompt": true,
+        "reasoning": true
+      },
+      "token_costs": {
+        "input_cost": 5.0,
+        "output_cost": 25.0,
+        "context_window": 1000000,
+        "training_cutoff": "2026-02"
+      }
+    },
+    "claude-opus-4-6-20260205": {
+      "providers": [
+        "anthropic"
+      ],
+      "model_family": "claude-4.6",
+      "api_params": {
+        "max_tokens": true,
+        "temperature": true,
+        "top_p": true,
+        "stream": true
+      },
+      "features": {
+        "vision": true,
+        "tools": true,
+        "json_mode": true,
+        "system_prompt": true,
+        "reasoning": false
+      },
+      "token_costs": {
+        "input_cost": 15.0,
+        "cache_input_cost": 1.5,
+        "output_cost": 75.0,
+        "cache_output_cost": 18.75,
+        "context_window": 200000,
+        "training_cutoff": "2026-02"
+      }
+    },
+    "claude-sonnet-4-6": {
+      "providers": [
+        "anthropic"
+      ],
+      "model_family": "claude-4.6",
+      "api_params": {
+        "max_tokens": true,
+        "temperature": true,
+        "top_p": true,
+        "stream": true
+      },
+      "features": {
+        "vision": true,
+        "tools": true,
+        "json_mode": true,
+        "system_prompt": true,
+        "reasoning": true
+      },
+      "token_costs": {
+        "input_cost": 3.0,
+        "output_cost": 15.0,
+        "context_window": 1000000,
+        "training_cutoff": "2026-02"
+      }
+    },
+    "claude-opus-4-7": {
+      "providers": [
+        "anthropic"
+      ],
+      "model_family": "claude-4.7",
+      "api_params": {
+        "max_tokens": true,
+        "temperature": true,
+        "top_p": true,
+        "stream": true
+      },
+      "features": {
+        "vision": true,
+        "tools": true,
+        "json_mode": true,
+        "system_prompt": true,
+        "reasoning": true
+      },
+      "token_costs": {
+        "input_cost": 5.0,
+        "cache_input_cost": 0.5,
+        "output_cost": 25.0,
+        "cache_output_cost": 6.25,
+        "context_window": 1000000,
+        "training_cutoff": "2026-01"
+      }
+    },
+    "claude-sonnet-4-7": {
+      "providers": [
+        "anthropic"
+      ],
+      "model_family": "claude-4.7",
+      "api_params": {
+        "max_tokens": true,
+        "temperature": true,
+        "top_p": true,
+        "stream": true
+      },
+      "features": {
+        "vision": true,
+        "tools": true,
+        "json_mode": true,
+        "system_prompt": true,
+        "reasoning": true
+      },
+      "token_costs": {
+        "input_cost": 3.0,
+        "cache_input_cost": 0.3,
+        "output_cost": 15.0,
+        "cache_output_cost": 3.75,
+        "context_window": 1000000,
+        "training_cutoff": "2026-01"
+      }
+    },
+    "claude-opus-4-8": {
+      "providers": [
+        "anthropic"
+      ],
+      "model_family": "claude-4.8",
+      "api_params": {
+        "max_tokens": true,
+        "temperature": true,
+        "top_p": true,
+        "stream": true
+      },
+      "features": {
+        "vision": true,
+        "tools": true,
+        "json_mode": true,
+        "system_prompt": true,
+        "reasoning": true
+      },
+      "token_costs": {
+        "input_cost": 5.0,
+        "cache_input_cost": 0.5,
+        "output_cost": 25.0,
+        "cache_output_cost": 6.25,
+        "context_window": 1000000,
+        "training_cutoff": "2026-05"
+      }
+    },
+    "kimi-k2.6": {
+      "providers": [
+        "kimi"
+      ],
+      "model_family": "kimi-k2.6",
+      "api_params": {
+        "max_tokens": true,
+        "temperature": false,
+        "top_p": false,
+        "stream": true
+      },
+      "features": {
+        "vision": true,
+        "tools": true,
+        "json_mode": true,
+        "system_prompt": true,
+        "reasoning": true
+      },
+      "modalities": {
+        "input": [
+          "text",
+          "image",
+          "video"
+        ],
+        "output": [
+          "text"
+        ]
+      },
+      "token_costs": {
+        "input_cost": 0.95,
+        "cache_input_cost": 0.16,
+        "output_cost": 4.0,
+        "context_window": 262144,
+        "training_cutoff": null
+      }
+    },
+    "kimi-k2.5": {
+      "providers": [
+        "kimi"
+      ],
+      "model_family": "kimi-k2.5",
+      "api_params": {
+        "max_tokens": true,
+        "temperature": false,
+        "top_p": false,
+        "stream": true
+      },
+      "features": {
+        "vision": true,
+        "tools": true,
+        "json_mode": true,
+        "system_prompt": true,
+        "reasoning": true
+      },
+      "modalities": {
+        "input": [
+          "text",
+          "image",
+          "video"
+        ],
+        "output": [
+          "text"
+        ]
+      },
+      "token_costs": {
+        "input_cost": 0.6,
+        "cache_input_cost": 0.1,
+        "output_cost": 3.0,
+        "context_window": 262144,
+        "training_cutoff": null
+      }
+    },
+    "kimi-latest": {
+      "providers": [
+        "kimi"
+      ],
+      "model_family": "kimi",
+      "api_params": {
+        "stream": true
+      },
+      "features": {
+        "vision": true,
+        "tools": true,
+        "json_mode": true,
+        "system_prompt": false,
+        "reasoning": false
+      }
+    },
+    "kimi-k2-thinking": {
+      "providers": [
+        "kimi"
+      ],
+      "model_family": "kimi-k2",
+      "api_params": {
+        "max_tokens": true,
+        "temperature": false,
+        "top_p": false,
+        "stream": true
+      },
+      "features": {
+        "vision": false,
+        "tools": true,
+        "json_mode": true,
+        "system_prompt": true,
+        "reasoning": true
+      },
+      "modalities": {
+        "input": [
+          "text"
+        ],
+        "output": [
+          "text"
+        ]
+      },
+      "token_costs": {
+        "input_cost": 0.6,
+        "cache_input_cost": 0.15,
+        "output_cost": 2.5,
+        "context_window": 262144,
+        "training_cutoff": null
+      }
+    },
+    "kimi-k2-thinking-turbo": {
+      "providers": [
+        "kimi"
+      ],
+      "model_family": "kimi-k2",
+      "api_params": {
+        "max_tokens": true,
+        "temperature": false,
+        "top_p": false,
+        "stream": true
+      },
+      "features": {
+        "vision": false,
+        "tools": true,
+        "json_mode": true,
+        "system_prompt": true,
+        "reasoning": true
+      },
+      "modalities": {
+        "input": [
+          "text"
+        ],
+        "output": [
+          "text"
+        ]
+      },
+      "token_costs": {
+        "input_cost": 1.15,
+        "cache_input_cost": 0.15,
+        "output_cost": 8.0,
+        "context_window": 262144,
+        "training_cutoff": null
+      }
+    },
+    "deepseek-chat": {
+      "providers": [
+        "deepseek"
+      ],
+      "model_family": "deepseek",
+      "api_params": {
+        "stream": true
+      },
+      "features": {
+        "vision": false,
+        "tools": true,
+        "json_mode": true,
+        "system_prompt": false,
+        "reasoning": false
+      },
+      "token_costs": {
+        "input_cost": 0.28,
+        "cache_input_cost": 0.028,
+        "output_cost": 0.42,
+        "context_window": 128000,
+        "training_cutoff": null
+      }
+    },
+    "deepseek-reasoner": {
+      "providers": [
+        "deepseek"
+      ],
+      "model_family": "deepseek",
+      "api_params": {
+        "stream": true
+      },
+      "features": {
+        "vision": false,
+        "tools": true,
+        "json_mode": true,
+        "system_prompt": false,
+        "reasoning": true
+      },
+      "token_costs": {
+        "input_cost": 0.14,
+        "cache_input_cost": 0.0028,
+        "output_cost": 0.28,
+        "context_window": 1000000,
+        "training_cutoff": "2026-06"
+      }
+    },
+    "deepseek-v4-pro": {
+      "providers": [
+        "deepseek"
+      ],
+      "model_family": "deepseek",
+      "api_params": {
+        "max_tokens": true,
+        "temperature": true,
+        "top_p": true,
+        "stream": true
+      },
+      "features": {
+        "vision": false,
+        "tools": true,
+        "json_mode": true,
+        "system_prompt": true,
+        "reasoning": true
+      },
+      "token_costs": {
+        "input_cost": 0.435,
+        "cache_input_cost": 0.003625,
+        "output_cost": 0.87,
+        "context_window": 1000000,
+        "training_cutoff": "2026-06"
+      }
+    },
+    "deepseek-v4-flash": {
+      "providers": [
+        "deepseek"
+      ],
+      "model_family": "deepseek",
+      "api_params": {
+        "max_tokens": true,
+        "temperature": true,
+        "top_p": true,
+        "stream": true
+      },
+      "features": {
+        "vision": true,
+        "tools": true,
+        "json_mode": true,
+        "system_prompt": true,
+        "reasoning": true
+      },
+      "token_costs": {
+        "input_cost": 0.14,
+        "cache_input_cost": 0.0028,
+        "output_cost": 0.28,
+        "context_window": 1000000,
+        "training_cutoff": "2026-04"
+      }
+    },
+    "grok-2-1212": {
+      "providers": [
+        "xai"
+      ],
+      "model_family": "grok-2",
+      "token_costs": {
+        "input_cost": 2.0,
+        "output_cost": 10.0,
+        "context_window": 131072,
+        "training_cutoff": null
+      },
+      "features": {
+        "reasoning": false
+      }
+    },
+    "grok-2-vision-1212": {
+      "providers": [
+        "xai"
+      ],
+      "model_family": "grok-2",
+      "features": {
+        "vision": true,
+        "tools": false,
+        "json_mode": false,
+        "system_prompt": false,
+        "reasoning": false
+      },
+      "token_costs": {
+        "input_cost": 2.0,
+        "output_cost": 10.0,
+        "context_window": 131072,
+        "training_cutoff": null
+      }
+    },
+    "grok-beta": {
+      "providers": [
+        "xai"
+      ],
+      "model_family": "grok-beta",
+      "features": {
+        "reasoning": false
+      }
+    },
+    "grok-vision-beta": {
+      "providers": [
+        "xai"
+      ],
+      "model_family": "grok-beta",
+      "features": {
+        "vision": true,
+        "reasoning": false
+      }
+    },
+    "grok-4-0709": {
+      "providers": [
+        "xai"
+      ],
+      "model_family": "grok-4",
+      "token_costs": {
+        "input_cost": 3.0,
+        "cache_input_cost": 0.75,
+        "output_cost": 15.0,
+        "context_window": 256000,
+        "training_cutoff": null
+      },
+      "features": {
+        "reasoning": false
+      }
+    },
+    "nova-2-lite": {
+      "providers": [
+        "amazon"
+      ],
+      "model_family": "nova-2",
+      "features": {
+        "reasoning": false
+      }
+    },
+    "nova-2-sonic": {
+      "providers": [
+        "amazon"
+      ],
+      "model_family": "nova-2",
+      "modalities": {
+        "input": [
+          "text",
+          "audio"
+        ],
+        "output": [
+          "text",
+          "audio"
+        ]
+      },
+      "features": {
+        "reasoning": false
+      }
+    },
+    "nova-canvas": {
+      "providers": [
+        "amazon"
+      ],
+      "model_family": "nova",
+      "modalities": {
+        "input": [
+          "text",
+          "image"
+        ],
+        "output": [
+          "image"
+        ]
+      },
+      "features": {
+        "reasoning": false
+      }
+    },
+    "nova-premier": {
+      "providers": [
+        "amazon"
+      ],
+      "model_family": "nova",
+      "features": {
+        "reasoning": false
+      }
+    },
+    "nova-reel": {
+      "providers": [
+        "amazon"
+      ],
+      "model_family": "nova",
+      "modalities": {
+        "input": [
+          "text",
+          "image"
+        ],
+        "output": [
+          "video"
+        ]
+      },
+      "features": {
+        "reasoning": false
+      }
+    },
+    "nova-sonic": {
+      "providers": [
+        "amazon"
+      ],
+      "model_family": "nova",
+      "modalities": {
+        "input": [
+          "text",
+          "audio"
+        ],
+        "output": [
+          "text",
+          "audio"
+        ]
+      },
+      "features": {
+        "reasoning": false
+      }
+    },
+    "qwen-flash": {
+      "providers": [
+        "alibaba"
+      ],
+      "model_family": "qwen",
+      "token_costs": {
+        "input_cost": 0.05,
+        "cache_input_cost": 0.025,
+        "output_cost": 0.4,
+        "context_window": 1000000,
+        "training_cutoff": "2023-12"
+      },
+      "features": {
+        "reasoning": false
+      }
+    },
+    "qwen-plus": {
+      "providers": [
+        "alibaba"
+      ],
+      "model_family": "qwen",
+      "token_costs": {
+        "input_cost": 0.4,
+        "cache_input_cost": 0.08,
+        "output_cost": 1.2,
+        "context_window": null,
+        "training_cutoff": null
+      },
+      "pricing_dimensions": [
+        {
+          "name": "non_thinking_input_tokens_upto_32k",
+          "modality": "text",
+          "direction": "input",
+          "unit": "per_1m_tokens",
+          "price_usd": 0.4
+        },
+        {
+          "name": "non_thinking_cache_input_tokens_upto_32k",
+          "modality": "text",
+          "direction": "cache_input",
+          "unit": "per_1m_tokens",
+          "price_usd": 0.08
+        },
+        {
+          "name": "non_thinking_output_tokens_upto_32k",
+          "modality": "text",
+          "direction": "output",
+          "unit": "per_1m_tokens",
+          "price_usd": 1.2
+        },
+        {
+          "name": "non_thinking_input_tokens_32k_to_128k",
+          "modality": "text",
+          "direction": "input",
+          "unit": "per_1m_tokens",
+          "price_usd": 0.8
+        },
+        {
+          "name": "non_thinking_cache_input_tokens_32k_to_128k",
+          "modality": "text",
+          "direction": "cache_input",
+          "unit": "per_1m_tokens",
+          "price_usd": 0.16
+        },
+        {
+          "name": "non_thinking_output_tokens_32k_to_128k",
+          "modality": "text",
+          "direction": "output",
+          "unit": "per_1m_tokens",
+          "price_usd": 2.4
+        },
+        {
+          "name": "thinking_input_tokens_upto_32k",
+          "modality": "text",
+          "direction": "input",
+          "unit": "per_1m_tokens",
+          "price_usd": 1.6
+        },
+        {
+          "name": "thinking_cache_input_tokens_upto_32k",
+          "modality": "text",
+          "direction": "cache_input",
+          "unit": "per_1m_tokens",
+          "price_usd": 0.32
+        },
+        {
+          "name": "thinking_output_tokens_upto_32k",
+          "modality": "text",
+          "direction": "output",
+          "unit": "per_1m_tokens",
+          "price_usd": 6.4
+        },
+        {
+          "name": "thinking_input_tokens_32k_to_128k",
+          "modality": "text",
+          "direction": "input",
+          "unit": "per_1m_tokens",
+          "price_usd": 3.2
+        },
+        {
+          "name": "thinking_cache_input_tokens_32k_to_128k",
+          "modality": "text",
+          "direction": "cache_input",
+          "unit": "per_1m_tokens",
+          "price_usd": 0.64
+        },
+        {
+          "name": "thinking_output_tokens_32k_to_128k",
+          "modality": "text",
+          "direction": "output",
+          "unit": "per_1m_tokens",
+          "price_usd": 12.8
+        }
+      ],
+      "features": {
+        "reasoning": false
+      }
+    },
+    "qwen-3.6-plus": {
+      "providers": [
+        "alibaba"
+      ],
+      "model_family": "qwen-3.6",
+      "api_params": {
+        "max_tokens": true,
+        "temperature": true,
+        "top_p": true,
+        "stream": true
+      },
+      "features": {
+        "vision": true,
+        "tools": true,
+        "json_mode": true,
+        "system_prompt": true,
+        "reasoning": false
+      },
+      "token_costs": {
+        "input_cost": 0.5,
+        "output_cost": 3.0,
+        "context_window": 1000000,
+        "training_cutoff": "2025-12"
+      }
+    },
+    "qwen-3.6-max-preview": {
+      "providers": [
+        "alibaba"
+      ],
+      "model_family": "qwen-3.6",
+      "api_params": {
+        "max_tokens": true,
+        "temperature": true,
+        "top_p": true,
+        "stream": true
+      },
+      "features": {
+        "vision": true,
+        "tools": true,
+        "json_mode": true,
+        "system_prompt": true,
+        "reasoning": true
+      },
+      "token_costs": {
+        "input_cost": 0.5,
+        "output_cost": 3.0,
+        "context_window": 256000,
+        "training_cutoff": "2026-04"
+      }
+    },
+    "qwen-3.6-flash": {
+      "providers": [
+        "alibaba"
+      ],
+      "model_family": "qwen-3.6",
+      "api_params": {
+        "max_tokens": true,
+        "temperature": true,
+        "top_p": true,
+        "stream": true
+      },
+      "features": {
+        "vision": true,
+        "tools": true,
+        "json_mode": true,
+        "system_prompt": true,
+        "reasoning": false
+      },
+      "token_costs": {
+        "input_cost": 0.1,
+        "output_cost": 0.4,
+        "context_window": 1000000,
+        "training_cutoff": "2026-04"
+      }
+    },
+    "qwen-3-coder-next": {
+      "providers": [
+        "alibaba"
+      ],
+      "model_family": "qwen-3",
+      "api_params": {
+        "max_tokens": true,
+        "temperature": true,
+        "top_p": true,
+        "stream": true
+      },
+      "features": {
+        "vision": true,
+        "tools": true,
+        "json_mode": true,
+        "system_prompt": true,
+        "reasoning": false
+      },
+      "token_costs": {
+        "input_cost": 0.5,
+        "output_cost": 3.0,
+        "context_window": 1000000,
+        "training_cutoff": "2026-05"
+      }
+    },
+    "qwen-plus-latest": {
+      "providers": [
+        "alibaba"
+      ],
+      "model_family": "qwen",
+      "token_costs": {
+        "input_cost": 0.4,
+        "cache_input_cost": 0.08,
+        "output_cost": 1.2,
+        "context_window": null,
+        "training_cutoff": null
+      },
+      "pricing_dimensions": [
+        {
+          "name": "non_thinking_input_tokens_upto_32k",
+          "modality": "text",
+          "direction": "input",
+          "unit": "per_1m_tokens",
+          "price_usd": 0.4
+        },
+        {
+          "name": "non_thinking_cache_input_tokens_upto_32k",
+          "modality": "text",
+          "direction": "cache_input",
+          "unit": "per_1m_tokens",
+          "price_usd": 0.08
+        },
+        {
+          "name": "non_thinking_output_tokens_upto_32k",
+          "modality": "text",
+          "direction": "output",
+          "unit": "per_1m_tokens",
+          "price_usd": 1.2
+        },
+        {
+          "name": "non_thinking_input_tokens_32k_to_128k",
+          "modality": "text",
+          "direction": "input",
+          "unit": "per_1m_tokens",
+          "price_usd": 0.8
+        },
+        {
+          "name": "non_thinking_cache_input_tokens_32k_to_128k",
+          "modality": "text",
+          "direction": "cache_input",
+          "unit": "per_1m_tokens",
+          "price_usd": 0.16
+        },
+        {
+          "name": "non_thinking_output_tokens_32k_to_128k",
+          "modality": "text",
+          "direction": "output",
+          "unit": "per_1m_tokens",
+          "price_usd": 2.4
+        },
+        {
+          "name": "thinking_input_tokens_upto_32k",
+          "modality": "text",
+          "direction": "input",
+          "unit": "per_1m_tokens",
+          "price_usd": 1.6
+        },
+        {
+          "name": "thinking_cache_input_tokens_upto_32k",
+          "modality": "text",
+          "direction": "cache_input",
+          "unit": "per_1m_tokens",
+          "price_usd": 0.32
+        },
+        {
+          "name": "thinking_output_tokens_upto_32k",
+          "modality": "text",
+          "direction": "output",
+          "unit": "per_1m_tokens",
+          "price_usd": 6.4
+        },
+        {
+          "name": "thinking_input_tokens_32k_to_128k",
+          "modality": "text",
+          "direction": "input",
+          "unit": "per_1m_tokens",
+          "price_usd": 3.2
+        },
+        {
+          "name": "thinking_cache_input_tokens_32k_to_128k",
+          "modality": "text",
+          "direction": "cache_input",
+          "unit": "per_1m_tokens",
+          "price_usd": 0.64
+        },
+        {
+          "name": "thinking_output_tokens_32k_to_128k",
+          "modality": "text",
+          "direction": "output",
+          "unit": "per_1m_tokens",
+          "price_usd": 12.8
+        }
+      ],
+      "features": {
+        "reasoning": false
+      }
+    },
+    "qwen-turbo": {
+      "providers": [
+        "alibaba"
+      ],
+      "model_family": "qwen",
+      "token_costs": {
+        "input_cost": 0.367,
+        "cache_input_cost": 0.073,
+        "output_cost": 1.468,
+        "context_window": null,
+        "training_cutoff": null
+      },
+      "pricing_dimensions": [
+        {
+          "name": "non_thinking_input_tokens",
+          "modality": "text",
+          "direction": "input",
+          "unit": "per_1m_tokens",
+          "price_usd": 0.367
+        },
+        {
+          "name": "non_thinking_cache_input_tokens",
+          "modality": "text",
+          "direction": "cache_input",
+          "unit": "per_1m_tokens",
+          "price_usd": 0.073
+        },
+        {
+          "name": "non_thinking_output_tokens",
+          "modality": "text",
+          "direction": "output",
+          "unit": "per_1m_tokens",
+          "price_usd": 1.468
+        },
+        {
+          "name": "thinking_input_tokens",
+          "modality": "text",
+          "direction": "input",
+          "unit": "per_1m_tokens",
+          "price_usd": 0.734
+        },
+        {
+          "name": "thinking_cache_input_tokens",
+          "modality": "text",
+          "direction": "cache_input",
+          "unit": "per_1m_tokens",
+          "price_usd": 0.146
+        },
+        {
+          "name": "thinking_output_tokens",
+          "modality": "text",
+          "direction": "output",
+          "unit": "per_1m_tokens",
+          "price_usd": 3.67
+        }
+      ],
+      "features": {
+        "reasoning": false
+      }
+    },
+    "qwen-turbo-latest": {
+      "providers": [
+        "alibaba"
+      ],
+      "model_family": "qwen",
+      "token_costs": {
+        "input_cost": 0.367,
+        "cache_input_cost": 0.073,
+        "output_cost": 1.468,
+        "context_window": null,
+        "training_cutoff": null
+      },
+      "pricing_dimensions": [
+        {
+          "name": "non_thinking_input_tokens",
+          "modality": "text",
+          "direction": "input",
+          "unit": "per_1m_tokens",
+          "price_usd": 0.367
+        },
+        {
+          "name": "non_thinking_cache_input_tokens",
+          "modality": "text",
+          "direction": "cache_input",
+          "unit": "per_1m_tokens",
+          "price_usd": 0.073
+        },
+        {
+          "name": "non_thinking_output_tokens",
+          "modality": "text",
+          "direction": "output",
+          "unit": "per_1m_tokens",
+          "price_usd": 1.468
+        },
+        {
+          "name": "thinking_input_tokens",
+          "modality": "text",
+          "direction": "input",
+          "unit": "per_1m_tokens",
+          "price_usd": 0.734
+        },
+        {
+          "name": "thinking_cache_input_tokens",
+          "modality": "text",
+          "direction": "cache_input",
+          "unit": "per_1m_tokens",
+          "price_usd": 0.146
+        },
+        {
+          "name": "thinking_output_tokens",
+          "modality": "text",
+          "direction": "output",
+          "unit": "per_1m_tokens",
+          "price_usd": 3.67
+        }
+      ],
+      "features": {
+        "reasoning": false
+      }
+    },
+    "qwen3-coder-plus": {
+      "providers": [
+        "alibaba"
+      ],
+      "model_family": "qwen3-coder",
+      "token_costs": {
+        "input_cost": 1.2,
+        "cache_input_cost": 0.24,
+        "output_cost": 5.0,
+        "context_window": null,
+        "training_cutoff": null
+      },
+      "pricing_dimensions": [
+        {
+          "name": "input_tokens_upto_128k",
+          "modality": "text",
+          "direction": "input",
+          "unit": "per_1m_tokens",
+          "price_usd": 1.2
+        },
+        {
+          "name": "cache_input_tokens_upto_128k",
+          "modality": "text",
+          "direction": "cache_input",
+          "unit": "per_1m_tokens",
+          "price_usd": 0.24
+        },
+        {
+          "name": "output_tokens_upto_128k",
+          "modality": "text",
+          "direction": "output",
+          "unit": "per_1m_tokens",
+          "price_usd": 5.0
+        },
+        {
+          "name": "input_tokens_128k_to_256k",
+          "modality": "text",
+          "direction": "input",
+          "unit": "per_1m_tokens",
+          "price_usd": 2.4
+        },
+        {
+          "name": "cache_input_tokens_128k_to_256k",
+          "modality": "text",
+          "direction": "cache_input",
+          "unit": "per_1m_tokens",
+          "price_usd": 0.48
+        },
+        {
+          "name": "output_tokens_128k_to_256k",
+          "modality": "text",
+          "direction": "output",
+          "unit": "per_1m_tokens",
+          "price_usd": 10.0
+        }
+      ],
+      "features": {
+        "reasoning": false
+      }
+    },
+    "qwen3-coder-flash": {
+      "providers": [
+        "alibaba"
+      ],
+      "model_family": "qwen3-coder",
+      "token_costs": {
+        "input_cost": 0.3,
+        "cache_input_cost": 0.06,
+        "output_cost": 1.2,
+        "context_window": null,
+        "training_cutoff": null
+      },
+      "features": {
+        "reasoning": false
+      }
+    },
+    "qwen3-max": {
+      "providers": [
+        "alibaba"
+      ],
+      "model_family": "qwen3",
+      "token_costs": {
+        "input_cost": 0.64,
+        "cache_input_cost": 0.2,
+        "output_cost": 2.56,
+        "context_window": null,
+        "training_cutoff": null
+      },
+      "pricing_dimensions": [
+        {
+          "name": "input_tokens_upto_32k",
+          "modality": "text",
+          "direction": "input",
+          "unit": "per_1m_tokens",
+          "price_usd": 0.64
+        },
+        {
+          "name": "cache_input_tokens_upto_32k",
+          "modality": "text",
+          "direction": "cache_input",
+          "unit": "per_1m_tokens",
+          "price_usd": 0.2
+        },
+        {
+          "name": "output_tokens_upto_32k",
+          "modality": "text",
+          "direction": "output",
+          "unit": "per_1m_tokens",
+          "price_usd": 2.56
+        },
+        {
+          "name": "input_tokens_32k_to_128k",
+          "modality": "text",
+          "direction": "input",
+          "unit": "per_1m_tokens",
+          "price_usd": 1.2
+        },
+        {
+          "name": "cache_input_tokens_32k_to_128k",
+          "modality": "text",
+          "direction": "cache_input",
+          "unit": "per_1m_tokens",
+          "price_usd": 0.4
+        },
+        {
+          "name": "output_tokens_32k_to_128k",
+          "modality": "text",
+          "direction": "output",
+          "unit": "per_1m_tokens",
+          "price_usd": 4.8
+        },
+        {
+          "name": "input_tokens_128k_to_252k",
+          "modality": "text",
+          "direction": "input",
+          "unit": "per_1m_tokens",
+          "price_usd": 2.4
+        },
+        {
+          "name": "cache_input_tokens_128k_to_252k",
+          "modality": "text",
+          "direction": "cache_input",
+          "unit": "per_1m_tokens",
+          "price_usd": 0.8
+        },
+        {
+          "name": "output_tokens_128k_to_252k",
+          "modality": "text",
+          "direction": "output",
+          "unit": "per_1m_tokens",
+          "price_usd": 9.6
+        }
+      ],
+      "features": {
+        "reasoning": false
+      }
+    },
+    "qwen3-max-preview": {
+      "providers": [
+        "alibaba"
+      ],
+      "model_family": "qwen3",
+      "token_costs": {
+        "input_cost": 0.64,
+        "cache_input_cost": 0.2,
+        "output_cost": 2.56,
+        "context_window": null,
+        "training_cutoff": null
+      },
+      "pricing_dimensions": [
+        {
+          "name": "input_tokens_upto_32k",
+          "modality": "text",
+          "direction": "input",
+          "unit": "per_1m_tokens",
+          "price_usd": 0.64
+        },
+        {
+          "name": "cache_input_tokens_upto_32k",
+          "modality": "text",
+          "direction": "cache_input",
+          "unit": "per_1m_tokens",
+          "price_usd": 0.2
+        },
+        {
+          "name": "output_tokens_upto_32k",
+          "modality": "text",
+          "direction": "output",
+          "unit": "per_1m_tokens",
+          "price_usd": 2.56
+        },
+        {
+          "name": "input_tokens_32k_to_128k",
+          "modality": "text",
+          "direction": "input",
+          "unit": "per_1m_tokens",
+          "price_usd": 1.2
+        },
+        {
+          "name": "cache_input_tokens_32k_to_128k",
+          "modality": "text",
+          "direction": "cache_input",
+          "unit": "per_1m_tokens",
+          "price_usd": 0.4
+        },
+        {
+          "name": "output_tokens_32k_to_128k",
+          "modality": "text",
+          "direction": "output",
+          "unit": "per_1m_tokens",
+          "price_usd": 4.8
+        },
+        {
+          "name": "input_tokens_128k_to_252k",
+          "modality": "text",
+          "direction": "input",
+          "unit": "per_1m_tokens",
+          "price_usd": 2.4
+        },
+        {
+          "name": "cache_input_tokens_128k_to_252k",
+          "modality": "text",
+          "direction": "cache_input",
+          "unit": "per_1m_tokens",
+          "price_usd": 0.8
+        },
+        {
+          "name": "output_tokens_128k_to_252k",
+          "modality": "text",
+          "direction": "output",
+          "unit": "per_1m_tokens",
+          "price_usd": 9.6
+        }
+      ],
+      "features": {
+        "reasoning": false
+      }
+    },
+    "qwq-plus": {
+      "providers": [
+        "alibaba"
+      ],
+      "model_family": "qwq",
+      "token_costs": {
+        "input_cost": 0.562,
+        "cache_input_cost": 0.141,
+        "output_cost": 2.25,
+        "context_window": null,
+        "training_cutoff": null
+      },
+      "features": {
+        "reasoning": true
+      }
+    },
+    "qwq-plus-latest": {
+      "providers": [
+        "alibaba"
+      ],
+      "model_family": "qwq",
+      "token_costs": {
+        "input_cost": 0.562,
+        "cache_input_cost": 0.141,
+        "output_cost": 2.25,
+        "context_window": null,
+        "training_cutoff": null
+      },
+      "features": {
+        "reasoning": true
+      }
+    },
+    "mistral-large-2512": {
+      "providers": [
+        "mistral"
+      ],
+      "model_family": "mistral",
+      "token_costs": {
+        "input_cost": 0.5,
+        "output_cost": 1.5,
+        "context_window": 256000,
+        "training_cutoff": null
+      },
+      "features": {
+        "reasoning": false
+      }
+    },
+    "mistral-medium-2508": {
+      "providers": [
+        "mistral"
+      ],
+      "model_family": "mistral",
+      "token_costs": {
+        "input_cost": 0.4,
+        "output_cost": 2.0,
+        "context_window": 128000,
+        "training_cutoff": null
+      },
+      "features": {
+        "reasoning": false
+      }
+    },
+    "mistral-small-2506": {
+      "providers": [
+        "mistral"
+      ],
+      "model_family": "mistral",
+      "token_costs": {
+        "input_cost": 0.1,
+        "output_cost": 0.3,
+        "context_window": 128000,
+        "training_cutoff": null
+      },
+      "features": {
+        "reasoning": false
+      }
+    },
+    "mistral-ocr-2512": {
+      "providers": [
+        "mistral"
+      ],
+      "model_family": "mistral-ocr",
+      "modalities": {
+        "input": [
+          "image"
+        ],
+        "output": [
+          "text"
+        ]
+      },
+      "pricing_dimensions": [
+        {
+          "name": "ocr_pages",
+          "modality": "image",
+          "direction": "input",
+          "unit": "per_request",
+          "price_usd": 0.002,
+          "notes": "$2 / 1000 pages"
+        },
+        {
+          "name": "ocr_annotated_pages",
+          "modality": "image",
+          "direction": "input",
+          "unit": "per_request",
+          "price_usd": 0.003,
+          "notes": "$3 / 1000 annotated pages"
+        }
+      ],
+      "features": {
+        "reasoning": false
+      }
+    },
+    "voxtral-mini-2507": {
+      "providers": [
+        "mistral"
+      ],
+      "model_family": "voxtral",
+      "modalities": {
+        "input": [
+          "audio",
+          "text"
+        ],
+        "output": [
+          "text"
+        ]
+      },
+      "token_costs": {
+        "input_cost": 0.04,
+        "output_cost": 0.04,
+        "context_window": 32000,
+        "training_cutoff": null
+      },
+      "pricing_dimensions": [
+        {
+          "name": "audio_input_per_minute",
+          "modality": "audio",
+          "direction": "input",
+          "unit": "per_minute",
+          "price_usd": 0.001,
+          "notes": "Voxtral Mini listed transcription/audio minute rate"
+        },
+        {
+          "name": "input_tokens",
+          "modality": "text",
+          "direction": "input",
+          "unit": "per_1m_tokens",
+          "price_usd": 0.04
+        },
+        {
+          "name": "output_tokens",
+          "modality": "text",
+          "direction": "output",
+          "unit": "per_1m_tokens",
+          "price_usd": 0.04
+        }
+      ],
+      "features": {
+        "reasoning": false
+      }
+    },
+    "ministral-3b-2512": {
+      "providers": [
+        "mistral"
+      ],
+      "model_family": "ministral",
+      "token_costs": {
+        "input_cost": 0.1,
+        "output_cost": 0.1,
+        "context_window": 256000,
+        "training_cutoff": "2025-12"
+      },
+      "features": {
+        "reasoning": false
+      }
+    },
+    "ministral-8b-2512": {
+      "providers": [
+        "mistral"
+      ],
+      "model_family": "ministral",
+      "token_costs": {
+        "input_cost": 0.15,
+        "output_cost": 0.15,
+        "context_window": 256000,
+        "training_cutoff": "2025-12"
+      },
+      "features": {
+        "reasoning": false
+      }
+    },
+    "ministral-14b-2512": {
+      "providers": [
+        "mistral"
+      ],
+      "model_family": "ministral",
+      "token_costs": {
+        "input_cost": 0.2,
+        "output_cost": 0.2,
+        "context_window": 256000,
+        "training_cutoff": "2025-12"
+      },
+      "features": {
+        "reasoning": false
+      }
+    },
+    "gemini-2.0-flash-thinking-preview": {
+      "providers": [
+        "google"
+      ],
+      "model_family": "gemini-2.0",
+      "api_params": {
+        "max_tokens": true,
+        "temperature": true,
+        "top_p": true,
+        "stream": true
+      },
+      "features": {
+        "vision": true,
+        "tools": true,
+        "json_mode": true,
+        "system_prompt": true,
+        "reasoning": true
+      },
+      "token_costs": {
+        "input_cost": 0.1,
+        "output_cost": 0.4,
+        "context_window": 1000000,
+        "training_cutoff": "2025-01"
+      }
+    },
+    "deepseek-r1-distill-llama-70b": {
+      "providers": [
+        "deepseek",
+        "ollama"
+      ],
+      "model_family": "deepseek",
+      "base_model": "llama-3.1-70b",
+      "features": {
+        "reasoning": true,
+        "tools": true,
+        "json_mode": true
+      },
+      "token_costs": {
+        "input_cost": 0.0,
+        "output_cost": 0.0,
+        "context_window": 128000
+      }
+    },
+    "deepseek-r1-distill-qwen-32b": {
+      "providers": [
+        "deepseek",
+        "ollama"
+      ],
+      "model_family": "deepseek",
+      "base_model": "qwen-2.5-32b",
+      "features": {
+        "reasoning": true,
+        "tools": true,
+        "json_mode": true
+      },
+      "token_costs": {
+        "input_cost": 0.0,
+        "output_cost": 0.0,
+        "context_window": 128000
+      }
+    },
+    "jamba-2-mini": {
+      "providers": [
+        "ai21"
+      ],
+      "model_family": "jamba",
+      "api_params": {
+        "max_tokens": true,
+        "temperature": true,
+        "top_p": true,
+        "stream": true
+      },
+      "features": {
+        "vision": false,
+        "tools": true,
+        "json_mode": true,
+        "system_prompt": true,
+        "reasoning": false
+      },
+      "token_costs": {
+        "input_cost": 0.2,
+        "output_cost": 0.4,
+        "context_window": 256000,
+        "training_cutoff": "2025-09"
+      }
+    },
+    "jamba-1.7-large": {
+      "providers": [
+        "ai21"
+      ],
+      "model_family": "jamba",
+      "api_params": {
+        "max_tokens": true,
+        "temperature": true,
+        "top_p": true,
+        "stream": true
+      },
+      "features": {
+        "vision": false,
+        "tools": true,
+        "json_mode": true,
+        "system_prompt": true,
+        "reasoning": false
+      },
+      "token_costs": {
+        "input_cost": 2.0,
+        "output_cost": 8.0,
+        "context_window": 256000,
+        "training_cutoff": "2024-08"
+      }
+    },
+    "mistral-small-4": {
+      "providers": [
+        "mistral"
+      ],
+      "model_family": "mistral",
+      "api_params": {
+        "max_tokens": true,
+        "temperature": true,
+        "top_p": true,
+        "stream": true
+      },
+      "features": {
+        "vision": true,
+        "tools": true,
+        "json_mode": true,
+        "system_prompt": true,
+        "reasoning": true
+      },
+      "token_costs": {
+        "input_cost": 0.15,
+        "output_cost": 0.6,
+        "context_window": 262000,
+        "training_cutoff": "2026-03"
+      }
+    }
+  }
+}

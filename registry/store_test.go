@@ -29,6 +29,10 @@ func TestStoreAcceptsCanonicalRecordsPersistsAndBacksUp(t *testing.T) {
 	if !submission.Created || submission.Metadata.LogIndex != 0 {
 		t.Fatalf("unexpected first submission: %+v", submission)
 	}
+	if submission.Metadata.AgentID != "urn:mgs:agent:"+submission.Metadata.Gene ||
+		!strings.HasPrefix(submission.Metadata.AgentName, "cody ") || submission.Metadata.FamilyName == "" {
+		t.Fatalf("agent identity was not indexed: %+v", submission.Metadata)
+	}
 	again, err := store.Submit(context.Background(), genesis)
 	if err != nil {
 		t.Fatal(err)
@@ -254,12 +258,19 @@ func signedGenesis(t *testing.T, key ed25519.PrivateKey, did, method, name, name
 	t.Helper()
 	record := mgs.GenesisRecord{
 		MGS: mgs.Version, RecordType: mgs.RecordGenesis,
-		Identity:   mgs.Identity{Name: name, Namespace: namespace, SubjectType: "agent", Version: "1.0.0", DID: did},
+		Identity: mgs.Identity{
+			Name: name, Namespace: namespace, SubjectType: "agent", Version: "1.0.0", DID: did,
+			CreatedDate: "2026-07-20", AgentName: &mgs.AgentNameClaim{Given: name},
+		},
 		Parentage:  []mgs.LineageEdge{},
 		Controller: mgs.Controller{DID: did, GenesisKeyID: method},
 		Genesis: mgs.GenesisMetadata{
 			Timestamp: testTime.Format(time.RFC3339), ArtifactCommitments: []mgs.ArtifactCommitment{},
 		},
+		Capabilities: []mgs.CapabilityClaim{{
+			ID: "general.assistance", Name: "General assistance", Level: "working",
+		}},
+		TrainingData: []mgs.TrainingDataDeclaration{},
 	}
 	unsigned, _ := json.Marshal(record)
 	secured, err := mgs.SignRecord(unsigned, mgs.NewProofOptions(testTime, method), key)

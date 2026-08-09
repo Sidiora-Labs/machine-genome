@@ -1,11 +1,11 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "urn:mgs:schema:0.1.1:genesis",
+  "$id": "urn:mgs:schema:0.2.0:genesis",
   "title": "Machine Genome Genesis Record",
   "type": "object",
   "required": ["mgs", "recordType", "identity", "parentage", "controller", "genesis"],
   "properties": {
-    "mgs": { "const": "0.1.1" },
+    "mgs": { "enum": ["0.1.1", "0.2.0"] },
     "recordType": { "const": "genesis" },
     "identity": {
       "type": "object",
@@ -18,7 +18,16 @@
         },
         "version": { "type": "string", "minLength": 1 },
         "description": { "type": "string" },
-        "did": { "$ref": "#/$defs/did" }
+        "did": { "$ref": "#/$defs/did" },
+        "createdDate": { "$ref": "#/$defs/date" },
+        "agentName": {
+          "type": "object",
+          "required": ["given"],
+          "properties": {
+            "given": { "type": "string", "minLength": 1, "maxLength": 32 }
+          },
+          "additionalProperties": false
+        }
       },
       "additionalProperties": false
     },
@@ -59,9 +68,61 @@
       },
       "additionalProperties": false
     },
+    "capabilities": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/capability" },
+      "maxItems": 128
+    },
+    "trainingData": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/trainingData" },
+      "maxItems": 128
+    },
+    "model": {
+      "type": "object",
+      "required": ["provider", "modelId", "foundation"],
+      "properties": {
+        "provider": { "type": "string", "minLength": 1 },
+        "providers": { "type": "array", "items": { "type": "string", "minLength": 1 }, "uniqueItems": true },
+        "modelId": { "type": "string", "minLength": 1 },
+        "family": { "type": "string", "minLength": 1 },
+        "contextWindow": { "type": "integer", "minimum": 1 },
+        "foundation": { "type": "boolean" }
+      },
+      "additionalProperties": false
+    },
     "proof": { "$ref": "#/$defs/proof" }
   },
   "additionalProperties": false,
+  "allOf": [
+    {
+      "if": { "properties": { "mgs": { "const": "0.2.0" } }, "required": ["mgs"] },
+      "then": {
+        "required": ["capabilities", "trainingData"],
+        "properties": { "identity": { "required": ["createdDate"] } }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "mgs": { "const": "0.2.0" },
+          "identity": { "properties": { "subjectType": { "enum": ["agent", "agent-instance"] } }, "required": ["subjectType"] }
+        },
+        "required": ["mgs", "identity"]
+      },
+      "then": { "properties": { "identity": { "required": ["agentName"] } } }
+    },
+    {
+      "if": {
+        "properties": {
+          "mgs": { "const": "0.2.0" },
+          "identity": { "properties": { "subjectType": { "const": "model" } }, "required": ["subjectType"] }
+        },
+        "required": ["mgs", "identity"]
+      },
+      "then": { "required": ["model"] }
+    }
+  ],
   "$defs": {
     "did": {
       "type": "string",
@@ -74,6 +135,11 @@
     "timestamp": {
       "type": "string",
       "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"
+    },
+    "date": {
+      "type": "string",
+      "format": "date",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
     },
     "digest": {
       "type": "string",
@@ -92,6 +158,35 @@
       },
       "additionalProperties": false
     },
+    "capability": {
+      "type": "object",
+      "required": ["id", "name", "level"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^[a-z0-9]+(?:[.-][a-z0-9]+)*$" },
+        "name": { "type": "string", "minLength": 1 },
+        "category": { "type": "string", "minLength": 1 },
+        "level": { "enum": ["basic", "working", "advanced", "expert"] },
+        "description": { "type": "string" },
+        "evidence": { "type": "array", "items": { "$ref": "#/$defs/digest" } }
+      },
+      "additionalProperties": false
+    },
+    "trainingData": {
+      "type": "object",
+      "required": ["stage", "name", "disclosure"],
+      "properties": {
+        "stage": { "enum": ["pretraining", "post-training", "fine-tuning", "reinforcement", "distillation", "runtime-learning", "other"] },
+        "name": { "type": "string", "minLength": 1 },
+        "disclosure": { "enum": ["full", "partial", "summary", "undisclosed", "unknown", "not-applicable"] },
+        "description": { "type": "string" },
+        "uri": { "type": "string", "format": "uri" },
+        "digest": { "$ref": "#/$defs/digest" },
+        "license": { "type": "string" },
+        "dataCutoff": { "$ref": "#/$defs/date" }
+      },
+      "dependentRequired": { "uri": ["digest"] },
+      "additionalProperties": false
+    },
     "edge": {
       "type": "object",
       "required": ["edgeType", "authorized"],
@@ -100,7 +195,7 @@
           "enum": [
             "fine-tune-of", "distilled-from", "merge-of", "quantization-of",
             "model-instance-of", "scaffold-fork-of", "instance-of",
-            "prompt-descendant-of", "ensemble-of", "trained-on", "successor-of"
+            "prompt-descendant-of", "ensemble-of", "trained-on", "successor-of", "powered-by"
           ]
         },
         "parentGene": { "$ref": "#/$defs/digest" },

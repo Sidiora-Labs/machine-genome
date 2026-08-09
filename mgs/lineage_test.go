@@ -117,10 +117,20 @@ func TestMGSGeneGoldenVector(t *testing.T) {
 		t.Fatal(err)
 	}
 	genesis := rootGenesis(vector.Identity.Name, vector.Identity.SubjectType, did, method)
+	genesis.MGS = LegacyVersion
 	genesis.Identity.Namespace = vector.Identity.Namespace
 	genesis.Identity.Version = vector.Identity.Version
+	genesis.Identity.CreatedDate = ""
+	genesis.Identity.AgentName = nil
 	genesis.Genesis.Timestamp = vector.Created
-	unsigned := mustJSON(t, genesis)
+	legacyObject := map[string]any{}
+	if err := json.Unmarshal(mustJSON(t, genesis), &legacyObject); err != nil {
+		t.Fatal(err)
+	}
+	delete(legacyObject, "capabilities")
+	delete(legacyObject, "trainingData")
+	delete(legacyObject, "model")
+	unsigned := mustJSON(t, legacyObject)
 	created, err := time.Parse(time.RFC3339, vector.Created)
 	if err != nil {
 		t.Fatal(err)
@@ -143,7 +153,7 @@ func TestMGSGeneGoldenVector(t *testing.T) {
 }
 
 func rootGenesis(name, subjectType, did, method string) GenesisRecord {
-	return GenesisRecord{
+	record := GenesisRecord{
 		MGS:        Version,
 		RecordType: RecordGenesis,
 		Identity: Identity{
@@ -152,6 +162,7 @@ func rootGenesis(name, subjectType, did, method string) GenesisRecord {
 			SubjectType: subjectType,
 			Version:     "1.0.0",
 			DID:         did,
+			CreatedDate: "2026-07-20",
 		},
 		Parentage: []LineageEdge{},
 		Controller: Controller{
@@ -162,7 +173,16 @@ func rootGenesis(name, subjectType, did, method string) GenesisRecord {
 			Timestamp:           "2026-07-20T14:00:00Z",
 			ArtifactCommitments: []ArtifactCommitment{},
 		},
+		Capabilities: []CapabilityClaim{},
+		TrainingData: []TrainingDataDeclaration{},
 	}
+	if subjectType == "agent" || subjectType == "agent-instance" {
+		record.Identity.AgentName = &AgentNameClaim{Given: name}
+	}
+	if subjectType == "model" {
+		record.Model = &ModelProfile{Provider: "example", ModelID: name, Foundation: true}
+	}
+	return record
 }
 
 func mustJSON(t *testing.T, value any) []byte {

@@ -5,7 +5,14 @@ not establish MGS compatibility.
 
 ## Required behavior
 
-An `0.1.1` implementation must agree on:
+An `0.2.0` implementation must agree on all 0.1.1 cryptographic behavior plus:
+
+- Agent ID and genome-surname derivation;
+- agent-name validation and registry uniqueness;
+- capability and training-data vocabulary validation;
+- foundation model profiles and `powered-by` lineage acceptance.
+
+Both supported profiles must agree on:
 
 - valid and invalid I-JSON inputs;
 - RFC 8785 canonical bytes;
@@ -39,6 +46,8 @@ Vectors live under `testdata/vectors/` and are versioned with the profile:
 - `jcs-rfc8785.json` — canonicalization input and exact output;
 - `mgs-gene-v0.1.1.json` — deterministic key seed, genesis fields, timestamp,
   and expected Gene;
+- `mgs-agent-v0.2.0.json` — deterministic agent genesis, expected Gene, Agent
+  ID, genome family name, and complete claimed name;
 - published signed records under `records/neo/` — realistic secured genesis and
   lineage examples.
 
@@ -58,8 +67,9 @@ and database/audit inconsistencies.
 Until an independent implementer report and conformance-mark policy exist,
 projects should say:
 
-> Implements the experimental MGS 0.1.1 profile and passes the published
-> Machine Genome reference vectors as of commit `<commit>`.
+> Implements the experimental MGS 0.2.0 profile, verifies immutable 0.1.1
+> records, and passes the published Machine Genome reference vectors as of
+> commit `<commit>`.
 
 They should not claim standards-body certification or global registry
 consensus.

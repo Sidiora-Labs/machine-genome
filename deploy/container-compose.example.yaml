@@ -3,9 +3,9 @@ services:
     build:
       context: ..
       args:
-        VERSION: "0.1.1"
+        VERSION: "0.2.0"
         COMMIT: "local"
-    image: machine-genome:0.1.1
+    image: machine-genome:0.2.0
     restart: unless-stopped
     read_only: true
     user: "65532:65532"

@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "urn:mgs:schema:0.1.1:attestation",
+  "$id": "urn:mgs:schema:0.2.0:attestation",
   "title": "Machine Genome Third-Party Attestation",
   "type": "object",
   "required": [
@@ -8,7 +8,7 @@
     "issuer", "evidenceProfile", "body"
   ],
   "properties": {
-    "mgs": { "const": "0.1.1" },
+    "mgs": { "enum": ["0.1.1", "0.2.0"] },
     "recordType": { "const": "attestation" },
     "subjectGene": { "$ref": "#/$defs/digest" },
     "attestationType": { "type": "string", "minLength": 1 },

@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "urn:mgs:schema:0.1.1:amendment",
+  "$id": "urn:mgs:schema:0.2.0:amendment",
   "title": "Machine Genome Controller Amendment",
   "type": "object",
   "required": [
@@ -8,7 +8,7 @@
     "timestamp", "controller", "body"
   ],
   "properties": {
-    "mgs": { "const": "0.1.1" },
+    "mgs": { "enum": ["0.1.1", "0.2.0"] },
     "recordType": { "const": "amendment" },
     "gene": { "$ref": "#/$defs/digest" },
     "seq": { "type": "integer", "minimum": 1, "maximum": 9007199254740991 },

@@ -44,6 +44,8 @@ func run(args []string, stdout, stderr io.Writer) error {
 		return runKeygen(args[1:], stdout, stderr)
 	case "init-genesis":
 		return runInitGenesis(args[1:], stdout, stderr)
+	case "seed-foundations":
+		return runSeedFoundations(args[1:], stdout, stderr)
 	case "sign":
 		return runSign(args[1:], stdout, stderr)
 	case "authorize-edge":
@@ -83,7 +85,9 @@ func usage(output io.Writer) {
 Usage:
   mgs keygen --out private.key.json
   mgs init-genesis --key private.key.json --name NAME --namespace DNS_OR_DID \
-    --subject-type agent --version 1.0.0 --out genesis.unsigned.json
+    --subject-type agent --given-name NAME --version 1.0.0 \
+    [--created-date YYYY-MM-DD] [--claims claims.json] --out genesis.unsigned.json
+  mgs seed-foundations --catalog models.json --key observer.key.json --out-dir records
   mgs sign --in unsigned.json --key private.key.json --out secured.json [--created RFC3339]
   mgs authorize-edge --in child.json --edge 0 --key parent.key.json --out child.json [--created RFC3339]
   mgs gene --in secured-genesis.json
@@ -129,6 +133,9 @@ func runInitGenesis(args []string, stdout, stderr io.Writer) error {
 	subjectType := flags.String("subject-type", "agent", "MGS subject type")
 	version := flags.String("version", "", "subject version")
 	description := flags.String("description", "", "optional description")
+	givenName := flags.String("given-name", "", "claimed agent given name; defaults to --name for agents")
+	createdDate := flags.String("created-date", "", "subject creation date (YYYY-MM-DD); defaults to genesis date")
+	claimsPath := flags.String("claims", "", "JSON file containing capabilities, trainingData, and optional model profile")
 	timestamp := flags.String("timestamp", "", "genesis timestamp; defaults to current UTC second")
 	output := flags.String("out", "-", "unsigned genesis output")
 	if err := flags.Parse(args); err != nil {
@@ -148,12 +155,50 @@ func runInitGenesis(args []string, stdout, stderr io.Writer) error {
 			return fmt.Errorf("timestamp: %w", err)
 		}
 	}
+	claims := struct {
+		Capabilities []mgs.CapabilityClaim         `json:"capabilities"`
+		TrainingData []mgs.TrainingDataDeclaration `json:"trainingData"`
+		Model        *mgs.ModelProfile             `json:"model,omitempty"`
+	}{Capabilities: []mgs.CapabilityClaim{}, TrainingData: []mgs.TrainingDataDeclaration{}}
+	if *claimsPath != "" {
+		raw, readErr := os.ReadFile(*claimsPath)
+		if readErr != nil {
+			return fmt.Errorf("read claims: %w", readErr)
+		}
+		decoder := json.NewDecoder(strings.NewReader(string(raw)))
+		decoder.DisallowUnknownFields()
+		if decodeErr := decoder.Decode(&claims); decodeErr != nil {
+			return fmt.Errorf("decode claims: %w", decodeErr)
+		}
+		if decodeErr := decoder.Decode(&struct{}{}); !errors.Is(decodeErr, io.EOF) {
+			return errors.New("claims file must contain exactly one JSON object")
+		}
+		if claims.Capabilities == nil {
+			claims.Capabilities = []mgs.CapabilityClaim{}
+		}
+		if claims.TrainingData == nil {
+			claims.TrainingData = []mgs.TrainingDataDeclaration{}
+		}
+	}
+	created := *createdDate
+	if created == "" {
+		created = when.Format("2006-01-02")
+	}
+	var agentName *mgs.AgentNameClaim
+	if *subjectType == "agent" || *subjectType == "agent-instance" {
+		given := *givenName
+		if given == "" {
+			given = *name
+		}
+		agentName = &mgs.AgentNameClaim{Given: given}
+	}
 	record := mgs.GenesisRecord{
 		MGS:        mgs.Version,
 		RecordType: mgs.RecordGenesis,
 		Identity: mgs.Identity{
 			Name: *name, Namespace: *namespace, SubjectType: *subjectType,
 			Version: *version, Description: *description, DID: keyFile.DID,
+			CreatedDate: created, AgentName: agentName,
 		},
 		Parentage: []mgs.LineageEdge{},
 		Controller: mgs.Controller{
@@ -163,6 +208,9 @@ func runInitGenesis(args []string, stdout, stderr io.Writer) error {
 			Timestamp:           when.UTC().Truncate(time.Second).Format(time.RFC3339),
 			ArtifactCommitments: []mgs.ArtifactCommitment{},
 		},
+		Capabilities: claims.Capabilities,
+		TrainingData: claims.TrainingData,
+		Model:        claims.Model,
 	}
 	raw, err := json.MarshalIndent(record, "", "  ")
 	if err != nil {

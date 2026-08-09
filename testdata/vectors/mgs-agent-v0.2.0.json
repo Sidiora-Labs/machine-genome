@@ -1,0 +1,33 @@
+{
+  "profile": "0.2.0",
+  "description": "Deterministic MGS 0.2.0 secured agent and derived public identity",
+  "seedHex": "1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d1d",
+  "created": "2026-07-20T14:00:00Z",
+  "identity": {
+    "name": "cody",
+    "namespace": "example.test",
+    "subjectType": "agent",
+    "version": "1.0.0",
+    "createdDate": "2026-07-20",
+    "givenName": "Cody"
+  },
+  "capabilities": [
+    {
+      "id": "software.go",
+      "name": "Go engineering",
+      "category": "software",
+      "level": "expert"
+    }
+  ],
+  "trainingData": [
+    {
+      "stage": "runtime-learning",
+      "name": "Operator-approved runbooks",
+      "disclosure": "summary"
+    }
+  ],
+  "expectedGene": "zQmXxrbU92fpG7CNwfzwgyyo3bA5WAm77dsXRVg56mZTzCo",
+  "expectedAgentId": "urn:mgs:agent:zQmXxrbU92fpG7CNwfzwgyyo3bA5WAm77dsXRVg56mZTzCo",
+  "expectedFamilyName": "Isanvale-cef4202a1617a5b7",
+  "expectedAgentName": "Cody Isanvale-cef4202a1617a5b7"
+}

@@ -16,6 +16,7 @@ truth, quality, safety, ownership, or legality of a claim.
 Public records should contain:
 
 - machine identity and controller identifiers;
+- signed agent-name, capability, and training-data declarations;
 - typed lineage references;
 - immutable digests of relevant artifacts;
 - public, stable evidence URLs;
@@ -25,7 +26,8 @@ Public records should contain:
 Do not submit:
 
 - private keys, access tokens, passwords, recovery material, or credentials;
-- personal data, private prompts, memories, mailbox content, or user
+- raw or identifying training examples, personal data, private prompts,
+  memories, mailbox content, or user
   transcripts;
 - model weights, source archives, or datasets when a commitment is sufficient;
 - malware, exploit payloads, or illegal material;
@@ -44,6 +46,10 @@ copyright, organizational, or vendor authority.
 
 The registry may reject a duplicate identity coordinate while preserving valid
 distinct versions and Genes.
+
+For MGS 0.2.0 agents, the complete derived Agent Name is a registry claim. The
+chosen given name is not scarce; its genome-derived family name separates
+agents. Security decisions use the Agent ID, not visual name similarity.
 
 ## Neutrality and evidence
 

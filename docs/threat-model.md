@@ -1,6 +1,6 @@
 # Threat model
 
-Status: security design baseline for the `0.1.1` reference implementation.
+Status: security design baseline for the `0.2.0` reference implementation.
 This is not an independent audit.
 
 ## Assets
@@ -31,6 +31,7 @@ The design assumes attackers may:
 
 - submit malformed, ambiguous, oversized, replayed, or adversarial JSON;
 - own valid keys and make deceptive claims;
+- choose visually confusing given names or exaggerate capability/training claims;
 - reuse an authorization proof against a changed child;
 - race or fork amendment chains;
 - issue low-quality or hostile attestations;

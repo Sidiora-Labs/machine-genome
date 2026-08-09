@@ -57,6 +57,8 @@ Implemented in this working tree:
 
 ## Milestone 4 — agent accounts
 
+- Gene-derived Agent IDs, claimed names, capability discovery, training-data
+  declarations, and foundation-model catalog generation (implemented);
 - companion challenge and account-binding specification;
 - pairwise DIDs and selective disclosure;
 - dedicated agent mailbox reference service;

@@ -71,7 +71,7 @@ The database uses separate buckets for:
 
 - canonical objects keyed by digest;
 - immutable metadata keyed by digest;
-- Genes and identity coordinates;
+- Genes, identity coordinates, and complete derived Agent Name claims;
 - ordered amendment and attestation indexes;
 - parent-to-child relationships;
 - observed equivocation branches;
@@ -95,8 +95,9 @@ single-node ACID transactions; it is not a distributed consensus system.
 4. Recompute the Gene.
 5. Resolve every local parent and verify authorized edges.
 6. Enforce DID or DNS namespace control.
-7. Reject an occupied identity coordinate.
-8. Atomically store canonical bytes, metadata, lineage indexes, log leaf, and
+7. Derive MGS 0.2.0 Agent IDs/names and reject an occupied complete name.
+8. Reject an occupied identity coordinate.
+9. Atomically store canonical bytes, metadata, lineage indexes, log leaf, and
    audit event.
 
 ### Amendment

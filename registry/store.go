@@ -32,6 +32,7 @@ var (
 	bucketObjectMeta    = []byte("object_meta")
 	bucketGenes         = []byte("genes")
 	bucketIdentity      = []byte("identity")
+	bucketAgentNames    = []byte("agent_names")
 	bucketAmendments    = []byte("amendments")
 	bucketAttestations  = []byte("attestations")
 	bucketChildren      = []byte("children")
@@ -44,7 +45,7 @@ var (
 )
 
 var allBuckets = [][]byte{
-	bucketMeta, bucketObjects, bucketObjectMeta, bucketGenes, bucketIdentity,
+	bucketMeta, bucketObjects, bucketObjectMeta, bucketGenes, bucketIdentity, bucketAgentNames,
 	bucketAmendments, bucketAttestations, bucketChildren, bucketEquivocations,
 	bucketLog, bucketAudit, bucketTombstones, bucketChallenges, bucketGrants,
 }
@@ -62,18 +63,29 @@ type Store struct {
 }
 
 type RecordMetadata struct {
-	Digest        string `json:"digest"`
-	RecordType    string `json:"recordType"`
-	Gene          string `json:"gene,omitempty"`
-	SubjectGene   string `json:"subjectGene,omitempty"`
-	Sequence      uint64 `json:"sequence,omitempty"`
-	IdentityName  string `json:"identityName,omitempty"`
-	Namespace     string `json:"namespace,omitempty"`
-	SubjectType   string `json:"subjectType,omitempty"`
-	ControllerDID string `json:"controllerDid,omitempty"`
-	AuthorTime    string `json:"authorTime"`
-	InclusionTime string `json:"inclusionTime"`
-	LogIndex      uint64 `json:"logIndex"`
+	Digest        string   `json:"digest"`
+	RecordType    string   `json:"recordType"`
+	Gene          string   `json:"gene,omitempty"`
+	SubjectGene   string   `json:"subjectGene,omitempty"`
+	Sequence      uint64   `json:"sequence,omitempty"`
+	IdentityName  string   `json:"identityName,omitempty"`
+	AgentID       string   `json:"agentId,omitempty"`
+	AgentName     string   `json:"agentName,omitempty"`
+	GivenName     string   `json:"givenName,omitempty"`
+	FamilyName    string   `json:"familyName,omitempty"`
+	CreatedDate   string   `json:"createdDate,omitempty"`
+	Capabilities  []string `json:"capabilities,omitempty"`
+	Foundation    bool     `json:"foundation,omitempty"`
+	ModelProvider string   `json:"modelProvider,omitempty"`
+	ModelID       string   `json:"modelId,omitempty"`
+	ModelFamily   string   `json:"modelFamily,omitempty"`
+	ContextWindow uint64   `json:"contextWindow,omitempty"`
+	Namespace     string   `json:"namespace,omitempty"`
+	SubjectType   string   `json:"subjectType,omitempty"`
+	ControllerDID string   `json:"controllerDid,omitempty"`
+	AuthorTime    string   `json:"authorTime"`
+	InclusionTime string   `json:"inclusionTime"`
+	LogIndex      uint64   `json:"logIndex"`
 }
 
 type Submission struct {
@@ -206,7 +218,28 @@ func (s *Store) submitGenesis(ctx context.Context, canonical []byte) (Submission
 		Digest: gene, RecordType: mgs.RecordGenesis, Gene: gene,
 		IdentityName: record.Identity.Name, Namespace: record.Identity.Namespace,
 		SubjectType: record.Identity.SubjectType, ControllerDID: record.Controller.DID,
-		AuthorTime: record.Genesis.Timestamp,
+		AuthorTime:  record.Genesis.Timestamp,
+		CreatedDate: record.Identity.CreatedDate,
+	}
+	for _, capability := range record.Capabilities {
+		meta.Capabilities = append(meta.Capabilities, capability.ID)
+	}
+	if record.Model != nil {
+		meta.Foundation = record.Model.Foundation
+		meta.ModelProvider = record.Model.Provider
+		meta.ModelID = record.Model.ModelID
+		meta.ModelFamily = record.Model.Family
+		meta.ContextWindow = record.Model.ContextWindow
+	}
+	if record.Identity.AgentName != nil {
+		agent, deriveErr := mgs.DeriveAgentIdentity(record, gene)
+		if deriveErr != nil {
+			return Submission{}, deriveErr
+		}
+		meta.AgentID = agent.ID
+		meta.AgentName = agent.Name
+		meta.GivenName = agent.GivenName
+		meta.FamilyName = agent.FamilyName
 	}
 	coordinate := identityKey(record.Identity.Namespace, record.Identity.Name, record.Identity.Version)
 	return s.insert(canonical, meta, func(tx *bolt.Tx) error {
@@ -218,6 +251,15 @@ func (s *Store) submitGenesis(ctx context.Context, canonical []byte) (Submission
 		}
 		if err := tx.Bucket(bucketIdentity).Put(coordinate, []byte(gene)); err != nil {
 			return err
+		}
+		if meta.AgentName != "" {
+			nameKey := []byte(strings.ToLower(meta.AgentName))
+			if existing := tx.Bucket(bucketAgentNames).Get(nameKey); existing != nil && string(existing) != gene {
+				return fmt.Errorf("%w: agent name %q is already claimed by %s", ErrConflict, meta.AgentName, existing)
+			}
+			if err := tx.Bucket(bucketAgentNames).Put(nameKey, []byte(gene)); err != nil {
+				return err
+			}
 		}
 		for _, edge := range record.Parentage {
 			if !edge.Unresolved {
@@ -432,10 +474,10 @@ func (s *Store) Gene(gene string) (GeneView, error) {
 
 func (s *Store) Search(query string, limit int) (SearchResult, error) {
 	query = strings.ToLower(strings.TrimSpace(query))
-	if limit <= 0 || limit > 100 {
+	if limit <= 0 || limit > 250 {
 		limit = 25
 	}
-	var result SearchResult
+	result := SearchResult{Items: []RecordMetadata{}}
 	err := s.db.View(func(tx *bolt.Tx) error {
 		return tx.Bucket(bucketObjectMeta).ForEach(func(_, value []byte) error {
 			meta, err := decodeMetadata(value)
@@ -445,8 +487,14 @@ func (s *Store) Search(query string, limit int) (SearchResult, error) {
 			if meta.RecordType != mgs.RecordGenesis {
 				return nil
 			}
+			classification := ""
+			if meta.Foundation {
+				classification = "foundation"
+			}
 			haystack := strings.ToLower(strings.Join([]string{
-				meta.Digest, meta.IdentityName, meta.Namespace, meta.SubjectType, meta.ControllerDID,
+				meta.Digest, meta.IdentityName, meta.AgentID, meta.AgentName, meta.Namespace,
+				meta.SubjectType, meta.ControllerDID, meta.ModelProvider, meta.ModelID,
+				meta.ModelFamily, classification, strings.Join(meta.Capabilities, " "),
 			}, " "))
 			if query == "" || strings.Contains(haystack, query) {
 				result.Items = append(result.Items, meta)
@@ -467,6 +515,29 @@ func (s *Store) Search(query string, limit int) (SearchResult, error) {
 		result.Items = result.Items[:limit]
 	}
 	return result, err
+}
+
+// ListGenes returns every genesis metadata entry in newest-first log order.
+// The explorer applies its own filters and slices this result into pages so
+// API search limits cannot silently hide identities from the directory.
+func (s *Store) ListGenes() ([]RecordMetadata, error) {
+	items := []RecordMetadata{}
+	err := s.db.View(func(tx *bolt.Tx) error {
+		return tx.Bucket(bucketObjectMeta).ForEach(func(_, value []byte) error {
+			meta, err := decodeMetadata(value)
+			if err != nil {
+				return err
+			}
+			if meta.RecordType == mgs.RecordGenesis {
+				items = append(items, meta)
+			}
+			return nil
+		})
+	})
+	sort.Slice(items, func(i, j int) bool {
+		return items[i].LogIndex > items[j].LogIndex
+	})
+	return items, err
 }
 
 func (s *Store) Tombstone(digest, reason, reference, actor string) (Tombstone, error) {

@@ -8,10 +8,18 @@ versioning follows [docs/versioning.md](docs/versioning.md).
 
 ### Added
 
+- MGS 0.2.0 agent principals with Gene-derived Agent IDs, signed given-name
+  claims, deterministic family names, and registry claim enforcement.
+- Structured capability and training-data declarations plus searchable model
+  provider, family, and foundation metadata.
+- Foundation-catalog seed generation for the supplied 160-model catalog.
+- Backward verification support for immutable MGS 0.1.1 records.
 - Publication-grade project, security, governance, contribution, release, API,
   conformance, container, and deployment documentation.
 - Responsive registry explorer with lineage, artifact, controller, and
   independent verification views.
+- Paginated identity directory with Agent ID/name, identity-type, provider, and
+  capability filters plus an at-a-glance identity genome on record pages.
 - Stable Go module identity at `github.com/paxlabs-inc/machine-genome`.
 
 ## [0.1.1] - 2026-07-20

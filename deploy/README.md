@@ -50,10 +50,10 @@ The root `Dockerfile` produces a static, distroless, non-root image:
 
 ```sh
 docker build \
-  --build-arg VERSION=0.1.1 \
+  --build-arg VERSION=0.2.0 \
   --build-arg COMMIT="$(git rev-parse HEAD)" \
-  -t machine-genome:0.1.1 .
-docker run --rm machine-genome:0.1.1 version
+  -t machine-genome:0.2.0 .
+docker run --rm machine-genome:0.2.0 version
 ```
 
 The compose example binds the registry only to host loopback. Pre-create its

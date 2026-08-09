@@ -7,6 +7,8 @@ contain no production secrets.
   suite.
 - `mgs-gene-v0.1.1.json` pins the deterministic genesis parameters and expected
   Gene for MGS 0.1.1.
+- `mgs-agent-v0.2.0.json` pins a secured agent Gene plus its derived Agent ID,
+  genome family name, and complete claimed Agent Name.
 
 Implementers should consume the JSON files directly rather than transcribing
 values from documentation. A vector change that alters expected bytes or

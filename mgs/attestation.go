@@ -30,8 +30,8 @@ func ValidateAttestation(raw []byte, requireProof bool) (*AttestationRecord, err
 	if err := unmarshal(raw, &record); err != nil {
 		return nil, err
 	}
-	if record.MGS != Version || record.RecordType != RecordAttestation {
-		return nil, errors.New("record is not an MGS 0.1.1 attestation")
+	if !supportedVersion(record.MGS) || record.RecordType != RecordAttestation {
+		return nil, errors.New("record is not a supported MGS attestation")
 	}
 	if err := ValidateDigest(record.SubjectGene); err != nil {
 		return nil, fmt.Errorf("subjectGene: %w", err)

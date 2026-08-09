@@ -439,16 +439,12 @@ func (s *HTTPService) explorer(w http.ResponseWriter, r *http.Request) {
 		Objects: objects, Genes: genes, TreeSize: treeSize, RootHash: TreeRoot(leaves),
 	}
 	if r.URL.Path == "/" {
-		result, err := s.store.Search(r.URL.Query().Get("q"), 50)
+		items, err := s.store.ListGenes()
 		if err != nil {
 			s.writeStoreError(w, err)
 			return
 		}
-		data.Query = r.URL.Query().Get("q")
-		data.Items = result.Items
-		sort.Slice(data.Items, func(i, j int) bool {
-			return data.Items[i].LogIndex < data.Items[j].LogIndex
-		})
+		data = prepareExplorerDirectory(data, items, r.URL.Query())
 	} else {
 		gene := strings.TrimPrefix(r.URL.Path, "/genes/")
 		view, err := s.store.Gene(gene)
@@ -609,11 +605,25 @@ func (l *ipLimiter) allow(ip string, now time.Time) bool {
 }
 
 type explorerData struct {
-	BaseURL string
-	Query   string
-	Items   []RecordMetadata
-	Stats   explorerStats
-	View    *explorerGene
+	BaseURL      string
+	Query        string
+	SubjectType  string
+	Provider     string
+	Capability   string
+	Providers    []string
+	Capabilities []string
+	Items        []RecordMetadata
+	Total        int
+	Page         int
+	PageCount    int
+	PageStart    int
+	PageEnd      int
+	HasPrevious  bool
+	HasNext      bool
+	PreviousURL  string
+	NextURL      string
+	Stats        explorerStats
+	View         *explorerGene
 }
 
 type explorerStats struct {
@@ -640,6 +650,126 @@ type explorerParent struct {
 	ExternalRef string
 }
 
+const explorerPageSize = 24
+
+func prepareExplorerDirectory(data explorerData, items []RecordMetadata, values url.Values) explorerData {
+	data.Query = strings.TrimSpace(values.Get("q"))
+	data.SubjectType = strings.ToLower(strings.TrimSpace(values.Get("type")))
+	data.Provider = strings.TrimSpace(values.Get("provider"))
+	data.Capability = strings.TrimSpace(values.Get("capability"))
+
+	providerSet := make(map[string]bool)
+	capabilitySet := make(map[string]bool)
+	filtered := make([]RecordMetadata, 0, len(items))
+	for _, item := range items {
+		if item.ModelProvider != "" {
+			providerSet[item.ModelProvider] = true
+		}
+		for _, capability := range item.Capabilities {
+			capabilitySet[capability] = true
+		}
+		if explorerRecordMatches(item, data.Query, data.SubjectType, data.Provider, data.Capability) {
+			filtered = append(filtered, item)
+		}
+	}
+	for provider := range providerSet {
+		data.Providers = append(data.Providers, provider)
+	}
+	for capability := range capabilitySet {
+		data.Capabilities = append(data.Capabilities, capability)
+	}
+	sort.Strings(data.Providers)
+	sort.Strings(data.Capabilities)
+	sort.Slice(filtered, func(i, j int) bool { return filtered[i].LogIndex > filtered[j].LogIndex })
+
+	data.Total = len(filtered)
+	data.PageCount = (data.Total + explorerPageSize - 1) / explorerPageSize
+	if data.PageCount == 0 {
+		data.PageCount = 1
+	}
+	data.Page, _ = strconv.Atoi(values.Get("page"))
+	if data.Page < 1 {
+		data.Page = 1
+	}
+	if data.Page > data.PageCount {
+		data.Page = data.PageCount
+	}
+	start := (data.Page - 1) * explorerPageSize
+	end := start + explorerPageSize
+	if end > data.Total {
+		end = data.Total
+	}
+	if start < data.Total {
+		data.Items = filtered[start:end]
+		data.PageStart = start + 1
+		data.PageEnd = end
+	} else {
+		data.Items = []RecordMetadata{}
+	}
+	data.HasPrevious = data.Page > 1
+	data.HasNext = data.Page < data.PageCount
+	if data.HasPrevious {
+		data.PreviousURL = explorerPageURL(values, data.Page-1)
+	}
+	if data.HasNext {
+		data.NextURL = explorerPageURL(values, data.Page+1)
+	}
+	return data
+}
+
+func explorerRecordMatches(item RecordMetadata, query, subjectType, provider, capability string) bool {
+	if subjectType != "" && subjectType != "all" {
+		if subjectType == "agent" {
+			if item.SubjectType != "agent" && item.SubjectType != "agent-class" && item.SubjectType != "agent-instance" {
+				return false
+			}
+		} else if subjectType == "foundation" {
+			if !item.Foundation {
+				return false
+			}
+		} else if !strings.EqualFold(item.SubjectType, subjectType) {
+			return false
+		}
+	}
+	if provider != "" && !strings.EqualFold(item.ModelProvider, provider) {
+		return false
+	}
+	if capability != "" && !containsFold(item.Capabilities, capability) {
+		return false
+	}
+	if query == "" {
+		return true
+	}
+	classification := ""
+	if item.Foundation {
+		classification = "foundation"
+	}
+	haystack := strings.ToLower(strings.Join([]string{
+		item.Gene, item.IdentityName, item.AgentID, item.AgentName, item.GivenName,
+		item.FamilyName, item.Namespace, item.SubjectType, item.ModelProvider,
+		item.ModelID, item.ModelFamily, classification, strings.Join(item.Capabilities, " "),
+	}, " "))
+	return strings.Contains(haystack, strings.ToLower(query))
+}
+
+func containsFold(values []string, wanted string) bool {
+	for _, value := range values {
+		if strings.EqualFold(value, wanted) {
+			return true
+		}
+	}
+	return false
+}
+
+func explorerPageURL(values url.Values, page int) string {
+	copyValues := make(url.Values, len(values))
+	for key, value := range values {
+		copyValues[key] = append([]string(nil), value...)
+	}
+	copyValues.Set("page", strconv.Itoa(page))
+	return "/?" + copyValues.Encode() + "#identities"
+}
+
 var explorerTemplate = template.Must(template.New("explorer").Parse(`<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="description" content="A public registry for verifiable machine identity and lineage.">
@@ -655,49 +785,68 @@ main{min-height:70vh}.hero{padding:82px 0 58px;display:grid;grid-template-column
 .eyebrow,.label{font-size:.73rem;font-weight:780;letter-spacing:.13em;text-transform:uppercase;color:var(--accent)}h1,h2,h3,p{margin-top:0}
 h1{font-family:Georgia,"Times New Roman",serif;font-size:clamp(3rem,7.2vw,6.3rem);line-height:.92;letter-spacing:-.055em;font-weight:500;margin:.28em 0 .28em;max-width:880px}
 .lede{font-size:clamp(1.05rem,1.8vw,1.3rem);color:var(--muted);max-width:690px}.hero-note{border-left:1px solid var(--line);padding-left:28px;color:var(--muted);font-size:.92rem}.hero-note strong{display:block;color:var(--ink);font-size:1rem;margin-bottom:8px}
-.search{display:flex;gap:10px;padding:9px;background:var(--panel);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);max-width:800px;margin-bottom:64px}
-.search input{min-width:0;flex:1;background:transparent;color:var(--ink);border:0;padding:12px 14px;font:inherit;outline:none}.search input::placeholder{color:#89928e}
+.directory-tools{display:grid;grid-template-columns:minmax(230px,1.5fr) repeat(3,minmax(145px,.65fr)) auto;gap:10px;padding:12px;background:var(--panel);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);margin-bottom:64px}
+.field{display:grid;gap:3px;padding:2px 10px;border-right:1px solid var(--line);min-width:0}.field label{font-size:.67rem;font-weight:780;letter-spacing:.09em;text-transform:uppercase;color:var(--muted)}.field input,.field select{width:100%;min-width:0;background:transparent;color:var(--ink);border:0;padding:5px 0;font:inherit;outline:none}.field input::placeholder{color:#89928e}.directory-actions{display:flex;align-items:center;gap:9px}.reset{font-size:.8rem;color:var(--muted)}
 .button{display:inline-flex;align-items:center;justify-content:center;border:0;border-radius:10px;padding:12px 20px;background:var(--night);color:white;font:inherit;font-weight:730;cursor:pointer;text-decoration:none}.button:hover{background:var(--accent);color:white}
 .registry-bar{display:grid;grid-template-columns:repeat(4,1fr);background:var(--night);color:white;border-radius:18px;overflow:hidden;margin-bottom:72px}
 .stat{padding:22px 24px;border-right:1px solid rgba(255,255,255,.13)}.stat:last-child{border:0}.stat strong{display:block;font-family:Georgia,serif;font-size:1.65rem;font-weight:500}.stat span{color:#a9c0ba;font-size:.76rem;text-transform:uppercase;letter-spacing:.1em}.stat.root strong{font:600 .78rem/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;overflow-wrap:anywhere}
 .section-head{display:flex;align-items:end;justify-content:space-between;gap:20px;border-bottom:1px solid var(--line);padding-bottom:18px;margin-bottom:0}.section-head h2{font-family:Georgia,serif;font-size:clamp(2rem,4vw,3.2rem);font-weight:500;letter-spacing:-.035em;margin:0}.section-head p{color:var(--muted);margin:0}
-.record-list{margin-bottom:80px}.record{display:grid;grid-template-columns:54px minmax(180px,.7fr) minmax(260px,1.3fr) auto 150px;gap:24px;align-items:center;padding:23px 8px;border-bottom:1px solid var(--line);text-decoration:none}.record:hover{background:rgba(255,255,255,.38);color:inherit}.record-index{font:600 .77rem ui-monospace,monospace;color:var(--muted)}
-.record h3{font-size:1.05rem;margin:0}.type{display:inline-flex;padding:5px 9px;border:1px solid var(--line);border-radius:999px;color:var(--muted);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;width:max-content}.digest{font:600 .76rem/1.55 ui-monospace,SFMono-Regular,Menlo,monospace;overflow-wrap:anywhere;color:var(--muted)}.record-time{font-size:.8rem;color:var(--muted);text-align:right}
+.record-list{margin-bottom:28px}.record{display:grid;grid-template-columns:54px minmax(210px,.9fr) minmax(210px,1fr) minmax(170px,.8fr) 150px;gap:24px;align-items:center;padding:23px 8px;border-bottom:1px solid var(--line)}.record:hover{background:rgba(255,255,255,.38)}.record-index{font:600 .77rem ui-monospace,monospace;color:var(--muted)}
+.record h3{font-size:1.05rem;margin:0}.record h3 a{text-decoration:none}.record-coordinate{display:grid;gap:3px}.type{display:inline-flex;padding:5px 9px;border:1px solid var(--line);border-radius:999px;color:var(--muted);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;width:max-content}.digest{font:600 .76rem/1.55 ui-monospace,SFMono-Regular,Menlo,monospace;overflow-wrap:anywhere;color:var(--muted)}.record-time{font-size:.8rem;color:var(--muted);text-align:right}.capability-links{display:flex;gap:5px;flex-wrap:wrap}.chip{display:inline-flex;padding:3px 7px;border-radius:999px;background:var(--paper-2);color:var(--muted);font-size:.68rem;text-decoration:none}.chip:hover{background:var(--accent-2);color:var(--accent)}
 .empty{padding:38px 8px;color:var(--muted);border-bottom:1px solid var(--line)}
+.pagination{display:flex;align-items:center;justify-content:space-between;gap:20px;margin:0 0 80px}.page-status{text-align:center;color:var(--muted);font-size:.84rem}.page-status strong{display:block;color:var(--ink);font-size:.92rem}.page-link{min-width:110px;padding:10px 14px;border:1px solid var(--line);border-radius:10px;text-decoration:none;text-align:center;font-weight:700;font-size:.84rem}.page-link:hover{border-color:var(--accent)}.page-spacer{min-width:110px}
 .detail-hero{padding:56px 0 44px}.breadcrumb{font-size:.84rem;color:var(--muted);margin-bottom:44px;overflow-wrap:anywhere}.breadcrumb a{text-decoration:none}.detail-title{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:30px;align-items:end}.detail-title h1{font-size:clamp(3.1rem,7vw,5.8rem);margin:.15em 0}.description{font-size:1.1rem;color:var(--muted);max-width:720px}.verified{display:inline-flex;align-items:center;gap:9px;padding:10px 14px;background:var(--accent-2);color:#075346;border-radius:999px;font-size:.82rem;font-weight:760;white-space:nowrap}.verified:before{content:"✓";display:grid;place-items:center;width:19px;height:19px;border-radius:50%;background:var(--accent);color:white}
 .identity{display:grid;grid-template-columns:1.2fr .8fr;background:var(--panel);border:1px solid var(--line);border-radius:20px;overflow:hidden;box-shadow:var(--shadow);margin-bottom:58px}.identity-main{padding:32px}.identity-side{padding:32px;background:var(--paper-2);border-left:1px solid var(--line)}
 .gene{font:600 .86rem/1.7 ui-monospace,SFMono-Regular,Menlo,monospace;overflow-wrap:anywhere;margin:12px 0 28px}.facts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px}.fact{min-width:0}.facts>.fact:first-child{grid-column:1/-1}.fact strong{display:block;max-width:100%;font-size:.93rem;margin-top:4px;overflow-wrap:anywhere;word-break:break-word}.fact .digest{font-size:.7rem}
+.identity-genome{margin:-24px 0 58px}.genome-head{display:flex;align-items:end;justify-content:space-between;gap:20px;margin-bottom:18px}.genome-head h2{font-family:Georgia,serif;font-size:2rem;font-weight:500;letter-spacing:-.03em;margin:0}.genome-head p{color:var(--muted);font-size:.85rem;margin:0}.genome-track{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--line);border-radius:16px;overflow:hidden;background:var(--panel)}.genome-node{position:relative;padding:22px;border-right:1px solid var(--line);min-height:142px}.genome-node:last-child{border:0}.genome-node:not(:last-child):after{content:"→";position:absolute;right:-12px;top:24px;z-index:1;display:grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--night);color:white;font-size:.75rem}.genome-node strong{display:block;margin:7px 0 5px;overflow-wrap:anywhere}.genome-node p{color:var(--muted);font-size:.79rem;margin:0}.genome-number{font-family:Georgia,serif;font-size:1.8rem;font-weight:500}
 .layout{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(280px,.75fr);gap:48px;margin-bottom:76px}.block{margin-bottom:52px}.block-title{display:flex;align-items:end;justify-content:space-between;border-bottom:1px solid var(--line);padding-bottom:14px;margin-bottom:18px}.block-title h2{font-family:Georgia,serif;font-size:2rem;font-weight:500;letter-spacing:-.03em;margin:0}.count{color:var(--muted);font-size:.84rem}
 .lineage{display:grid;gap:12px}.parent{position:relative;display:grid;grid-template-columns:44px minmax(0,1fr) auto;gap:14px;align-items:center;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:17px;text-decoration:none}.parent:hover{border-color:#9aaba5;color:inherit}.parent-icon{width:42px;height:42px;border-radius:12px;background:var(--paper-2);display:grid;place-items:center;font-family:Georgia,serif;font-size:1.25rem}.parent h3{margin:0 0 2px;font-size:1rem}.relation{color:var(--muted);font-size:.78rem}.auth{font-size:.7rem;font-weight:780;text-transform:uppercase;letter-spacing:.07em;color:var(--accent)}.auth.observed{color:var(--warn)}
 .artifact{padding:19px 0;border-bottom:1px solid var(--line)}.artifact:first-of-type{padding-top:2px}.artifact-top{display:flex;justify-content:space-between;gap:20px}.artifact h3{font-size:.96rem;margin:0 0 5px}.artifact p{color:var(--muted);font-size:.84rem;margin:6px 0}.artifact .digest{font-size:.68rem}.present{color:var(--accent);font-size:.72rem;font-weight:760}.side-card{border:1px solid var(--line);border-radius:16px;padding:23px;margin-bottom:16px;background:rgba(251,250,245,.6)}.side-card h3{font-size:1rem;margin-bottom:18px}.metric{display:flex;justify-content:space-between;padding:11px 0;border-top:1px solid var(--line);font-size:.87rem}.metric span{color:var(--muted)}.api-links{display:grid;gap:9px}.api-links a{display:flex;justify-content:space-between;gap:14px;padding:11px 0;border-top:1px solid var(--line);font-size:.86rem;text-decoration:none}.api-links a:after{content:"↗";color:var(--muted)}
 .notice{background:var(--warn-bg);border:1px solid #f0d0a7;border-radius:12px;padding:16px;color:#744218;font-size:.88rem}.empty-lineage{padding:25px 0;color:var(--muted)}
 footer{background:var(--night);color:white;padding:42px 0}.foot{display:flex;justify-content:space-between;gap:40px;align-items:end}.foot p{color:#a9c0ba;max-width:560px;margin:7px 0 0}.foot-links{display:flex;gap:20px;font-size:.84rem;color:#cde3dd}
-@media(max-width:800px){.shell{width:min(100% - 28px,1180px)}.nav-links a{display:none}.hero{grid-template-columns:1fr;padding:52px 0 36px;gap:24px}.hero-note{display:none}.search{margin-bottom:38px}.registry-bar{grid-template-columns:1fr 1fr;margin-bottom:52px}.stat:nth-child(2){border-right:0}.stat:nth-child(-n+2){border-bottom:1px solid rgba(255,255,255,.13)}.record{grid-template-columns:38px 1fr auto;gap:12px}.record .digest{grid-column:2/4}.record-time{display:none}.detail-title{grid-template-columns:1fr;align-items:start}.verified{width:max-content}.identity,.layout{grid-template-columns:1fr}.identity-side{border-left:0;border-top:1px solid var(--line)}.layout{gap:10px}.foot{align-items:start;flex-direction:column}.facts{grid-template-columns:1fr 1fr}}
-@media(max-width:520px){h1{font-size:3.1rem}.nav{min-height:66px}.nav-links .live{display:inline-flex}.registry-bar{grid-template-columns:1fr}.stat{border-right:0;border-bottom:1px solid rgba(255,255,255,.13)}.stat:nth-child(2){border-bottom:1px solid rgba(255,255,255,.13)}.search{display:grid}.record{grid-template-columns:34px 1fr}.record .type{grid-column:2}.record .digest{grid-column:2}.identity-main,.identity-side{padding:23px}.facts{grid-template-columns:1fr}.parent{grid-template-columns:42px 1fr}.auth{grid-column:2}.artifact-top{display:block}.foot-links{flex-wrap:wrap}}
+@media(max-width:980px){.directory-tools{grid-template-columns:1fr 1fr}.field{border-right:0;border-bottom:1px solid var(--line)}.directory-actions{justify-content:flex-end}.record{grid-template-columns:42px minmax(200px,1fr) minmax(170px,.8fr) 130px}.record-capabilities{display:none}.genome-track{grid-template-columns:1fr 1fr}.genome-node:nth-child(2){border-right:0}.genome-node:nth-child(-n+2){border-bottom:1px solid var(--line)}}
+@media(max-width:800px){.shell{width:min(100% - 28px,1180px)}.nav-links a:not(:first-child){display:none}.hero{grid-template-columns:1fr;padding:52px 0 36px;gap:24px}.hero-note{display:none}.directory-tools{margin-bottom:38px}.registry-bar{grid-template-columns:1fr 1fr;margin-bottom:52px}.stat:nth-child(2){border-right:0}.stat:nth-child(-n+2){border-bottom:1px solid rgba(255,255,255,.13)}.record{grid-template-columns:38px 1fr auto;gap:12px}.record-coordinate{grid-column:2/4}.record-time{display:none}.detail-title{grid-template-columns:1fr;align-items:start}.verified{width:max-content}.identity,.layout{grid-template-columns:1fr}.identity-side{border-left:0;border-top:1px solid var(--line)}.layout{gap:10px}.foot{align-items:start;flex-direction:column}.facts{grid-template-columns:1fr 1fr}}
+@media(max-width:520px){h1{font-size:3.1rem}.nav{min-height:66px}.nav-links .live{display:inline-flex}.directory-tools{grid-template-columns:1fr}.directory-actions{justify-content:space-between}.registry-bar{grid-template-columns:1fr}.stat{border-right:0;border-bottom:1px solid rgba(255,255,255,.13)}.stat:nth-child(2){border-bottom:1px solid rgba(255,255,255,.13)}.record{grid-template-columns:34px 1fr}.record .type,.record-coordinate{grid-column:2}.identity-main,.identity-side{padding:23px}.facts{grid-template-columns:1fr}.genome-track{grid-template-columns:1fr}.genome-node{border-right:0;border-bottom:1px solid var(--line)}.genome-node:nth-child(2){border-bottom:1px solid var(--line)}.genome-node:not(:last-child):after{content:"↓";right:20px;top:auto;bottom:-12px}.genome-head{align-items:start;flex-direction:column}.parent{grid-template-columns:42px 1fr}.auth{grid-column:2}.artifact-top{display:block}.pagination{gap:8px}.page-link,.page-spacer{min-width:80px}.foot-links{flex-wrap:wrap}}
 </style></head><body>
 <header class="site-head"><div class="shell nav"><a class="brand" href="/" aria-label="Machine Genome Registry home"><span class="mark"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 17V7l7-4 7 4v10l-7 4-7-4Z" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="2.5" fill="currentColor"/><path d="m7.5 8.5 2.2 1.3m4.6 4.4 2.2 1.3m0-7-2.2 1.3m-4.6 4.4-2.2 1.3" stroke="currentColor" stroke-width="1.2"/></svg></span>Machine Genome</a>
-<nav class="nav-links" aria-label="Primary"><a href="/">Registry</a><a href="/v1/log/checkpoint">Checkpoint</a><span class="live">{{.Stats.Genes}} genes live</span></nav></div></header>
+<nav class="nav-links" aria-label="Primary"><a href="/#identities">Identities</a><a href="/v1/log/checkpoint">Checkpoint</a><span class="live">{{.Stats.Genes}} genes live</span></nav></div></header>
 <main>{{if .View}}
-<div class="shell detail-hero"><div class="breadcrumb"><a href="/">Registry</a> / {{.View.Record.Identity.Namespace}} / {{.View.Record.Identity.Name}}</div>
-<div class="detail-title"><div><span class="eyebrow">{{.View.Record.Identity.SubjectType}} · {{.View.Record.Identity.Version}}</span><h1>{{.View.Record.Identity.Name}}</h1><p class="description">{{.View.Record.Identity.Description}}</p></div><span class="verified">Included & signed</span></div></div>
+<div class="shell detail-hero"><div class="breadcrumb"><a href="/">Registry</a> / {{.View.Record.Identity.Namespace}} / {{if .View.Registry.Genesis.AgentName}}{{.View.Registry.Genesis.AgentName}}{{else}}{{.View.Record.Identity.Name}}{{end}}</div>
+<div class="detail-title"><div><span class="eyebrow">{{.View.Record.Identity.SubjectType}} · {{.View.Record.Identity.Version}}</span><h1>{{if .View.Registry.Genesis.AgentName}}{{.View.Registry.Genesis.AgentName}}{{else}}{{.View.Record.Identity.Name}}{{end}}</h1><p class="description">{{.View.Record.Identity.Description}}</p></div><span class="verified">Included & signed</span></div></div>
 <div class="shell"><section class="identity" aria-label="Gene identity"><div class="identity-main"><span class="label">Machine Gene</span><p class="gene">{{.View.Registry.Genesis.Gene}}</p>
-<div class="facts"><div class="fact"><span class="label">Namespace</span><strong>{{.View.Record.Identity.Namespace}}</strong></div><div class="fact"><span class="label">Subject type</span><strong>{{.View.Record.Identity.SubjectType}}</strong></div><div class="fact"><span class="label">Registry log</span><strong>Entry {{.View.Registry.Genesis.LogIndex}} of {{.Stats.TreeSize}}</strong></div><div class="fact"><span class="label">Included</span><strong>{{.View.Registry.Genesis.InclusionTime}}</strong></div></div></div>
+<div class="facts">{{if .View.Registry.Genesis.AgentID}}<div class="fact"><span class="label">Agent ID</span><strong class="digest">{{.View.Registry.Genesis.AgentID}}</strong></div>{{end}}{{if .View.Registry.Genesis.ModelID}}<div class="fact"><span class="label">Model coordinate</span><strong>{{.View.Registry.Genesis.ModelProvider}} / {{.View.Registry.Genesis.ModelID}}{{if .View.Registry.Genesis.ModelFamily}} · {{.View.Registry.Genesis.ModelFamily}}{{end}}{{if .View.Registry.Genesis.ContextWindow}} · {{.View.Registry.Genesis.ContextWindow}} tokens{{end}}</strong></div>{{end}}<div class="fact"><span class="label">Namespace</span><strong>{{.View.Record.Identity.Namespace}}</strong></div><div class="fact"><span class="label">Subject type</span><strong>{{.View.Record.Identity.SubjectType}}</strong></div>{{if .View.Registry.Genesis.CreatedDate}}<div class="fact"><span class="label">Created</span><strong>{{.View.Registry.Genesis.CreatedDate}}</strong></div>{{end}}<div class="fact"><span class="label">Registry log</span><strong>Entry {{.View.Registry.Genesis.LogIndex}} of {{.Stats.TreeSize}}</strong></div><div class="fact"><span class="label">Included</span><strong>{{.View.Registry.Genesis.InclusionTime}}</strong></div></div></div>
 <div class="identity-side"><span class="label">Controller</span><p class="gene">{{.View.Record.Controller.DID}}</p><div class="fact"><span class="label">Genesis key</span><div class="digest">{{.View.Record.Controller.GenesisKeyID}}</div></div></div></section>
+<section class="identity-genome" aria-labelledby="identity-genome-title"><div class="genome-head"><div><span class="eyebrow">Identity at a glance</span><h2 id="identity-genome-title">Identity genome</h2></div><p>Signed claims grouped into the four coordinates agents inspect first.</p></div><div class="genome-track">
+<article class="genome-node"><span class="label">Identity</span><strong>{{if .View.Registry.Genesis.AgentName}}{{.View.Registry.Genesis.AgentName}}{{else}}{{.View.Record.Identity.Name}}{{end}}</strong><p>{{if .View.Registry.Genesis.AgentID}}{{.View.Registry.Genesis.AgentID}}{{else}}{{.View.Record.Identity.SubjectType}} · {{.View.Record.Identity.Namespace}}{{end}}</p></article>
+<article class="genome-node"><span class="label">Capabilities</span><strong class="genome-number">{{len .View.Record.Capabilities}}</strong><p>{{if .View.Record.Capabilities}}{{range .View.Record.Capabilities}}<a href="/?capability={{.ID | urlquery}}#identities">{{.ID}}</a> {{end}}{{else}}No initial claims{{end}}</p></article>
+<article class="genome-node"><span class="label">Training</span><strong class="genome-number">{{len .View.Record.TrainingData}}</strong><p>{{if .View.Record.TrainingData}}declared training-data stages{{else}}No disclosures declared{{end}}</p></article>
+<article class="genome-node"><span class="label">Lineage</span><strong class="genome-number">{{len .View.Parents}}</strong><p>{{if .View.Record.Model}}<a href="/?provider={{.View.Record.Model.Provider | urlquery}}#identities">{{.View.Record.Model.Provider}} / {{.View.Record.Model.ModelID}}</a>{{else if .View.Parents}}declared parent relationships{{else}}Root identity{{end}}</p></article>
+</div></section>
 {{if .View.Registry.Tombstoned}}<p class="notice">The registry has stopped serving this payload. Its cryptographic commitment and inclusion evidence remain.</p>{{end}}
 <div class="layout"><div>
 <section class="block"><div class="block-title"><h2>Parent lineage</h2><span class="count">{{len .View.Parents}} relationships</span></div>
 <div class="lineage">{{range .View.Parents}}{{if .Gene}}<a class="parent" href="/genes/{{.Gene}}"><span class="parent-icon">P</span><span><h3>{{if .Name}}{{.Name}}{{else}}Recorded parent{{end}}</h3><span class="relation">{{.EdgeType}}{{if .SubjectType}} · {{.SubjectType}}{{end}}</span></span>{{if .Authorized}}<span class="auth">Controller authorized</span>{{else}}<span class="auth observed">Observed claim</span>{{end}}</a>{{else}}<div class="parent"><span class="parent-icon">?</span><span><h3>External parent</h3><span class="relation">{{.EdgeType}} · {{.ExternalRef}}</span></span><span class="auth observed">Unresolved</span></div>{{end}}{{else}}<div class="empty-lineage">This is a root record with no declared parents.</div>{{end}}</div></section>
 <section class="block"><div class="block-title"><h2>Artifact evidence</h2><span class="count">{{len .View.Record.Genesis.ArtifactCommitments}} commitments</span></div>
 {{range .View.Record.Genesis.ArtifactCommitments}}<article class="artifact"><div class="artifact-top"><div><h3>{{.Kind}}</h3>{{if .Note}}<p>{{.Note}}</p>{{end}}</div>{{if .Present}}<span class="present">Source available</span>{{end}}</div><div class="digest">{{.Hash}}</div>{{if .URI}}<p><a href="{{.URI}}" rel="noopener noreferrer">Inspect source evidence ↗</a></p>{{end}}</article>{{else}}<div class="empty-lineage">No artifact commitments were declared.</div>{{end}}</section>
+<section class="block"><div class="block-title"><h2>Capabilities</h2><span class="count">{{len .View.Record.Capabilities}} signed claims</span></div>
+{{range .View.Record.Capabilities}}<article class="artifact"><div class="artifact-top"><div><h3>{{.Name}}</h3><p><a href="/?capability={{.ID | urlquery}}#identities">{{.ID}}</a>{{if .Category}} · {{.Category}}{{end}}</p>{{if .Description}}<p>{{.Description}}</p>{{end}}</div><span class="present">{{.Level}}</span></div></article>{{else}}<div class="empty-lineage">No initial capability claims were declared.</div>{{end}}</section>
+<section class="block"><div class="block-title"><h2>Training data</h2><span class="count">{{len .View.Record.TrainingData}} disclosures</span></div>
+{{range .View.Record.TrainingData}}<article class="artifact"><div class="artifact-top"><div><h3>{{.Name}}</h3><p>{{.Stage}}{{if .DataCutoff}} · cutoff {{.DataCutoff}}{{end}}</p>{{if .Description}}<p>{{.Description}}</p>{{end}}</div><span class="present">{{.Disclosure}}</span></div>{{if .Digest}}<div class="digest">{{.Digest}}</div>{{end}}{{if .URI}}<p><a href="{{.URI}}" rel="noopener noreferrer">Inspect disclosure source ↗</a></p>{{end}}</article>{{else}}<div class="empty-lineage">No training-data disclosures were declared.</div>{{end}}</section>
 </div><aside><section class="side-card"><span class="label">Registry evidence</span><h3>Public verification trail</h3><div class="metric"><span>Amendments</span><strong>{{len .View.Registry.Amendments}}</strong></div><div class="metric"><span>Attestations</span><strong>{{len .View.Registry.Attestations}}</strong></div><div class="metric"><span>Known descendants</span><strong>{{len .View.Registry.Children}}</strong></div><div class="metric"><span>Conflicting branches</span><strong>{{len .View.Registry.Equivocations}}</strong></div></section>
 <section class="side-card"><span class="label">Verify independently</span><h3>Raw cryptographic material</h3><div class="api-links"><a href="/v1/records/{{.View.Registry.Genesis.Gene}}">Canonical record</a><a href="/v1/genes/{{.View.Registry.Genesis.Gene}}">Structured Gene view</a><a href="/v1/log/inclusion/{{.View.Registry.Genesis.LogIndex}}">Merkle inclusion proof</a><a href="/v1/log/checkpoint">Signed checkpoint</a></div></section>
 <p class="notice">Lineage records evidence of derivation. It does not imply inherited capability, ownership, endorsement, or legal status.</p></aside></div></div>
 {{else}}
 <div class="shell"><section class="hero"><div><span class="eyebrow">Open provenance infrastructure</span><h1>Identity for machines. Evidence for everyone.</h1><p class="lede">A public, append-only registry for tracing the models, scaffolds, prompts, and artifacts that make an agent what it is.</p></div><div class="hero-note"><strong>What is a Machine Gene?</strong>An immutable digest of a signed genesis record: a durable anchor for identity, lineage, and evidence.</div></section>
-<form class="search" method="get" role="search"><input name="q" value="{{.Query}}" aria-label="Search Genes" placeholder="Search a name, namespace, type, or Gene"><button class="button">Search registry</button></form>
 <section class="registry-bar" aria-label="Registry checkpoint"><div class="stat"><strong>{{.Stats.Genes}}</strong><span>registered genes</span></div><div class="stat"><strong>{{.Stats.Objects}}</strong><span>signed records</span></div><div class="stat"><strong>{{.Stats.TreeSize}}</strong><span>log entries</span></div><div class="stat root"><strong>{{.Stats.RootHash}}</strong><span>current Merkle root</span></div></section>
-<section><div class="section-head"><div><span class="eyebrow">{{if .Query}}Search results{{else}}Founding registry{{end}}</span><h2>{{if .Query}}Matching genes{{else}}The first machine lineages{{end}}</h2></div><p>{{len .Items}} records</p></div>
-<div class="record-list">{{range .Items}}<a class="record" href="/genes/{{.Gene}}"><span class="record-index">#{{.LogIndex}}</span><span><h3>{{.IdentityName}}</h3><span class="digest">{{.Namespace}}</span></span><span class="digest">{{.Gene}}</span><span class="type">{{.SubjectType}}</span><span class="record-time">{{.InclusionTime}}</span></a>{{else}}<div class="empty">No matching Genes are registered. Try a broader name, namespace, or type.</div>{{end}}</div></section></div>
+<section id="identities"><div class="section-head"><div><span class="eyebrow">Identity directory</span><h2>Find an agent or model</h2></div><p>{{.Total}} matching records</p></div>
+<form class="directory-tools" method="get" role="search" aria-label="Filter identity directory">
+<div class="field"><label for="identity-search">Agent ID, name, model, or Gene</label><input id="identity-search" name="q" value="{{.Query}}" placeholder="Search the signed identity"></div>
+<div class="field"><label for="identity-type">Identity type</label><select id="identity-type" name="type"><option value="">All identities</option><option value="agent" {{if eq .SubjectType "agent"}}selected{{end}}>Agents</option><option value="model" {{if eq .SubjectType "model"}}selected{{end}}>Models</option><option value="foundation" {{if eq .SubjectType "foundation"}}selected{{end}}>Foundation models</option></select></div>
+<div class="field"><label for="identity-provider">Provider</label><select id="identity-provider" name="provider"><option value="">All providers</option>{{range .Providers}}<option value="{{.}}" {{if eq $.Provider .}}selected{{end}}>{{.}}</option>{{end}}</select></div>
+<div class="field"><label for="identity-capability">Capability</label><select id="identity-capability" name="capability"><option value="">All capabilities</option>{{range .Capabilities}}<option value="{{.}}" {{if eq $.Capability .}}selected{{end}}>{{.}}</option>{{end}}</select></div>
+<div class="directory-actions"><button class="button">Apply</button><a class="reset" href="/#identities">Reset</a></div></form>
+<div class="record-list">{{range .Items}}<article class="record"><span class="record-index">#{{.LogIndex}}</span><span><h3><a href="/genes/{{.Gene}}">{{if .AgentName}}{{.AgentName}}{{else}}{{.IdentityName}}{{end}}</a></h3><span class="digest">{{if .AgentID}}{{.AgentID}}{{else}}{{.Namespace}}{{end}}</span></span><span class="record-coordinate">{{if .ModelID}}<strong>{{.ModelProvider}} / {{.ModelID}}</strong>{{if .ModelFamily}}<span class="digest">{{.ModelFamily}}{{if .ContextWindow}} · {{.ContextWindow}} tokens{{end}}</span>{{end}}{{else}}<span class="digest">{{.Gene}}</span>{{end}}</span><span class="record-capabilities">{{if .Capabilities}}<span class="capability-links">{{range .Capabilities}}<a class="chip" href="/?capability={{. | urlquery}}#identities">{{.}}</a>{{end}}</span>{{else}}<span class="digest">No capabilities declared</span>{{end}}</span><span><span class="type">{{if .Foundation}}foundation · {{end}}{{.SubjectType}}</span><span class="record-time">{{if .CreatedDate}}created {{.CreatedDate}}{{else}}{{.InclusionTime}}{{end}}</span></span></article>{{else}}<div class="empty">No matching identities are registered. Try a broader Agent ID, name, capability, provider, or type.</div>{{end}}</div>
+<nav class="pagination" aria-label="Identity directory pages">{{if .HasPrevious}}<a class="page-link" rel="prev" href="{{.PreviousURL}}">← Previous</a>{{else}}<span class="page-spacer" aria-hidden="true"></span>{{end}}<span class="page-status"><strong>Page {{.Page}} of {{.PageCount}}</strong>{{if .Total}}Showing {{.PageStart}}–{{.PageEnd}} of {{.Total}}{{else}}No matching identities{{end}}</span>{{if .HasNext}}<a class="page-link" rel="next" href="{{.NextURL}}">Next →</a>{{else}}<span class="page-spacer" aria-hidden="true"></span>{{end}}</nav></section></div>
 {{end}}</main><footer><div class="shell foot"><div><a class="brand" href="/"><span class="mark">M</span>Machine Genome</a><p>Verifiable identity and provenance for autonomous systems. Built on signed records and an append-only transparency log.</p></div><div class="foot-links"><a href="/v1/log/checkpoint">Checkpoint</a><a href="/healthz/ready">Service status</a><a href="/v1/search">Search API</a></div></div></footer>
 </body></html>`))
 

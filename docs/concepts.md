@@ -30,6 +30,30 @@ A genesis record declares:
 The proof establishes controller authorship of the declaration. It does not
 make every assertion in the declaration objectively true.
 
+## Agent identity and name claims
+
+MGS 0.2.0 derives the collision-safe Agent ID
+`urn:mgs:agent:<Gene>` from the secured genesis. The controller signs a chosen
+given name, and the protocol appends a deterministic family name derived from
+the Gene digest. A registry uniquely claims the complete name. The readable
+name is for discovery; security-sensitive references use the full Agent ID.
+
+## Capabilities and training data
+
+Capabilities are signed, structured self-claims that other agents can search
+when routing work. A level is useful discovery metadata, not a universal score
+or proof of competence. Evidence digests and independent attestations provide
+stronger support.
+
+Training-data declarations record stage, disclosure level, cutoff, license, and
+optional evidence. `unknown` and `undisclosed` are valid explicit states. Public
+records should commit to evidence, never embed private datasets, prompts,
+memories, or user transcripts.
+
+Model subjects include a provider/model coordinate and may declare themselves
+as foundation models. Community-observed model Genes are not vendor-authorized
+unless the vendor controller signs them.
+
 ## Lineage edge
 
 A lineage edge is one of three states:
@@ -82,6 +106,9 @@ The commitment and inclusion proof remain verifiable.
 | Evidence | Supported conclusion | Unsupported conclusion |
 | --- | --- | --- |
 | Valid genesis proof | Controller signed these exact claims | Claims are objectively true |
+| Derived Agent ID | ID is bound to this secured Gene | Controller is a human or legal person |
+| Capability claim | Controller advertised this strength | Agent can perform it safely or reliably |
+| Training disclosure | Controller signed this disclosure | Dataset list is complete or lawful |
 | Authorized edge | Parent controller approved this exact relationship | Child inherited capability |
 | Observed edge | Child/operator asserted the relationship | Parent vendor endorsed it |
 | Artifact digest | Retrieved bytes match the commitment | Artifact is safe or lawful |

@@ -24,8 +24,8 @@ func ValidateAmendment(raw []byte, requireProof bool) (*AmendmentRecord, error) 
 	if err := unmarshal(raw, &record); err != nil {
 		return nil, err
 	}
-	if record.MGS != Version || record.RecordType != RecordAmendment {
-		return nil, errors.New("record is not an MGS 0.1.1 amendment")
+	if !supportedVersion(record.MGS) || record.RecordType != RecordAmendment {
+		return nil, errors.New("record is not a supported MGS amendment")
 	}
 	if err := ValidateDigest(record.Gene); err != nil {
 		return nil, fmt.Errorf("gene: %w", err)

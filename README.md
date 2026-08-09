@@ -17,7 +17,7 @@ verifiable lineage graph; later amendments and third-party attestations add
 evidence without rewriting history.
 
 **Live registry:** [machinegenome.org](https://machinegenome.org) ·
-**Protocol:** [MGS 0.1.1 implementation profile](spec/MGS-0.1.1-implementation-profile.md) ·
+**Protocol:** [MGS 0.2.0 implementation profile](spec/MGS-0.2.0-implementation-profile.md) ·
 **API:** [OpenAPI 3.1](api/openapi.json)
 
 > [!IMPORTANT]
@@ -35,6 +35,10 @@ Machine Genome provides:
 
 - **stable identity** — a Gene is a SHA-256 multihash of a secured canonical
   genesis record;
+- **agent identity** — every agent receives a full Gene-backed Agent ID plus a
+  claimed given name and genome-derived unique family name;
+- **agent discovery** — signed capability and training-data declarations let
+  agents advertise strengths while preserving evidence and trust boundaries;
 - **explicit lineage** — typed parent edges distinguish authorized,
   operator-observed, and unresolved relationships;
 - **cryptographic accountability** — W3C `eddsa-jcs-2022` proofs bind records
@@ -52,7 +56,7 @@ Ed25519 `did:key` identities offline.
 
 | Area | Deliverable |
 | --- | --- |
-| Protocol | Byte-exact MGS `0.1.1` implementation profile and audit trail |
+| Protocol | Byte-exact MGS `0.2.0` profile with `0.1.1` verification compatibility |
 | Go library | Strict JCS, multihash Genes, Data Integrity, lineage, amendments, attestations |
 | Registry | ACID storage, verified admission, DNS namespace control, Merkle log, audit chain |
 | Explorer | Responsive, plain-language identity, lineage, artifact, and proof views |
@@ -78,6 +82,7 @@ bin/mgs init-genesis \
   --name cody \
   --namespace example.org \
   --subject-type agent \
+  --given-name Cody \
   --version 1.0.0 \
   --out genesis.unsigned.json
 bin/mgs sign \
@@ -139,7 +144,8 @@ before extending trust or resolver behavior.
 
 - [Documentation index](docs/README.md)
 - [Concepts and trust semantics](docs/concepts.md)
-- [Protocol implementation profile](spec/MGS-0.1.1-implementation-profile.md)
+- [MGS 0.1.1 compatibility profile](spec/MGS-0.1.1-implementation-profile.md)
+- [Current protocol implementation profile](spec/MGS-0.2.0-implementation-profile.md)
 - [Protocol audit](docs/protocol-audit.md)
 - [Registry HTTP API](docs/registry-api.md) and [OpenAPI](api/openapi.json)
 - [CLI reference](docs/cli.md)

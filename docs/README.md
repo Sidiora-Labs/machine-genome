@@ -5,9 +5,10 @@ Choose the shortest path that matches your job:
 ## Use the protocol
 
 1. [Concepts and trust semantics](concepts.md)
-2. [MGS 0.1.1 implementation profile](../spec/MGS-0.1.1-implementation-profile.md)
-3. [CLI reference](cli.md)
-4. [Conformance suite and vectors](conformance.md)
+2. [MGS 0.2.0 implementation profile](../spec/MGS-0.2.0-implementation-profile.md)
+3. [MGS 0.1.1 compatibility profile](../spec/MGS-0.1.1-implementation-profile.md)
+4. [CLI reference](cli.md)
+5. [Conformance suite and vectors](conformance.md)
 
 ## Integrate with a registry
 

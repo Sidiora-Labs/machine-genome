@@ -12,7 +12,8 @@ security or consensus-integrity fix must fail closed.
 
 ## Protocol field
 
-The `mgs` record field identifies the protocol profile, currently `0.1.1`.
+The `mgs` record field identifies the protocol profile, currently `0.2.0`.
+The reference implementation continues to verify immutable `0.1.1` records.
 Implementations reject unsupported profile strings. A software release may
 support more than one profile in the future, but acceptance must never change
 silently.

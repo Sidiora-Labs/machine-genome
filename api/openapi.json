@@ -5,7 +5,7 @@
     "title": "Machine Genome Registry API",
     "version": "1.0.0",
     "summary": "Verified admission and transparency API for Machine Genome records",
-    "description": "The reference single-node API for MGS 0.1.1. A successful registry response establishes admission and transparency state; it does not certify the truth of provenance claims.",
+    "description": "The reference single-node API for MGS 0.1.1 and 0.2.0. A successful registry response establishes admission and transparency state; it does not certify the truth of identity, capability, training-data, or provenance claims.",
     "license": {
       "name": "Apache-2.0",
       "identifier": "Apache-2.0"
@@ -240,7 +240,7 @@
           {
             "name": "limit",
             "in": "query",
-            "schema": {"type": "integer", "minimum": 1, "maximum": 100, "default": 25}
+            "schema": {"type": "integer", "minimum": 1, "maximum": 250, "default": 25}
           }
         ],
         "responses": {
@@ -600,6 +600,17 @@
           "subjectGene": {"$ref": "#/components/schemas/Digest"},
           "sequence": {"type": "integer", "minimum": 0},
           "identityName": {"type": "string"},
+          "agentId": {"type": "string", "pattern": "^urn:mgs:agent:z[1-9A-HJ-NP-Za-km-z]+$"},
+          "agentName": {"type": "string"},
+          "givenName": {"type": "string"},
+          "familyName": {"type": "string"},
+          "createdDate": {"type": "string", "format": "date"},
+          "capabilities": {"type": "array", "items": {"type": "string"}},
+          "foundation": {"type": "boolean"},
+          "modelProvider": {"type": "string"},
+          "modelId": {"type": "string"},
+          "modelFamily": {"type": "string"},
+          "contextWindow": {"type": "integer", "minimum": 1},
           "namespace": {"type": "string"},
           "subjectType": {"type": "string"},
           "controllerDid": {"type": "string"},

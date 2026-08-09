@@ -58,8 +58,8 @@ func authorizationDocument(genesis []byte, edgeIndex int) (LineageAuthorization,
 	if err := unmarshal(genesis, &record); err != nil {
 		return LineageAuthorization{}, err
 	}
-	if record.RecordType != RecordGenesis || record.MGS != Version {
-		return LineageAuthorization{}, errors.New("lineage authorization requires an MGS 0.1.1 genesis")
+	if record.RecordType != RecordGenesis || !supportedVersion(record.MGS) {
+		return LineageAuthorization{}, errors.New("lineage authorization requires a supported MGS genesis")
 	}
 	if edgeIndex < 0 || edgeIndex >= len(record.Parentage) {
 		return LineageAuthorization{}, fmt.Errorf("edge index %d is out of range", edgeIndex)
@@ -76,7 +76,7 @@ func authorizationDocument(genesis []byte, edgeIndex int) (LineageAuthorization,
 		return LineageAuthorization{}, err
 	}
 	return LineageAuthorization{
-		MGS:             Version,
+		MGS:             record.MGS,
 		RecordType:      RecordAuthorization,
 		ChildCommitment: commitment,
 		ChildController: record.Controller.DID,

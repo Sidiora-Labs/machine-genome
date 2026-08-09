@@ -8,7 +8,9 @@ import (
 	"log/slog"
 	"net/http"
 	"net/http/httptest"
+	"net/url"
 	"path/filepath"
+	"strconv"
 	"strings"
 	"testing"
 	"time"
@@ -62,13 +64,15 @@ func TestHTTPRegistryJourneyAndSecurityBoundaries(t *testing.T) {
 	}
 	response = get(t, server.URL+"/")
 	home := readBody(response)
-	if !strings.Contains(home, "Identity for machines") || !strings.Contains(home, "Founding registry") {
+	if !strings.Contains(home, "Identity for machines") || !strings.Contains(home, "Identity directory") ||
+		!strings.Contains(home, "Agent ID, name, model, or Gene") || !strings.Contains(home, "Page 1 of 1") {
 		t.Fatal("registry explorer home did not render its primary journey")
 	}
 	response = get(t, server.URL+"/genes/"+gene)
 	genePage := readBody(response)
 	if response.StatusCode != http.StatusOK || !strings.Contains(genePage, "web-agent") ||
 		!strings.Contains(genePage, "Included & signed") ||
+		!strings.Contains(genePage, "Identity genome") || !strings.Contains(genePage, submitted.Metadata.AgentID) ||
 		!strings.Contains(genePage, "This is a root record with no declared parents") {
 		t.Fatal("plain-language explorer did not render gene")
 	}
@@ -171,6 +175,83 @@ func TestHTTPRegistryJourneyAndSecurityBoundaries(t *testing.T) {
 	}
 }
 
+func TestExplorerDirectoryPaginationAndIdentityFilters(t *testing.T) {
+	items := make([]RecordMetadata, 50)
+	for index := range items {
+		items[index] = RecordMetadata{
+			Gene:         "gene-" + strconv.Itoa(index),
+			IdentityName: "identity-" + strconv.Itoa(index),
+			AgentID:      "urn:mgs:agent:gene-" + strconv.Itoa(index),
+			AgentName:    "Ada Genome" + strconv.Itoa(index),
+			SubjectType:  "agent",
+			Capabilities: []string{"reasoning", "tool-use"},
+			LogIndex:     uint64(index),
+		}
+	}
+	items[49].SubjectType = "model"
+	items[49].Foundation = true
+	items[49].ModelProvider = "openai"
+	items[49].ModelID = "gpt-test"
+
+	page := prepareExplorerDirectory(explorerData{}, items, url.Values{"page": {"2"}})
+	if page.Total != 50 || page.Page != 2 || page.PageCount != 3 || len(page.Items) != explorerPageSize ||
+		page.PageStart != 25 || page.PageEnd != 48 || !page.HasPrevious || !page.HasNext ||
+		page.Items[0].LogIndex != 25 || !strings.Contains(page.PreviousURL, "page=1") || !strings.Contains(page.NextURL, "page=3") {
+		t.Fatalf("unexpected second directory page: %+v", page)
+	}
+
+	filtered := prepareExplorerDirectory(explorerData{}, items, url.Values{
+		"q": {"gpt-test"}, "type": {"foundation"}, "provider": {"openai"}, "capability": {"reasoning"},
+	})
+	if filtered.Total != 1 || len(filtered.Items) != 1 || filtered.Items[0].ModelID != "gpt-test" {
+		t.Fatalf("identity filters did not converge on the foundation model: %+v", filtered)
+	}
+
+	agent := prepareExplorerDirectory(explorerData{}, items, url.Values{"q": {"urn:mgs:agent:gene-7"}})
+	if agent.Total != 1 || agent.Items[0].IdentityName != "identity-7" {
+		t.Fatalf("Agent ID search did not find the identity: %+v", agent)
+	}
+}
+
+func TestHTTPExplorerRendersPaginatedDirectory(t *testing.T) {
+	store := openTestStore(t, filepath.Join(t.TempDir(), "registry.db"), false)
+	defer store.Close()
+	controller, did, method := testKey(t, 22)
+	var oldestGene string
+	for index := 0; index < explorerPageSize+1; index++ {
+		name := "agent-" + string(rune('a'+index))
+		submission, err := store.Submit(t.Context(), signedGenesis(t, controller, did, method, name, "example.org"))
+		if err != nil {
+			t.Fatal(err)
+		}
+		if index == 0 {
+			oldestGene = submission.Metadata.Gene
+		}
+	}
+	checkpointKey, checkpointDID, checkpointMethod := testKey(t, 23)
+	service, err := NewHTTPService(HTTPConfig{
+		Store: store, AdminToken: strings.Repeat("a", 32), CheckpointKey: checkpointKey,
+		CheckpointDID: checkpointDID, CheckpointMethod: checkpointMethod,
+		Logger: slog.New(slog.NewTextHandler(io.Discard, nil)), RatePerMinute: 1000,
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+	server := httptest.NewServer(service.Handler())
+	defer server.Close()
+
+	firstPage := readBody(get(t, server.URL+"/"))
+	if !strings.Contains(firstPage, "Page 1 of 2") || !strings.Contains(firstPage, "Showing 1–24 of 25") ||
+		!strings.Contains(firstPage, "rel=\"next\"") || strings.Contains(firstPage, "/genes/"+oldestGene) {
+		t.Fatal("first rendered directory page did not expose the expected window")
+	}
+	secondPage := readBody(get(t, server.URL+"/?page=2"))
+	if !strings.Contains(secondPage, "Page 2 of 2") || !strings.Contains(secondPage, "Showing 25–25 of 25") ||
+		!strings.Contains(secondPage, "rel=\"prev\"") || !strings.Contains(secondPage, "/genes/"+oldestGene) {
+		t.Fatal("second rendered directory page did not expose the remaining identity")
+	}
+}
+
 func TestHTTPRejectsOversizeWrongMediaAndUnknownInput(t *testing.T) {
 	store := openTestStore(t, filepath.Join(t.TempDir(), "registry.db"), false)
 	defer store.Close()
@@ -245,6 +326,7 @@ func signedGenesisWithParent(t *testing.T, key ed25519.PrivateKey, did, method, 
 		MGS: mgs.Version, RecordType: mgs.RecordGenesis,
 		Identity: mgs.Identity{
 			Name: name, Namespace: namespace, SubjectType: "agent", Version: "1.0.0", DID: did,
+			CreatedDate: "2026-07-20", AgentName: &mgs.AgentNameClaim{Given: name},
 		},
 		Parentage: []mgs.LineageEdge{{
 			EdgeType: "model-instance-of", ParentGene: parentGene, Authorized: false,
@@ -253,6 +335,7 @@ func signedGenesisWithParent(t *testing.T, key ed25519.PrivateKey, did, method, 
 		Genesis: mgs.GenesisMetadata{
 			Timestamp: testTime.Format(time.RFC3339), ArtifactCommitments: []mgs.ArtifactCommitment{},
 		},
+		Capabilities: []mgs.CapabilityClaim{}, TrainingData: []mgs.TrainingDataDeclaration{},
 	}
 	unsigned, _ := json.Marshal(record)
 	secured, err := mgs.SignRecord(unsigned, mgs.NewProofOptions(testTime, method), key)
