@@ -10,7 +10,7 @@ import sys
 import urllib.parse
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
-EXPECTED_MODULE = "github.com/paxlabs-inc/machine-genome"
+EXPECTED_MODULE = "github.com/Sidiora-Labs/machine-genome"
 REQUIRED = (
     "README.md",
     "LICENSE",

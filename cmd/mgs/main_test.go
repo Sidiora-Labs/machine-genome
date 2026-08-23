@@ -9,8 +9,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/paxlabs-inc/machine-genome/mgs"
-	"github.com/paxlabs-inc/machine-genome/registry"
+	"github.com/Sidiora-Labs/machine-genome/mgs"
+	"github.com/Sidiora-Labs/machine-genome/registry"
 )
 
 func TestVersionHumanAndJSON(t *testing.T) {

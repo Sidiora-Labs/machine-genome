@@ -11,7 +11,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/paxlabs-inc/machine-genome/mgs"
+	"github.com/Sidiora-Labs/machine-genome/mgs"
 )
 
 var testTime = time.Date(2026, 7, 20, 18, 0, 0, 0, time.UTC)

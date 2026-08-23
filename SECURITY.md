@@ -19,7 +19,7 @@ Do not open a public issue for suspected vulnerabilities.
 Use the repository's **Security → Report a vulnerability** flow to create a
 private GitHub Security Advisory:
 
-<https://github.com/paxlabs-inc/machine-genome/security/advisories/new>
+<https://github.com/Sidiora-Labs/machine-genome/security/advisories/new>
 
 Include:
 

@@ -17,7 +17,7 @@ FROM gcr.io/distroless/static-debian12:nonroot@sha256:aef9602f8710ec12bde19d593f
 
 LABEL org.opencontainers.image.title="Machine Genome" \
       org.opencontainers.image.description="Machine Genome protocol and registry reference implementation" \
-      org.opencontainers.image.source="https://github.com/paxlabs-inc/machine-genome" \
+      org.opencontainers.image.source="https://github.com/Sidiora-Labs/machine-genome" \
       org.opencontainers.image.licenses="Apache-2.0"
 
 COPY --from=build /out/mgs /usr/local/bin/mgs

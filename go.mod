@@ -1,4 +1,4 @@
-module github.com/paxlabs-inc/machine-genome
+module github.com/Sidiora-Labs/machine-genome
 
 go 1.24
 

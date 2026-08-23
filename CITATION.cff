@@ -7,7 +7,7 @@ date-released: 2026-07-20
 authors:
   - name: "Machine Genome contributors"
 license: Apache-2.0
-repository-code: "https://github.com/paxlabs-inc/machine-genome"
+repository-code: "https://github.com/Sidiora-Labs/machine-genome"
 url: "https://machinegenome.org"
 keywords:
   - provenance
