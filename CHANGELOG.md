@@ -20,7 +20,7 @@ versioning follows [docs/versioning.md](docs/versioning.md).
   independent verification views.
 - Paginated identity directory with Agent ID/name, identity-type, provider, and
   capability filters plus an at-a-glance identity genome on record pages.
-- Stable Go module identity at `github.com/paxlabs-inc/machine-genome`.
+- Stable Go module identity at `github.com/Sidiora-Labs/machine-genome`.
 
 ## [0.1.1] - 2026-07-20
 
@@ -39,5 +39,5 @@ versioning follows [docs/versioning.md](docs/versioning.md).
   explorer.
 - Initial five-record Neo lineage set.
 
-[Unreleased]: https://github.com/paxlabs-inc/machine-genome/compare/v0.1.1...HEAD
-[0.1.1]: https://github.com/paxlabs-inc/machine-genome/releases/tag/v0.1.1
+[Unreleased]: https://github.com/Sidiora-Labs/machine-genome/compare/v0.1.1...HEAD
+[0.1.1]: https://github.com/Sidiora-Labs/machine-genome/releases/tag/v0.1.1

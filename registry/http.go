@@ -24,7 +24,7 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/paxlabs-inc/machine-genome/mgs"
+	"github.com/Sidiora-Labs/machine-genome/mgs"
 )
 
 const recordMediaType = "application/mgs+json"

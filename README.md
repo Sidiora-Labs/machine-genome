@@ -4,9 +4,9 @@
 
 # Machine Genome
 
-[![Conformance](https://github.com/paxlabs-inc/machine-genome/actions/workflows/ci.yml/badge.svg)](https://github.com/paxlabs-inc/machine-genome/actions/workflows/ci.yml)
-[![CodeQL](https://github.com/paxlabs-inc/machine-genome/actions/workflows/codeql.yml/badge.svg)](https://github.com/paxlabs-inc/machine-genome/actions/workflows/codeql.yml)
-[![Go Reference](https://pkg.go.dev/badge/github.com/paxlabs-inc/machine-genome.svg)](https://pkg.go.dev/github.com/paxlabs-inc/machine-genome)
+[![Conformance](https://github.com/Sidiora-Labs/machine-genome/actions/workflows/ci.yml/badge.svg)](https://github.com/Sidiora-Labs/machine-genome/actions/workflows/ci.yml)
+[![CodeQL](https://github.com/Sidiora-Labs/machine-genome/actions/workflows/codeql.yml/badge.svg)](https://github.com/Sidiora-Labs/machine-genome/actions/workflows/codeql.yml)
+[![Go Reference](https://pkg.go.dev/badge/github.com/Sidiora-Labs/machine-genome.svg)](https://pkg.go.dev/github.com/Sidiora-Labs/machine-genome)
 [![License: Apache-2.0](https://img.shields.io/badge/code-Apache--2.0-blue.svg)](LICENSE)
 [![Protocol: experimental](https://img.shields.io/badge/protocol-experimental-8b5cf6.svg)](docs/versioning.md)
 
@@ -29,6 +29,12 @@ evidence without rewriting history.
 > reference implementation. A record proves who signed a claim and what bytes
 > were committed; it does not prove inherited capability, consciousness,
 > ownership, vendor endorsement, or legal status.
+
+> [!NOTE]
+> This project is maintained by Sidiora Labs (transferred from paxlabs-inc).
+> The current implementation includes MGS 0.2.0 features (see [CHANGELOG.md](CHANGELOG.md)),
+> while the latest stable release remains [v0.1.1](https://github.com/Sidiora-Labs/machine-genome/releases/tag/v0.1.1).
+> A formal 0.2.0 release will be published once additional validation is complete.
 
 ## Why this exists
 
@@ -76,7 +82,7 @@ deferred boundaries.
 Requirements: Go 1.24 or newer, GNU Make, and `jq`.
 
 ```sh
-git clone https://github.com/paxlabs-inc/machine-genome.git
+git clone https://github.com/Sidiora-Labs/machine-genome.git
 cd machine-genome
 make check build
 

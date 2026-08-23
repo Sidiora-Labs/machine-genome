@@ -13,7 +13,7 @@
   },
   "externalDocs": {
     "description": "Registry API guide",
-    "url": "https://github.com/paxlabs-inc/machine-genome/blob/main/docs/registry-api.md"
+    "url": "https://github.com/Sidiora-Labs/machine-genome/blob/main/docs/registry-api.md"
   },
   "servers": [
     {

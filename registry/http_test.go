@@ -15,7 +15,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/paxlabs-inc/machine-genome/mgs"
+	"github.com/Sidiora-Labs/machine-genome/mgs"
 )
 
 func TestHTTPRegistryJourneyAndSecurityBoundaries(t *testing.T) {
